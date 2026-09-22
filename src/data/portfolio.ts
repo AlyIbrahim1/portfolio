@@ -16,7 +16,7 @@ export const profile = {
   city: 'Cairo',
   timeZone: 'Africa/Cairo',
   location: 'Cairo, Egypt',
-  education: 'BSc CS · AI/ML track',
+  education: 'BSc CS · ML & AI track',
 } as const
 
 export const navigation = [
@@ -28,7 +28,7 @@ export const navigation = [
 
 export const socialLinks = [
   { id: 'github', label: 'GitHub', icon: 'github', href: 'https://github.com/AlyIbrahim1', external: true },
-  { id: 'linkedin', label: 'LinkedIn', icon: 'linkedin', href: 'https://www.linkedin.com/', external: true },
+  { id: 'linkedin', label: 'LinkedIn', icon: 'linkedin', href: 'https://www.linkedin.com/in/alyibrahim1', external: true },
   { id: 'email', label: 'Email', icon: 'mail', href: `mailto:${profile.email}` },
 ] as const satisfies readonly SocialLink[]
 
@@ -48,31 +48,42 @@ export const technologies = [
 
 export const projects = [
   {
-    id: 'rag-customer-service-agent',
-    title: 'RAG customer-service agent',
-    description: 'Answers customer questions from internal documents, with retrieval over embedded knowledge and a LangGraph flow for routing and follow-ups.',
+    id: 'rag-customer-service-assistant',
+    title: 'RAG customer-service assistant',
+    description: 'Answers customer questions from internal documentation — LangGraph routes each query and an MCP tool pulls ChromaDB context only when the answer depends on the docs.',
     href: 'https://github.com/AlyIbrahim1',
     art: 'chat',
     artLabel: 'Placeholder screenshot of a chat interface',
-    tags: ['Individual project · e&', 'LangGraph · ChromaDB · Embeddings'],
+    tags: ['Internship · e& Egypt', 'LangGraph · ChromaDB · MCP'],
     lead: true,
     external: true,
   },
   {
     id: 'customer-churn-prediction',
     title: 'Customer churn prediction',
-    description: 'Flags telecom customers likely to leave so retention teams can act first — an end-to-end pipeline from feature engineering to scored output.',
+    description: 'Flags telecom customers likely to leave across 7,043 records — benchmarked SVM, LightGBM and random forest, then packaged the winner (F2 0.737) for batch and single predictions.',
     href: 'https://github.com/AlyIbrahim1',
     art: 'chart',
     artLabel: 'Placeholder screenshot of a model evaluation view',
-    tags: ['Individual project · e&', 'Python · ML pipeline'],
+    tags: ['Internship · e& Egypt', 'Python · scikit-learn · LightGBM'],
     lead: true,
     external: true,
   },
   {
-    id: 'rent-management-app',
-    title: 'Rent Management app',
-    description: 'Tracks properties, tenants and rent payments and generates PDF documents — re-architected onto a FastAPI backend and a typed React front end, with CI on every push.',
+    id: 'claude-statusline',
+    title: 'claude-statusline',
+    description: 'An open-source Claude Code statusline for context, rate limits, cost and tokens — a Rust renderer cut startup from ~100ms to ~5ms, with 3.8k npm downloads.',
+    href: 'https://github.com/AlyIbrahim1/claude-statusline',
+    art: 'code',
+    artLabel: 'Placeholder screenshot of source code',
+    tags: ['Open source · npm', 'Rust · JavaScript · GitHub Actions'],
+    lead: true,
+    external: true,
+  },
+  {
+    id: 'rent-manager',
+    title: 'Rent Manager',
+    description: 'Tracks renters, properties, dues and invoices for my family — tenant-scoped FastAPI APIs, Supabase auth, React dashboards and PDF receipts, with CI on every push.',
     href: 'https://github.com/AlyIbrahim1',
     art: 'table',
     artLabel: 'Placeholder screenshot of a rent payments table',
@@ -80,29 +91,15 @@ export const projects = [
     lead: true,
     external: true,
   },
-  {
-    id: 'ai-property-price-estimator',
-    title: 'AI Property Price Estimator',
-    description: 'Predicts a property’s price from its listing features — a scikit-learn model served as a FastAPI endpoint and backed by PostgreSQL.',
-    href: 'https://github.com/AlyIbrahim1',
-    art: 'code',
-    artLabel: 'Placeholder screenshot of API source code',
-    tags: ['Capstone', 'scikit-learn · FastAPI · PostgreSQL'],
-    lead: true,
-    external: true,
-  },
 ] as const satisfies readonly Project[]
 
 export const archiveProjects = [
-  { id: 'claude-statusline', title: 'claude-statusline', description: 'A Neovim statusline that reads Claude Code’s live JSON over stdin.', stack: 'Neovim · CLI', href: 'https://github.com/AlyIbrahim1' },
-  { id: 'egyptian-adventure', title: 'Egyptian Adventure', description: 'A 2D platformer that started as a university final project.', stack: 'JavaScript · p5.js', href: 'https://github.com/AlyIbrahim1' },
-  { id: 'internet-history', title: 'Internet History', description: 'A history site rendered from structured JSON with templates.', stack: 'Handlebars · JSON', href: 'https://github.com/AlyIbrahim1' },
+  { id: 'data-visualisation-gallery', title: 'Data Visualisation Gallery', description: 'Nine interactive visualisations on a shared load lifecycle, including a 3D WebGL earthquake mesh.', stack: 'JavaScript · p5.js · WebGL', href: 'https://github.com/AlyIbrahim1' },
 ] as const satisfies readonly ArchiveProject[]
 
 export const timeline = [
-  { id: 'feedforward', state: 'done', date: 'Aug 2026', org: 'EUE UOL CS Society', title: 'FeedForward hackathon', description: 'A 24-hour build with a small team, using AI coding tools to go from idea to working prototype.' },
-  { id: 'etisalat-internship', state: 'done', date: 'Aug 2026 — Sep 2026', org: 'e& Egypt', title: 'AI & Analytics Intern', description: 'Worked on the AI & Advanced Analytics team, owning two projects end to end.', bullets: ['Built a customer-churn prediction pipeline, from feature engineering to scored output.', 'Shipped a RAG customer-service agent on LangGraph and ChromaDB.'] },
-  { id: 'goldsmiths', state: 'current', date: '2025 — Present', org: 'Goldsmiths, University of London', title: 'BSc Computer Science — AI/ML track', description: 'Studying remotely from Cairo, with a focus on machine learning and backend systems.' },
+  { id: 'eand-internship', state: 'done', date: 'Aug 2026 — Sep 2026', org: 'e& Egypt', title: 'AI & Advanced Analytics Intern', description: 'Built two AI projects end to end on the AI & Advanced Analytics team.', bullets: ['Built a churn prediction pipeline on 7,043 telecom records; random forest reached an F2 of 0.737.', 'Built a RAG customer-service assistant with LangGraph, ChromaDB and MCP-routed retrieval.'] },
+  { id: 'university-of-london', state: 'current', date: 'Oct 2024 — 2028', org: 'University of London (Goldsmiths) · EUE', title: 'BSc Computer Science — ML & AI track', description: 'Studying in Cairo through EUE, on track for First-class Honours (~3.8 GPA).' },
   { id: 'next-role', state: 'upcoming', date: 'Next', title: 'Software engineering internship', description: 'Looking for a backend or AI/ML engineering role.' },
 ] as const satisfies readonly TimelineItem[]
 

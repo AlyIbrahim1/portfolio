@@ -10,6 +10,10 @@ The active goal is to migrate the page to React with TypeScript while preserving
 its design, content, accessibility, and behavior. Do not redesign or add product
 scope unless the task explicitly asks for it.
 
+## Content
+
+For the information about me that should be written in the project, including headline, timeline, projects, and socials, should all be extracted from `@../Resume/experience-inventory/` as the single source of truth about me.
+
 ## Progressive disclosure
 
 Read only the context needed for the current task:

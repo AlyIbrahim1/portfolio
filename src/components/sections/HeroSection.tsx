@@ -20,8 +20,8 @@ export function HeroSection({ socials, spans, logs, stats, location, education }
       <div className="container hero-inner">
         <div>
           <Pill variant="status">Open to internships</Pill>
-          <h1 id="hero-title">Engineering <strong>backend systems</strong> for <strong>AI products</strong>.</h1>
-          <p className="lede">I’m a CS student at Goldsmiths building with Python, FastAPI and LLMs — from REST APIs to RAG agents that answer real customer questions.</p>
+          <h1 id="hero-title">Engineering <strong>production systems</strong> and <strong>AI products</strong>.</h1>
+          <p className="lede">I build software people actually use, from open-source developer tools to AI assistants grounded in real company data. I’m a CS student at the University of London who cares about fast, tested code that holds up after the demo.</p>
           <div className="actions"><Button href="#work" icon="arrow-right">View the work</Button><Button href="#contact" variant="secondary">Contact me</Button></div>
           <div className="hero-social" aria-label="Profiles">
             {socials.map((link) => <a className="soc" href={link.href} target={link.external ? '_blank' : undefined} rel={link.external ? 'noopener noreferrer' : undefined} aria-label={link.label} key={link.id}><Icon name={link.icon} /></a>)}
