@@ -22,8 +22,18 @@ export function RequestTrace({ title, method, path, status, spans, logs, stats, 
 
   useEffect(() => {
     if (reducedMotion || logs.length <= 4) return
-    const timer = window.setInterval(() => setCursor((current) => current + 1), 1600)
-    return () => window.clearInterval(timer)
+    const media = window.matchMedia('(min-width: 961px)') // Matches media breakpoint in `../styles/app.css`
+    let timer = 0
+    const update = () => {
+      window.clearInterval(timer)
+      timer = media.matches ? window.setInterval(() => setCursor((current) => current + 1), 1600) : 0
+    }
+    update()
+    media.addEventListener('change', update)
+    return () => {
+      media.removeEventListener('change', update)
+      window.clearInterval(timer)
+    }
   }, [logs.length, reducedMotion])
 
   const logCount = Math.min(4, logs.length)

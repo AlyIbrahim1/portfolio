@@ -18,10 +18,12 @@ describe('RequestTrace', () => {
   afterEach(() => {
     vi.useRealTimers()
     vi.restoreAllMocks()
+    vi.unstubAllGlobals()
   })
 
   it('rotates the visible log tail and clears its timer', () => {
     vi.useFakeTimers()
+    vi.stubGlobal('matchMedia', (query: string) => ({ matches: query === '(min-width: 961px)', addEventListener: vi.fn(), removeEventListener: vi.fn() }))
     const clearInterval = vi.spyOn(window, 'clearInterval')
     const { unmount } = render(<RequestTrace {...props} />)
     expect(screen.getByText(traceLogs[0].message)).toBeInTheDocument()
@@ -34,9 +36,17 @@ describe('RequestTrace', () => {
     expect(clearInterval).toHaveBeenCalled()
   })
 
+  it('does not rotate logs while hidden on a narrow screen', () => {
+    vi.useFakeTimers()
+    vi.stubGlobal('matchMedia', () => ({ matches: false, addEventListener: vi.fn(), removeEventListener: vi.fn() }))
+    render(<RequestTrace {...props} />)
+    act(() => vi.advanceTimersByTime(3200))
+    expect(screen.queryByText(traceLogs[4].message)).not.toBeInTheDocument()
+  })
+
   it('keeps the trace static when reduced motion is requested', () => {
     vi.useFakeTimers()
-    Object.defineProperty(window, 'matchMedia', { configurable: true, value: () => ({ matches: true, addEventListener: vi.fn(), removeEventListener: vi.fn() }) })
+    vi.stubGlobal('matchMedia', () => ({ matches: true, addEventListener: vi.fn(), removeEventListener: vi.fn() }))
     render(<RequestTrace {...props} />)
     act(() => vi.advanceTimersByTime(3200))
     expect(screen.queryByText(traceLogs[4].message)).not.toBeInTheDocument()
