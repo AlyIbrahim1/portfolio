@@ -1,0 +1,1262 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Aly Ibrahim · Engineer</title>
+<meta name="description" content="Aly Ibrahim — backend systems and AI engineering. CS student at Goldsmiths, based in Cairo.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@300..700&display=swap">
+<style>
+/* ===== Design system: tokens.css ===== */
+/* Aly Ibrahim — generated from tokens.json */
+:root, [data-theme="dark"] {
+  --bg-canvas: #0b0a09; /* Page background — the outer canvas behind every screen. */
+  --bg-surface: #141210; /* Cards, panels and terminal-window bodies sitting above bg-canvas. */
+  --bg-surface-raised: #1c1917; /* Elevated surfaces — the nav once scrolled, dropdowns, modals. */
+  --bg-code: #0e0c0b; /* Background of code blocks and terminal panes, nested a shade darker than the surface that holds them. */
+  --border-hairline: #2a2522; /* Decorative 1px dividers and default card edges. Not relied on alone to mark an interactive boundary. */
+  --border-strong: #726760; /* Functional borders — terminal-window chrome, input outlines, anything the border alone must distinguish. 3:1 against bg-canvas and bg-surface. */
+  --border-outline: #a39890; /* The 1px edge of outline buttons, outline pills and icon buttons. 7:1 on bg-canvas, 3.7:1 or better at the brightest point of a .surface-ember glow. */
+  --ink-primary: #f4efe9; /* Headings and primary body copy on bg-canvas, bg-surface and bg-surface-raised. */
+  --ink-secondary: #b6aca4; /* Secondary copy, descriptions and sub-labels on bg-canvas and bg-surface. */
+  --ink-tertiary: #8f857d; /* Meta text — timestamps, line numbers, placeholders — on bg-canvas and bg-surface. 4.5:1 minimum on both. */
+  --ink-inverse: #15110f; /* Text and icons on chrome and light fills — the primary button, the solid badge. 12:1 or better across the whole chrome gradient. */
+  --ember-300: #f2685c; /* Ember text and icons on dark grounds — inline links, a hovered marquee item, small accent marks. */
+  --ember-400: #e0392f; /* Ember text at body size on bg-canvas and bg-surface (4.5:1 on both); the section-label number. */
+  --ember-500: #c62b26; /* The brand's ember — the ambient glow behind hero and card surfaces (.surface-ember), the active-state dot, the code-block keyword color. Not a button fill: primary actions are chrome (see Button). Paired with on-ember whenever text sits on it. */
+  --ember-600: #96201c; /* Pressed / active state for ember-500 fills. */
+  --on-ember: #fdf1ef; /* Text and icons on an ember-500 or ember-600 fill. */
+  --danger: var(--ember-500); /* Destructive actions and error text — aliases ember-500 so errors read as the same red as the brand accent. */
+  --success: #4caf6b; /* Success state text and icons on bg-canvas and bg-surface (form confirmations, build-passing indicators). */
+  --warning: #e0a930; /* Warning state text and icons on bg-canvas and bg-surface. */
+  --code-keyword: var(--ember-400); /* Keywords in code-block and terminal previews — ties syntax highlighting back to the brand accent. */
+  --code-string: #8fb996; /* String literals in code-block and terminal previews, on bg-code. */
+  --code-function: #e3b56a; /* Function and method names in code-block and terminal previews, on bg-code. */
+  --code-comment: var(--ink-tertiary); /* Comments in code-block and terminal previews, on bg-code. */
+  --code-punctuation: var(--ink-secondary); /* Punctuation and operators in code-block and terminal previews, on bg-code. */
+  --shadow-sm: 0 1px 2px rgba(0,0,0,0.45); /* Resting elevation for badges and small controls. */
+  --shadow-md: 0 1px 2px rgba(0,0,0,0.35), 0 8px 20px rgba(0,0,0,0.45), 0 24px 40px rgba(0,0,0,0.22); /* Cards, terminal windows and panels at rest — three stacked layers (contact, near, ambient) for real depth instead of one flat blur. */
+  --shadow-lg: 0 2px 4px rgba(0,0,0,0.4), 0 16px 40px rgba(0,0,0,0.5), 0 40px 80px rgba(0,0,0,0.3); /* Modals and dropdowns floating above bg-surface-raised. */
+  --shadow-glow-ember: 0 0 0 1px rgba(198,43,38,0.55), 0 8px 24px rgba(198,43,38,0.3), 0 24px 56px rgba(198,43,38,0.18); /* The ember glow — hover on a ProjectCard media panel and a feature panel. Replaces shadow-md, never stacks on top of it. */
+  --shadow-glow-chrome: 0 0 0 1px rgba(255,255,255,0.18), 0 6px 20px rgba(255,236,226,0.14); /* Hover on chrome surfaces — the primary button and the nav CTA. A cool light halo, never red. */
+  --shadow-bevel: inset 0 1px 0 rgba(255,255,255,0.09), inset 0 -1px 0 rgba(0,0,0,0.45); /* The machined-edge highlight on metal and chrome surfaces — the primary button, terminal chrome, the quote-card monogram. Always paired with a metal or chrome gradient, never a flat fill. */
+  --shadow-focus-ring: 0 0 0 3px rgba(224,57,47,0.55); /* Keyboard focus ring on every interactive element. 3:1 minimum against bg-canvas and bg-surface. */
+}
+:root {
+  --space-1: 4px; /* Icon-to-label gaps, tight inline spacing. */
+  --space-2: 8px; /* Gap between a badge's icon and text; tight stacks. */
+  --space-3: 12px; /* Gap between related controls — badge groups, button icon gaps. */
+  --space-4: 16px; /* Default internal padding for compact components — badges, nav items. */
+  --space-6: 24px; /* Card internal padding; gap between a card's header and body. */
+  --space-8: 32px; /* Gap between cards in a grid; section sub-block spacing. */
+  --space-12: 48px; /* Gap between a section's label and its content. */
+  --space-16: 64px; /* Vertical rhythm between major page blocks. */
+  --space-24: 96px; /* Section-to-section spacing on desktop. */
+  --radius-none: 0px; /* Code blocks and terminal panes — kept square against the mono grid. */
+  --radius-sm: 4px; /* Buttons, inputs and square icon buttons. */
+  --radius-md: 8px; /* The screenshot inset inside a ProjectCard media panel; small tiles. */
+  --radius-lg: 14px; /* Cards, media panels, terminal windows and feature panels. */
+  --radius-full: 9999px; /* Pills and badges, circular icon buttons, the terminal window's traffic-light dots. */
+  --font-sans: "IBM Plex Sans", -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  --font-display: "Space Grotesk", "IBM Plex Sans", system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", "SFMono-Regular", Menlo, Consolas, monospace;
+  --text-display-lg: 400 64px/1.05 var(--font-display); /* The hero headline — one per page. Set light (400); wrap the one or two words that carry the claim in a 600-weight span. */
+  --text-display-md: 400 48px/1.08 var(--font-display); /* Section-opening statements below the hero. */
+  --text-display-sm: 400 34px/1.15 var(--font-display); /* Sub-hero statements and large stat figures. */
+  --text-heading-lg: 400 28px/1.2 var(--font-display); /* Section titles — Projects, Experience, Contact. Light (400), often on two lines. */
+  --text-heading-md: 500 22px/1.3 var(--font-display); /* Card and panel titles — a project name, a role title. */
+  --text-heading-sm: 500 17px/1.35 var(--font-display); /* Minor headings inside a card — a sub-block label. */
+  --text-body-lg: 400 18px/1.6 var(--font-sans); /* Hero sub-copy and lede paragraphs. */
+  --text-body: 400 16px/1.6 var(--font-sans); /* Default running copy. */
+  --text-body-sm: 400 14px/1.5 var(--font-sans); /* Card descriptions, form helper text, list items. */
+  --text-caption: 500 12.5px/1.4 var(--font-sans); /* Timestamps, tech-pill labels, small meta text. */
+  --text-code-label: 500 11px/1.4 var(--font-mono); /* Wide-tracked uppercase eyebrow above a section title — "02 / Work" — and the company line above a timeline role. Set text-transform: uppercase in use. */
+  --text-code-block: 400 14px/1.7 var(--font-mono); /* Code and terminal body copy. */
+}
+.display-lg {
+  font-family: var(--font-display);
+  font-size: 64px;
+  line-height: 1.05;
+  font-weight: 400;
+  letter-spacing: -0.03em;
+}
+.display-md {
+  font-family: var(--font-display);
+  font-size: 48px;
+  line-height: 1.08;
+  font-weight: 400;
+  letter-spacing: -0.025em;
+}
+.display-sm {
+  font-family: var(--font-display);
+  font-size: 34px;
+  line-height: 1.15;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+}
+.heading-lg {
+  font-family: var(--font-display);
+  font-size: 28px;
+  line-height: 1.2;
+  font-weight: 400;
+  letter-spacing: -0.015em;
+}
+.heading-md {
+  font-family: var(--font-display);
+  font-size: 22px;
+  line-height: 1.3;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+.heading-sm {
+  font-family: var(--font-display);
+  font-size: 17px;
+  line-height: 1.35;
+  font-weight: 500;
+  letter-spacing: 0;
+}
+.body-lg {
+  font-family: var(--font-sans);
+  font-size: 18px;
+  line-height: 1.6;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+.body {
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.6;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+.body-sm {
+  font-family: var(--font-sans);
+  font-size: 14px;
+  line-height: 1.5;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+.caption {
+  font-family: var(--font-sans);
+  font-size: 12.5px;
+  line-height: 1.4;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+.code-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  line-height: 1.4;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+}
+.code-block {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  line-height: 1.7;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+/* ===== Design system: components/bundle.css ===== */
+
+:root {
+  /* Brushed-metal gradients — alternating dark/mid/light stops simulate a machined surface
+     catching light at an angle. Two variants: -ember for anything carrying on-ember text
+     (kept dark enough to hold 4.5:1 everywhere in the band), -display for the Cover slab,
+     which carries no text and can run brighter. -steel is the dark metal used on the
+     quote-card monogram. */
+  --gradient-metal-ember: linear-gradient(115deg, #6e130f 0%, #96201c 16%, #c62b26 32%, #96201c 48%, #6e130f 64%, #8a1c16 80%, #c62b26 100%);
+  --gradient-metal-ember-display: linear-gradient(115deg, #6e130f 0%, #c62b26 18%, #ff9d82 34%, #c62b26 50%, #7a1613 66%, #e0392f 82%, #ff9d82 100%);
+  --gradient-metal-steel: linear-gradient(115deg, #1c1917 0%, #2a2522 18%, #443b35 34%, #241f1c 50%, #372f2b 66%, #1c1917 82%, #2a2522 100%);
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  position: relative;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: var(--bg-canvas);
+  color: var(--ink-primary);
+  font-family: var(--font-sans);
+}
+
+/* A fixed, near-invisible grain layer over every surface — the difference between a flat
+   digital fill and a surface with texture. Kept subtle (3.5% opacity, overlay blend) so it
+   reads as material, not noise. This is the premium detail that replaces "flat and perfect." */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: 0.035;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 180px 180px;
+}
+
+::selection {
+  background: var(--ember-500);
+  color: var(--on-ember);
+}
+
+a {
+  color: inherit;
+}
+
+button {
+  font-family: inherit;
+}
+
+/* Shared marquee utility (TechMarquee): an edge-faded, infinitely-looping row. The consumer
+   renders its content TWICE inside .marquee-track (a seamless loop needs the duplicate — see
+   TechMarquee's README) and sets --duration on .marquee to control speed. Fading the edges with
+   a mask, instead of a hard clip, is what keeps a scrolling row from reading like a stock
+   template strip. */
+@keyframes marquee {
+  to { transform: translateX(-50%); }
+}
+.marquee {
+  --duration: 32s;
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+  mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+}
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee var(--duration) linear infinite;
+}
+.marquee[data-pause-on-hover]:hover .marquee-track {
+  animation-play-state: paused;
+}
+
+/* Shared shine-sweep utility for metallic surfaces (the primary button, the nav monogram):
+   a soft diagonal highlight sweeps across on hover, like light passing over brushed metal.
+   Pointer-driven only — never loops, never plays on load, per the Motion rule. */
+.shine-sweep {
+  position: relative;
+  overflow: hidden;
+}
+.shine-sweep::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -60%;
+  width: 40%;
+  height: 100%;
+  background: linear-gradient(115deg, transparent, rgba(255, 255, 255, 0.22), transparent);
+  transform: skewX(-20deg);
+  transition: left 500ms ease-out;
+  pointer-events: none;
+}
+.shine-sweep:hover::after {
+  left: 130%;
+}
+
+/* ---------------------------------------------------------------------------------------
+   Chrome + ember surfaces — the reference look.
+   Primary actions are CHROME (a polished light-metal band with dark ink), not red.
+   Red is atmosphere: .surface-ember is a panel lit from the top by a smooth ember glow — the hero, a ProjectCard media panel, feature and CTA
+   panels. The glow peak is tuned so ink-secondary still holds 4.5:1 on it.
+   --------------------------------------------------------------------------------------- */
+:root {
+  --gradient-chrome: linear-gradient(180deg, #ffffff 0%, #f1ece7 38%, #d9d2cb 52%, #ece6e0 74%, #faf7f4 100%);
+}
+
+.surface-ember {
+  position: relative;
+  background:
+    radial-gradient(75% 95% at 50% 0%, rgba(214,52,40,0.45) 0%, rgba(150,32,28,0.22) 45%, rgba(20,18,16,0) 82%),
+    var(--bg-surface);
+}
+/* A vignette that sinks the panel into the canvas at the bottom edge. */
+.surface-ember::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  background: linear-gradient(180deg, rgba(11,10,9,0) 55%, rgba(11,10,9,0.75) 100%);
+}
+.surface-ember > * { position: relative; z-index: 1; }
+
+/* ---- Buttons (shared by Button, NavBar, ProjectCard, and the page itself) ---- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  height: 40px;
+  padding: 0 var(--space-4);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: -0.005em;
+  white-space: nowrap;
+  text-decoration: none;
+  border-radius: var(--radius-sm);
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: box-shadow 150ms ease-out, background-color 150ms ease-out, border-color 150ms ease-out, color 150ms ease-out, transform 150ms ease-out;
+}
+.btn svg { width: 16px; height: 16px; flex: 0 0 auto; stroke: currentColor; fill: none; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+.btn:focus-visible { outline: none; box-shadow: var(--shadow-focus-ring); }
+.btn:active { transform: translateY(1px); }
+.btn[disabled] { opacity: 0.4; pointer-events: none; box-shadow: none; }
+.btn-sm { height: 32px; padding: 0 var(--space-3); font-size: 13px; }
+
+.btn-primary {
+  color: var(--ink-inverse);
+  background: var(--gradient-chrome);
+  border-color: rgba(255,255,255,0.6);
+  box-shadow: var(--shadow-sm), inset 0 1px 0 rgba(255,255,255,0.9), inset 0 -1px 0 rgba(0,0,0,0.18);
+}
+.btn-primary:hover { box-shadow: var(--shadow-glow-chrome), inset 0 1px 0 rgba(255,255,255,0.9), inset 0 -1px 0 rgba(0,0,0,0.18); }
+.btn-primary:focus-visible { box-shadow: var(--shadow-focus-ring), inset 0 1px 0 rgba(255,255,255,0.9); }
+
+.btn-secondary {
+  color: var(--ink-primary);
+  background: rgba(11,10,9,0.25);
+  border-color: var(--border-outline);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+}
+.btn-secondary:hover { background: rgba(244,239,233,0.08); border-color: var(--ink-primary); }
+
+.btn-ghost { color: var(--ink-secondary); background: transparent; padding: 0 var(--space-2); }
+.btn-ghost:hover { color: var(--ink-primary); }
+
+.btn-icon { width: 36px; height: 36px; padding: 0; color: var(--ink-primary); background: transparent; border-color: var(--border-outline); }
+.btn-icon:hover { border-color: var(--ink-primary); background: rgba(244,239,233,0.06); }
+.btn-icon.is-round { border-radius: var(--radius-full); }
+.btn-icon.btn-sm { width: 32px; height: 32px; }
+
+/* ---- Form fields (shared by ContactForm and any other form) ----
+   A dark, slightly frosted well with a border-outline edge — legible on bg-canvas and on the
+   brightest point of a .surface-ember glow. Focus brightens the edge to ink-primary and adds
+   the focus ring; an invalid field swaps the edge to ember-400 and shows a text message. */
+.field { display: flex; flex-direction: column; gap: var(--space-2); }
+.field-label { font-family: var(--font-mono); font-size: 11px; font-weight: 500; letter-spacing: 0.22em; text-transform: uppercase; color: var(--ink-secondary); }
+.input {
+  width: 100%;
+  height: 44px;
+  padding: 0 var(--space-4);
+  font-family: var(--font-sans);
+  font-size: 15px;
+  color: var(--ink-primary);
+  background: rgba(11,10,9,0.55);
+  border: 1px solid var(--border-outline);
+  border-radius: var(--radius-sm);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  outline: none;
+  transition: border-color 150ms ease-out, box-shadow 150ms ease-out, background-color 150ms ease-out;
+}
+textarea.input { height: auto; min-height: 132px; padding: var(--space-3) var(--space-4); line-height: 1.55; resize: vertical; }
+.input::placeholder { color: var(--ink-tertiary); }
+.input:hover { background: rgba(11,10,9,0.7); }
+.input:focus { border-color: var(--ink-primary); box-shadow: var(--shadow-focus-ring); }
+.input[aria-invalid="true"] { border-color: var(--ember-400); }
+.field-hint { font-family: var(--font-sans); font-size: 12.5px; color: var(--ink-tertiary); }
+.field-error { font-family: var(--font-sans); font-size: 12.5px; color: var(--ember-300); }
+/* ===== Page composition — built from the Aly Ibrahim design system ===== */
+html { scroll-behavior: smooth; background: var(--bg-canvas); }
+body { font-size: 16px; line-height: 1.6; overflow-x: hidden; }
+:focus-visible { outline: none; box-shadow: var(--shadow-focus-ring); border-radius: var(--radius-sm); }
+:root { --gutter: clamp(24px, 5vw, 96px); --content-max: 1600px; }
+.container { max-width: calc(var(--content-max) + 2 * var(--gutter)); margin-inline: auto; padding-inline: var(--gutter); }
+section[id], #stack { scroll-margin-top: 96px; }
+.section { padding-block: var(--space-24); }
+@media (max-width: 767px) { .section { padding-block: var(--space-16); } }
+.i { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; flex: none; }
+
+/* ---- NavBar (floating) ---- */
+.nav {
+  position: fixed; left: 0; right: 0; top: 0; z-index: 30;
+  padding: calc(env(safe-area-inset-top, 0px) + var(--space-4)) max(16px, calc(var(--gutter) - 24px)) 0;
+  pointer-events: none;
+}
+.nav-inner {
+  pointer-events: auto;
+  display: grid; grid-template-columns: 1fr auto 1fr; align-items: center;
+  max-width: calc(var(--content-max) + 48px); height: 60px; margin-inline: auto; padding: 0 var(--space-3) 0 var(--space-6);
+  border-radius: var(--radius-lg);
+  border: 1px solid rgba(244,239,233,0.10);
+  background: rgba(20,18,16,0.28);
+  -webkit-backdrop-filter: blur(14px) saturate(140%); backdrop-filter: blur(14px) saturate(140%);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.06), 0 1px 2px rgba(0,0,0,0.25), 0 12px 32px rgba(0,0,0,0.25);
+  transition: background-color 150ms ease-out, border-color 150ms ease-out, box-shadow 150ms ease-out;
+}
+.nav.is-scrolled .nav-inner {
+  background: rgba(28,25,23,0.78);
+  border-color: rgba(244,239,233,0.12);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.06), var(--shadow-lg);
+}
+.nav .name { font-family: var(--font-display); font-size: 16px; font-weight: 500; letter-spacing: -0.01em; color: var(--ink-primary); text-decoration: none; justify-self: start; }
+.nav .links { display: flex; gap: var(--space-8); }
+.nav .link { font-size: 13px; color: var(--ink-secondary); text-decoration: none; transition: color 150ms ease-out; }
+.nav .link:hover, .nav .link.is-active { color: var(--ink-primary); }
+.nav .end { display: flex; justify-content: flex-end; }
+.nav .end { gap: var(--space-2); align-items: center; }
+.menu-btn, .mnav { display: none; }
+.menu-btn .bars { position: relative; display: block; width: 14px; height: 10px; }
+.menu-btn .bars i { position: absolute; left: 0; right: 0; height: 1.5px; border-radius: 2px; background: currentColor; transition: transform 200ms ease-out, top 200ms ease-out; }
+.menu-btn .bars i:first-child { top: 2px; }
+.menu-btn .bars i:last-child { top: 7px; }
+.nav.is-open .menu-btn .bars i:first-child { top: 4.5px; transform: rotate(45deg); }
+.nav.is-open .menu-btn .bars i:last-child { top: 4.5px; transform: rotate(-45deg); }
+@media (max-width: 767px) {
+  .nav { padding-inline: var(--space-4); padding-top: calc(env(safe-area-inset-top, 0px) + var(--space-3)); }
+  .nav-inner { grid-template-columns: 1fr auto; grid-auto-rows: auto; height: auto; min-height: 56px; padding: 0 var(--space-3) 0 var(--space-4); }
+  .nav-inner > .name, .nav-inner > .end { height: 56px; display: flex; align-items: center; }
+  .nav .links { display: none; }
+  .menu-btn { display: inline-flex; }
+  .nav.is-open .nav-inner { background: rgba(28,25,23,0.94); border-color: rgba(244,239,233,0.14); box-shadow: inset 0 1px 0 rgba(255,255,255,0.06), var(--shadow-lg); }
+  .mnav:not([hidden]) { display: grid; gap: 2px; grid-column: 1 / -1; margin: 0 calc(-1 * var(--space-1)); padding: var(--space-2) 0 var(--space-3); border-top: 1px solid rgba(244,239,233,0.07); animation: mnav-in 200ms ease-out; }
+  .mlink {
+    position: relative; display: flex; justify-content: space-between; align-items: center;
+    height: 44px; padding: 0 var(--space-3) 0 var(--space-6); border-radius: var(--radius-sm);
+    font-family: var(--font-sans); font-size: 15px; font-weight: 500; letter-spacing: -0.005em;
+    color: var(--ink-secondary); text-decoration: none; transition: color 150ms ease-out, background-color 150ms ease-out;
+  }
+  .mlink::before { content: ""; position: absolute; left: var(--space-3); top: 50%; width: 5px; height: 5px; margin-top: -2.5px; border-radius: var(--radius-full); background: var(--border-strong); transition: background-color 150ms ease-out, box-shadow 150ms ease-out; }
+  .mlink .i { width: 14px; height: 14px; color: var(--ink-tertiary); opacity: 0; transform: translateX(-4px); transition: opacity 150ms ease-out, transform 150ms ease-out; }
+  .mlink:hover, .mlink:focus-visible { color: var(--ink-primary); background: rgba(244,239,233,0.04); }
+  .mlink:hover .i, .mlink:focus-visible .i { opacity: 1; transform: none; }
+  .mlink.is-active { color: var(--ink-primary); }
+  .mlink.is-active::before { background: var(--ember-400); box-shadow: 0 0 8px rgba(224,57,47,0.7); }
+}
+@keyframes mnav-in { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .mnav:not([hidden]) { animation: none; } }
+
+/* ---- Hero ---- */
+.hero { padding-top: calc(92px + env(safe-area-inset-top, 0px)); overflow: hidden; }
+.hero-inner {
+  display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr); gap: clamp(48px, 5vw, 120px);
+  align-items: center; padding-block: var(--space-24);
+}
+.status-pill {
+  display: inline-flex; align-items: center; gap: var(--space-2); height: 24px; padding: 0 var(--space-3);
+  font-family: var(--font-mono); font-size: 11.5px; color: var(--success);
+  background: rgba(11,10,9,0.35); border: 1px solid rgba(244,239,233,0.16); border-radius: var(--radius-full); white-space: nowrap;
+}
+.status-pill i { width: 6px; height: 6px; border-radius: var(--radius-full); background: currentColor; }
+.hero h1 {
+  margin: var(--space-6) 0 0; font-family: var(--font-display); font-weight: 400;
+  font-size: clamp(40px, 4.4vw, 84px); line-height: 1.04; letter-spacing: -0.03em; color: var(--ink-primary); text-wrap: balance;
+}
+.hero h1 strong { font-weight: 600; }
+.hero .lede { margin: var(--space-6) 0 0; max-width: 46ch; font-size: clamp(17px, 1.05vw, 20px); line-height: 1.6; color: var(--ink-secondary); }
+.hero .actions { display: flex; flex-wrap: wrap; gap: var(--space-3); margin-top: var(--space-8); }
+.hero-social { display: flex; gap: var(--space-1); margin: var(--space-4) 0 0 -8px; }
+.hero-social .soc { display: inline-flex; align-items: center; justify-content: center; width: 36px; height: 36px; border-radius: var(--radius-full); color: var(--ink-secondary); transition: color 150ms ease-out, background-color 150ms ease-out; }
+.hero-social .soc svg { width: 18px; height: 18px; fill: currentColor; }
+.hero-social .soc:hover { color: var(--ink-primary); background: rgba(244,239,233,0.06); }
+.hero .facts {
+  display: flex; flex-wrap: wrap; gap: var(--space-3) var(--space-8); margin: var(--space-12) 0 0; padding: var(--space-6) 0 0;
+  border-top: 1px solid rgba(244,239,233,0.08); list-style: none;
+}
+.hero .facts li { display: grid; gap: 2px; }
+.hero .facts .k { font-family: var(--font-mono); font-size: 11px; font-weight: 500; letter-spacing: 0.22em; text-transform: uppercase; color: var(--ink-tertiary); }
+.hero .facts .v { font-size: 14px; color: var(--ink-primary); }
+@media (max-width: 960px) { .hero-inner { grid-template-columns: 1fr; gap: var(--space-12); padding-block: var(--space-16); } .hero .term { display: none; } }
+/* Laptop & desktop: hero + marquee fill exactly one screen; type scales with height so it always fits */
+:root { --marquee-h: 88px; }
+@media (min-width: 961px) {
+  .hero { min-height: calc(100vh - var(--marquee-h)); min-height: calc(100svh - var(--marquee-h)); display: flex; flex-direction: column; padding-top: calc(76px + env(safe-area-inset-top, 0px)); }
+  .hero-inner { flex: 1; width: 100%; padding-block: clamp(16px, 3vh, 40px); }
+  .hero h1 { font-size: clamp(40px, min(4.6vw, 8.4vh), 96px); margin-top: clamp(14px, 2.4vh, 28px); }
+  .hero .lede { font-size: clamp(16px, min(1.1vw, 2vh), 21px); margin-top: clamp(14px, 2.4vh, 28px); }
+  .hero .actions { margin-top: clamp(16px, 3vh, 36px); }
+  .hero-social { margin-top: clamp(4px, 1.2vh, 16px); }
+  .hero .facts { margin-top: clamp(14px, 3.2vh, 48px); padding-top: clamp(12px, 2vh, 24px); }
+  .term { font-size: clamp(11.5px, min(0.8vw, 1.42vh), 16px); }
+  .spans { gap: clamp(6px, 1.05vh, 12px); }
+  .stack-strip { height: var(--marquee-h); padding-block: 0; display: flex; align-items: center; }
+  .stack-strip .marquee { width: 100%; }
+}
+
+
+/* ---- Terminal (hero trace) ---- */
+.term {
+  background: var(--bg-code); border: 1px solid rgba(244,239,233,0.14); border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg); overflow: hidden; font-family: var(--font-mono); font-size: clamp(12.5px, 0.74vw, 14.5px); color: var(--ink-secondary);
+}
+.term-bar { display: flex; align-items: center; gap: var(--space-2); padding: var(--space-3) var(--space-4); background: var(--bg-surface-raised); border-bottom: 1px solid var(--border-hairline); }
+.term-bar .dot { width: 10px; height: 10px; border-radius: var(--radius-full); }
+.dot-ember { background: var(--ember-500); } .dot-warning { background: var(--warning); } .dot-success { background: var(--success); }
+.term-title { flex: 1; margin-right: 46px; text-align: center; font-size: 0.95em; color: var(--ink-tertiary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.trace-req { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2) var(--space-3); padding: var(--space-4) var(--space-4) var(--space-2); }
+.trace-req .verb { color: var(--code-keyword); font-weight: 500; }
+.trace-req .path { color: var(--ink-primary); }
+.trace-req .ok { margin-left: auto; color: var(--success); }
+.spans { display: grid; gap: 10px; padding: var(--space-3) var(--space-4) var(--space-4); }
+.span { display: grid; grid-template-columns: 9.6em 1fr 3.6em; align-items: center; gap: var(--space-3); }
+.span .track { position: relative; height: 6px; border-radius: var(--radius-full); background: rgba(244,239,233,0.05); }
+.span .bar { position: absolute; top: 0; bottom: 0; left: var(--l); width: var(--w); border-radius: var(--radius-full); background: linear-gradient(90deg, var(--ember-600), var(--ember-400)); }
+.span.io .bar { background: linear-gradient(90deg, var(--border-strong), var(--border-outline)); }
+.span .ms { text-align: right; color: var(--ink-tertiary); font-variant-numeric: tabular-nums; }
+.logs { display: grid; gap: 4px; min-height: 96px; padding: var(--space-3) var(--space-4); border-top: 1px solid var(--border-hairline); color: var(--ink-tertiary); }
+.logs div { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.logs .lv { display: inline-block; width: 6.5ch; color: var(--success); } .logs .lv.w { color: var(--warning); } .logs .lv.d { color: var(--ink-tertiary); }
+.logs .cm { color: var(--code-comment); }
+.term-foot { display: flex; justify-content: space-between; gap: var(--space-3); padding: var(--space-3) var(--space-4); border-top: 1px solid var(--border-hairline); background: var(--bg-surface); color: var(--ink-tertiary); }
+.term-foot b { color: var(--ink-primary); font-weight: 500; }
+@media (max-width: 480px) { .span { grid-template-columns: 96px 1fr 38px; gap: var(--space-2); font-size: 11.5px; } .term-foot { font-size: 11.5px; } }
+
+/* ---- TechMarquee (monochrome logo lockups) ---- */
+.stack-strip { padding-block: var(--space-8); }
+.marquee-track { align-items: center; gap: var(--space-16); padding-right: var(--space-16); }
+.tm-item {
+  display: inline-flex; align-items: center; gap: var(--space-2);
+  font-family: var(--font-sans); font-weight: 500; font-size: 18px; letter-spacing: -0.015em;
+  color: var(--ink-tertiary); white-space: nowrap; transition: color 150ms ease-out;
+}
+.tm-logo { width: 22px; height: 22px; fill: currentColor; flex: none; }
+.tm-item:hover { color: var(--ink-primary); }
+@media (max-width: 767px) { .marquee-track { gap: var(--space-12); padding-right: var(--space-12); } .tm-item { font-size: 16px; } .tm-logo { width: 20px; height: 20px; } }
+
+/* ---- SectionLabel ---- */
+.sec-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: var(--space-6) var(--space-12); margin-bottom: var(--space-12); }
+.eyebrow { margin-bottom: var(--space-4); font-family: var(--font-mono); font-size: 11px; font-weight: 500; letter-spacing: 0.22em; text-transform: uppercase; color: var(--ink-secondary); }
+.sec-title { margin: 0; font-family: var(--font-display); font-weight: 400; font-size: clamp(28px, 2.8vw, 52px); line-height: 1.15; letter-spacing: -0.02em; color: var(--ink-primary); text-wrap: balance; }
+.sec-title .dim { color: var(--ink-secondary); }
+.sec-note { max-width: 40ch; font-size: 15px; color: var(--ink-secondary); margin: 0; }
+
+/* ---- ProjectCard ---- */
+.projects { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-12) var(--space-8); }
+.projects .pcard:nth-child(even) { transform: translateY(var(--space-24)); }
+.projects { padding-bottom: var(--space-24); }
+.pcard { display: block; text-decoration: none; color: inherit; }
+.pcard .media {
+  aspect-ratio: 16 / 11; max-width: 100%; border-radius: var(--radius-lg); border: 1px solid rgba(244,239,233,0.08);
+  overflow: hidden; box-shadow: var(--shadow-md); transition: box-shadow 200ms ease-out;
+}
+.pcard .shot {
+  position: absolute; top: 14%; left: 9%; right: -6%; bottom: -8%;
+  border-radius: var(--radius-md) 0 0 0; border: 1px solid rgba(244,239,233,0.14); overflow: hidden;
+  box-shadow: var(--shadow-lg); transition: transform 300ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.pcard .shot svg { width: 100%; height: 100%; display: block; }
+.pcard:hover .media { box-shadow: var(--shadow-glow-ember); }
+.pcard:hover .shot { transform: translateY(-6px); }
+.pcard:focus-visible { box-shadow: none; }
+.pcard:focus-visible .media { box-shadow: var(--shadow-focus-ring); }
+.pcard .body { padding: var(--space-4) var(--space-1) 0; }
+.pcard .title-row { display: flex; align-items: center; justify-content: space-between; gap: var(--space-3); }
+.pcard .title { margin: 0; font-family: var(--font-display); font-size: clamp(20px, 1.3vw, 26px); line-height: 1.3; font-weight: 500; letter-spacing: -0.01em; color: var(--ink-primary); }
+.pcard .btn-icon { pointer-events: none; }
+.pcard:hover .btn-icon { border-color: var(--ink-primary); background: rgba(244,239,233,0.06); }
+.pcard .desc { font-size: clamp(14px, 0.85vw, 16px); line-height: 1.5; color: var(--ink-secondary); margin: var(--space-2) 0 var(--space-4); max-width: 52ch; }
+.pills { display: flex; gap: var(--space-2); flex-wrap: wrap; }
+.pill { display: inline-flex; align-items: center; height: 24px; max-width: 100%; padding: 0 var(--space-3); font-family: var(--font-mono); font-size: 11.5px; letter-spacing: 0.01em; color: var(--ink-secondary); background: rgba(244,239,233,0.03); border: 1px solid rgba(244,239,233,0.16); border-radius: var(--radius-full); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.pill-solid { font-family: var(--font-sans); font-weight: 500; font-size: 12px; letter-spacing: 0; color: var(--ink-inverse); background: var(--gradient-chrome); border-color: rgba(255,255,255,0.6); box-shadow: inset 0 1px 0 rgba(255,255,255,0.9); }
+/* placeholder art (token-built; swap for real screenshots) */
+.art-bg { fill: var(--bg-code); } .art-bar { fill: var(--bg-surface-raised); }
+.art-ember { fill: var(--ember-500); } .art-warn { fill: var(--warning); } .art-ok { fill: var(--success); }
+.art-row { fill: var(--bg-surface); } .art-row-hi { fill: var(--bg-surface-raised); }
+.art-line { fill: none; stroke: var(--ember-400); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.art-track { fill: none; stroke: var(--border-hairline); stroke-width: 5; }
+.art-ring { fill: none; stroke: var(--ember-500); stroke-width: 5; stroke-linecap: round; }
+.art-ink { fill: var(--ink-tertiary); } .art-ink-2 { fill: var(--border-strong); } .art-key { fill: var(--ember-400); } .art-fn { fill: var(--code-function); } .art-str { fill: var(--code-string); }
+/* Tablets: keep two columns (no stagger) so cards stay a readable size */
+@media (max-width: 960px) {
+  .projects { gap: var(--space-12) var(--space-6); padding-bottom: 0; }
+  .projects .pcard:nth-child(even) { transform: none; }
+  .pcard .title { font-size: 19px; }
+  .pcard .desc { font-size: 14px; }
+}
+/* Phones & small tablets: one column, capped so a card never outgrows a phone-sized preview */
+@media (max-width: 720px) {
+  .projects { grid-template-columns: minmax(0, 520px); }
+  .pcard .media { aspect-ratio: 16 / 10; }
+}
+
+/* All projects dialog */
+.dialog-open { overflow: hidden; }
+.pdialog {
+  width: min(720px, calc(100vw - 32px)); max-height: min(80vh, 640px); margin: auto; padding: 0;
+  color: var(--ink-primary); background: var(--bg-surface-raised);
+  border: 1px solid rgba(244,239,233,0.12); border-radius: var(--radius-lg);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.06), var(--shadow-lg); overflow: auto;
+}
+.pdialog::backdrop { background: rgba(11,10,9,0.72); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); }
+.pdialog[open] { animation: pd-in 200ms ease-out; }
+@keyframes pd-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+.pd-head { display: flex; justify-content: space-between; align-items: flex-start; gap: var(--space-4); padding: var(--space-6) var(--space-6) var(--space-4); }
+.pd-head .eyebrow { margin-bottom: var(--space-2); }
+.pd-title { margin: 0; font-family: var(--font-display); font-weight: 400; font-size: 28px; line-height: 1.2; letter-spacing: -0.015em; }
+.more { list-style: none; margin: 0; padding: 0 var(--space-6) var(--space-4); }
+.more li + li a { border-top: 1px solid var(--border-hairline); }
+.more a { display: grid; grid-template-columns: minmax(0, 190px) minmax(0, 1fr) auto; align-items: baseline; gap: var(--space-2) var(--space-6); padding: var(--space-4) var(--space-1); text-decoration: none; border-radius: var(--radius-sm); transition: background-color 150ms ease-out; }
+.more a:hover { background: rgba(244,239,233,0.03); }
+.more .t { font-family: var(--font-display); font-size: 17px; font-weight: 500; color: var(--ink-primary); }
+.more .d { font-size: 14px; color: var(--ink-secondary); }
+.more .s { font-family: var(--font-mono); font-size: 12px; color: var(--ink-tertiary); display: inline-flex; align-items: center; gap: var(--space-2); white-space: nowrap; }
+.more a:hover .s { color: var(--ink-primary); }
+@media (max-width: 640px) { .more a { grid-template-columns: 1fr; } .pd-head, .more { padding-inline: var(--space-4); } }
+@media (prefers-reduced-motion: reduce) { .pdialog[open] { animation: none; } }
+
+/* ---- TimelineItem ---- */
+.exp-grid { display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr); gap: var(--space-16); }
+.exp-grid .intro { position: sticky; top: 112px; align-self: start; }
+.exp-grid .intro p { margin: var(--space-4) 0 0; max-width: 36ch; font-size: 15px; color: var(--ink-secondary); }
+@media (max-width: 820px) { .exp-grid { grid-template-columns: 1fr; gap: var(--space-12); } .exp-grid .intro { position: static; } }
+.timeline { list-style: none; margin: 0; padding: 0; max-width: 760px; }
+.step { position: relative; padding: 0 0 var(--space-8) calc(16px + var(--space-6)); }
+.step:last-child { padding-bottom: 0; }
+.step::before { content: ""; position: absolute; left: 7px; top: 22px; bottom: -2px; width: 2px; border-radius: 2px; background: var(--border-hairline); }
+.step:last-child::before { display: none; }
+.step.is-done::before { background: var(--ink-primary); }
+.step.is-current::before { background: linear-gradient(180deg, var(--ember-400) 0%, var(--border-hairline) 70%); }
+.marker { position: absolute; left: 0; top: 2px; width: 16px; height: 16px; border-radius: var(--radius-full); border: 2px solid var(--border-hairline); background: var(--bg-canvas); }
+.is-done .marker { border-color: var(--ink-primary); }
+.is-current .marker { border-color: var(--ink-primary); box-shadow: 0 0 0 4px rgba(214,52,40,0.18), 0 0 18px rgba(214,52,40,0.55); }
+.is-current .marker::after { content: ""; position: absolute; inset: 3px; border-radius: var(--radius-full); background: var(--ember-400); }
+/* Breathing current step — one --pulse value drives the halo, the core and the rail */
+@property --pulse { syntax: "<number>"; inherits: true; initial-value: 1; }
+.step.is-current { --pulse: 1; isolation: isolate; animation: breathe 3.2s ease-in-out infinite; }
+@keyframes breathe { 0%, 100% { --pulse: 0; } 50% { --pulse: 1; } }
+.step.is-current::before {
+  background: linear-gradient(180deg,
+    color-mix(in srgb, var(--ember-400) calc(var(--pulse) * 100%), var(--border-hairline)) 0%,
+    var(--border-hairline) 70%);
+}
+.is-current .marker { box-shadow: none; }
+.is-current .marker::before {
+  content: ""; position: absolute; z-index: -1; left: 50%; top: 50%; width: 64px; height: 64px;
+  transform: translate(-50%, -50%); border-radius: 50%; pointer-events: none;
+  background: radial-gradient(closest-side, rgba(224,57,47,0.55) 0%, rgba(214,52,40,0.28) 35%, rgba(198,43,38,0.10) 62%, rgba(198,43,38,0) 100%);
+  opacity: var(--pulse);
+}
+.is-current .marker::after { opacity: calc(0.45 + 0.55 * var(--pulse)); transform: scale(calc(0.8 + 0.2 * var(--pulse))); }
+@media (prefers-reduced-motion: reduce) { .step.is-current { animation: none; --pulse: 1; } }
+.is-upcoming .marker { border-color: var(--border-strong); border-style: dashed; }
+.meta { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2); font-family: var(--font-mono); font-size: 12px; color: var(--ink-tertiary); line-height: 20px; }
+.meta .sep { color: var(--border-strong); }
+.now { height: 18px; padding: 0 var(--space-2); display: inline-flex; align-items: center; font-family: var(--font-sans); font-weight: 500; font-size: 11px; color: var(--ink-inverse); background: var(--gradient-chrome); border-radius: var(--radius-full); box-shadow: inset 0 1px 0 rgba(255,255,255,0.9); }
+.step .title { margin: var(--space-1) 0 0; font-family: var(--font-display); font-weight: 500; font-size: 17px; line-height: 1.35; letter-spacing: -0.01em; color: var(--ink-primary); }
+.step .desc { margin: var(--space-1) 0 0; font-size: 14px; line-height: 1.55; color: var(--ink-secondary); max-width: 52ch; }
+.step .list { list-style: none; margin: var(--space-3) 0 0; padding: 0; font-size: 14px; line-height: 1.55; color: var(--ink-secondary); }
+.step .list li { position: relative; padding-left: var(--space-4); }
+.step .list li::before { content: ""; position: absolute; left: 0; top: 0.72em; width: 6px; height: 1px; background: var(--ember-400); }
+.step .list li + li { margin-top: var(--space-1); }
+.is-upcoming .title { color: var(--ink-secondary); } .is-upcoming .desc { color: var(--ink-tertiary); }
+
+/* ---- ContactForm ---- */
+.contact-band { position: relative; padding-block: var(--space-24); background: var(--bg-canvas); isolation: isolate; }
+.contact-band::before {
+  content: ""; position: absolute; z-index: -1; pointer-events: none;
+  left: -10%; right: -10%; top: -240px; bottom: -120px;
+  background:
+    radial-gradient(62% 52% at 50% 44%, rgba(214,52,40,0.46) 0%, rgba(150,32,28,0.24) 42%, rgba(11,10,9,0) 82%),
+    radial-gradient(100% 70% at 50% 52%, rgba(150,32,28,0.14) 0%, rgba(11,10,9,0) 72%);
+  -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 24%, #000 76%, transparent 100%);
+  mask-image: linear-gradient(180deg, transparent 0%, #000 24%, #000 76%, transparent 100%);
+}
+.contact-band { overflow-x: clip; }
+.contact { display: flex; flex-direction: column; align-items: center; gap: var(--space-8); }
+.contact .head { display: flex; flex-direction: column; align-items: center; gap: var(--space-3); text-align: center; }
+.contact .ctitle { margin: 0; max-width: 24ch; font-family: var(--font-display); font-weight: 400; font-size: clamp(28px, 3.6vw, 34px); line-height: 1.15; letter-spacing: -0.02em; color: var(--ink-primary); text-wrap: balance; }
+.contact .ctitle strong { font-weight: 600; white-space: nowrap; }
+.contact .sub { margin: 0; max-width: 44ch; font-size: 15px; line-height: 1.55; color: var(--ink-secondary); }
+.cform { width: clamp(640px, 42vw, 820px); max-width: 100%; font-size: 14px; }
+.cform .term-body { display: flex; flex-direction: column; gap: var(--space-4); padding: var(--space-6); color: var(--ink-primary); }
+.cform .row { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-4); }
+.fld { display: flex; flex-direction: column; gap: var(--space-2); }
+.fld .key { font-size: 12px; color: var(--code-function); }
+.fld .prompt { color: var(--ember-400); }
+.tin { width: 100%; height: 42px; margin: 0; padding: 0 var(--space-3); font: inherit; font-size: 14px; color: var(--ink-primary); background: rgba(244,239,233,0.03); border: 1px solid var(--border-strong); border-radius: var(--radius-sm); outline: none; caret-color: var(--ember-400); transition: border-color 150ms ease-out, box-shadow 150ms ease-out, background-color 150ms ease-out; }
+textarea.tin { height: auto; min-height: 112px; padding: var(--space-2) var(--space-3); line-height: 1.65; resize: vertical; }
+.tin:hover { border-color: var(--border-outline); }
+.tin:focus { border-color: var(--ink-primary); background: rgba(244,239,233,0.05); box-shadow: var(--shadow-focus-ring); }
+.tin[aria-invalid="true"] { border-color: var(--ember-400); }
+.send-row { display: flex; align-items: center; justify-content: space-between; gap: var(--space-4); }
+.out { font-size: 13px; color: var(--ink-secondary); }
+.out.is-sent { color: var(--success); } .out.is-error { color: var(--ember-300); }
+.mail { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--space-2) var(--space-3); padding-top: var(--space-4); border-top: 1px solid var(--border-hairline); font-size: 13px; }
+.mail .cm { color: var(--code-comment); }
+.mail-link { color: var(--ink-primary); text-decoration: underline; text-decoration-color: var(--border-outline); text-underline-offset: 4px; word-break: break-all; transition: color 150ms ease-out, text-decoration-color 150ms ease-out; }
+.mail-link:hover { color: var(--ember-300); text-decoration-color: currentColor; }
+@media (max-width: 767px) { .contact-band { padding-block: var(--space-16); } .cform .row { grid-template-columns: 1fr; } .cform .term-body { padding: var(--space-4); } }
+
+/* ---- Footer ---- */
+.site-footer {
+  position: relative; isolation: isolate; overflow: hidden;
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  background:
+    radial-gradient(60% 140% at 50% 0%, rgba(198,43,38,0.14) 0%, rgba(150,32,28,0.05) 40%, rgba(20,18,16,0) 75%),
+    linear-gradient(180deg, var(--bg-surface-raised) 0%, var(--bg-surface) 100%);
+  border-top: 1px solid rgba(244,239,233,0.08);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.04), 0 -24px 60px rgba(0,0,0,0.35);
+}
+/* ember hairline along the top edge */
+.site-footer::before {
+  content: ""; position: absolute; top: 0; left: 15%; right: 15%; height: 1px; z-index: 1;
+  background: linear-gradient(90deg, transparent, rgba(224,57,47,0.8) 50%, transparent);
+  box-shadow: 0 0 18px 1px rgba(224,57,47,0.35);
+}
+.footer { padding-block: var(--space-8) var(--space-4); }
+.footer .top { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: var(--space-6) var(--space-8); }
+.footer .id { display: grid; justify-items: start; gap: var(--space-3); }
+.footer .fsep { display: block; justify-self: stretch; width: 100%; height: 1px; background: linear-gradient(90deg, rgba(244,239,233,0.22) 0%, rgba(244,239,233,0.16) 55%, rgba(244,239,233,0) 100%); }
+.footer .fname { font-family: var(--font-display); font-weight: 400; font-size: 26px; line-height: 1.1; letter-spacing: -0.02em; color: var(--ink-primary); text-decoration: none; }
+.footer .site-links { display: flex; flex-wrap: wrap; gap: var(--space-2) var(--space-6); }
+.footer .flink { font-size: 13px; color: var(--ink-secondary); text-decoration: none; transition: color 150ms ease-out; }
+.footer .flink:hover { color: var(--ink-primary); }
+.footer .elsewhere { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2) var(--space-6); }
+.footer .ext { display: inline-flex; align-items: center; gap: var(--space-1); font-size: 14px; color: var(--ink-secondary); text-decoration: none; transition: color 150ms ease-out; }
+.footer .ext .i { width: 13px; height: 13px; opacity: 0.7; transition: transform 150ms ease-out; }
+.footer .ext .brand { display: none; width: 18px; height: 18px; fill: currentColor; flex: none; }
+.footer .ext:hover { color: var(--ink-primary); }
+.footer .ext:hover .i { transform: translate(1px, -1px); opacity: 1; }
+.footer #to-top { margin-left: var(--space-2); }
+.footer .bottom { display: flex; flex-wrap: wrap; justify-content: space-between; gap: var(--space-2) var(--space-4); margin-top: var(--space-6); padding-top: var(--space-4); border-top: 1px solid rgba(244,239,233,0.07); font-family: var(--font-mono); font-size: 12px; color: var(--ink-tertiary); }
+.footer .clock { display: inline-flex; align-items: baseline; gap: var(--space-2); }
+/* baseline-anchored so the dot sits on the optical middle of the text, not the line box */
+.footer .clock .d { display: inline-block; flex: none; width: 6px; height: 6px; border-radius: var(--radius-full); background: var(--success); box-shadow: 0 0 8px rgba(76,175,107,0.6); align-self: baseline; position: relative; top: calc(-0.3em + 3px); }
+.footer .time { color: var(--ink-secondary); font-variant-numeric: tabular-nums; }
+.footer { position: relative; }
+/* Small screens: brand icons instead of names, stacked in a column beside the name block */
+@media (max-width: 640px) {
+  .footer .top { display: grid; grid-template-columns: 1fr auto; align-items: start; gap: var(--space-4); }
+  .footer .elsewhere { display: grid; grid-template-columns: repeat(3, 36px); gap: var(--space-1); justify-items: center; }
+  .footer .ext { width: 36px; height: 36px; justify-content: center; border-radius: var(--radius-full); color: var(--ink-secondary); }
+  .footer .ext:hover { background: rgba(244,239,233,0.06); }
+  .footer .ext .lbl, .footer .ext .i { display: none; }
+  .footer .ext .brand { display: block; }
+  .footer #to-top { order: -1; grid-column: 3; justify-self: center; margin: 0 0 var(--space-2); }
+}
+/* Very narrow phones: icons move to their own row under the section links; arrow stays level with the name */
+@media (max-width: 370px) {
+  .footer .top { grid-template-columns: 1fr; gap: var(--space-3); }
+  .footer .fname { white-space: nowrap; }
+  .footer .id { padding-right: 44px; }
+  .footer .elsewhere { display: flex; gap: var(--space-2); margin-left: -8px; }
+  .footer .ext { width: 34px; height: 34px; }
+  .footer #to-top { position: absolute; top: calc(var(--space-8) - 2px); right: var(--gutter); margin: 0; }
+}
+
+
+.toast { position: fixed; left: 50%; bottom: calc(24px + env(safe-area-inset-bottom, 0px)); transform: translate(-50%, 12px); opacity: 0; pointer-events: none; z-index: 50; padding: 10px 16px; border-radius: var(--radius-sm); background: var(--bg-surface-raised); border: 1px solid var(--border-strong); box-shadow: var(--shadow-lg); font-family: var(--font-mono); font-size: 13px; color: var(--ink-primary); transition: opacity 150ms ease-out, transform 150ms ease-out; }
+.toast.show { opacity: 1; transform: translate(-50%, 0); }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .marquee-track { animation: none; }
+  *, *::before, *::after { transition-duration: 1ms !important; }
+}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <symbol id="lg-python" viewBox="0 0 24 24"><path d="M14.25.18l.9.2.73.26.59.3.45.32.34.34.25.34.16.33.1.3.04.26.02.2-.01.13V8.5l-.05.63-.13.55-.21.46-.26.38-.3.31-.33.25-.35.19-.35.14-.33.1-.3.07-.26.04-.21.02H8.77l-.69.05-.59.14-.5.22-.41.27-.33.32-.27.35-.2.36-.15.37-.1.35-.07.32-.04.27-.02.21v3.06H3.17l-.21-.03-.28-.07-.32-.12-.35-.18-.36-.26-.36-.36-.35-.46-.32-.59-.28-.73-.21-.88-.14-1.05-.05-1.23.06-1.22.16-1.04.24-.87.32-.71.36-.57.4-.44.42-.33.42-.24.4-.16.36-.1.32-.05.24-.01h.16l.06.01h8.16v-.83H6.18l-.01-2.75-.02-.37.05-.34.11-.31.17-.28.25-.26.31-.23.38-.2.44-.18.51-.15.58-.12.64-.1.71-.06.77-.04.84-.02 1.27.05zm-6.3 1.98l-.23.33-.08.41.08.41.23.34.33.22.41.09.41-.09.33-.22.23-.34.08-.41-.08-.41-.23-.33-.33-.22-.41-.09-.41.09zm13.09 3.95l.28.06.32.12.35.18.36.27.36.35.35.47.32.59.28.73.21.88.14 1.04.05 1.23-.06 1.23-.16 1.04-.24.86-.32.71-.36.57-.4.45-.42.33-.42.24-.4.16-.36.09-.32.05-.24.02-.16-.01h-8.22v.82h5.84l.01 2.76.02.36-.05.34-.11.31-.17.29-.25.25-.31.24-.38.2-.44.17-.51.15-.58.13-.64.09-.71.07-.77.04-.84.01-1.27-.04-1.07-.14-.9-.2-.73-.25-.59-.3-.45-.33-.34-.34-.25-.34-.16-.33-.1-.3-.04-.25-.02-.2.01-.13v-5.34l.05-.64.13-.54.21-.46.26-.38.3-.32.33-.24.35-.2.35-.14.33-.1.3-.06.26-.04.21-.02.13-.01h5.84l.69-.05.59-.14.5-.21.41-.28.33-.32.27-.35.2-.36.15-.36.1-.35.07-.32.04-.28.02-.21V6.07h2.09l.14.01zm-6.47 14.25l-.23.33-.08.41.08.41.23.33.33.23.41.08.41-.08.33-.23.23-.33.08-.41-.08-.41-.23-.33-.33-.23-.41-.08-.41.08z"/></symbol>
+  <symbol id="lg-fastapi" viewBox="0 0 24 24"><path d="M12 .0387C5.3729.0384.0003 5.3931 0 11.9988c-.001 6.6066 5.372 11.9628 12 11.9625 6.628.0003 12.001-5.3559 12-11.9625-.0003-6.6057-5.3729-11.9604-12-11.96m-.829 5.4153h7.55l-7.5805 5.3284h5.1828L5.279 18.5436q2.9466-6.5444 5.892-13.0896"/></symbol>
+  <symbol id="lg-postgresql" viewBox="0 0 24 24"><path d="M23.5594 14.7228a.5269.5269 0 0 0-.0563-.1191c-.139-.2632-.4768-.3418-1.0074-.2321-1.6533.3411-2.2935.1312-2.5256-.0191 1.342-2.0482 2.445-4.522 3.0411-6.8297.2714-1.0507.7982-3.5237.1222-4.7316a1.5641 1.5641 0 0 0-.1509-.235C21.6931.9086 19.8007.0248 17.5099.0005c-1.4947-.0158-2.7705.3461-3.1161.4794a9.449 9.449 0 0 0-.5159-.0816 8.044 8.044 0 0 0-1.3114-.1278c-1.1822-.0184-2.2038.2642-3.0498.8406-.8573-.3211-4.7888-1.645-7.2219.0788C.9359 2.1526.3086 3.8733.4302 6.3043c.0409.818.5069 3.334 1.2423 5.7436.4598 1.5065.9387 2.7019 1.4334 3.582.553.9942 1.1259 1.5933 1.7143 1.7895.4474.1491 1.1327.1441 1.8581-.7279.8012-.9635 1.5903-1.8258 1.9446-2.2069.4351.2355.9064.3625 1.39.3772a.0569.0569 0 0 0 .0004.0041 11.0312 11.0312 0 0 0-.2472.3054c-.3389.4302-.4094.5197-1.5002.7443-.3102.064-1.1344.2339-1.1464.8115-.0025.1224.0329.2309.0919.3268.2269.4231.9216.6097 1.015.6331 1.3345.3335 2.5044.092 3.3714-.6787-.017 2.231.0775 4.4174.3454 5.0874.2212.5529.7618 1.9045 2.4692 1.9043.2505 0 .5263-.0291.8296-.0941 1.7819-.3821 2.5557-1.1696 2.855-2.9059.1503-.8707.4016-2.8753.5388-4.1012.0169-.0703.0357-.1207.057-.1362.0007-.0005.0697-.0471.4272.0307a.3673.3673 0 0 0 .0443.0068l.2539.0223.0149.001c.8468.0384 1.9114-.1426 2.5312-.4308.6438-.2988 1.8057-1.0323 1.5951-1.6698zM2.371 11.8765c-.7435-2.4358-1.1779-4.8851-1.2123-5.5719-.1086-2.1714.4171-3.6829 1.5623-4.4927 1.8367-1.2986 4.8398-.5408 6.108-.13-.0032.0032-.0066.0061-.0098.0094-2.0238 2.044-1.9758 5.536-1.9708 5.7495-.0002.0823.0066.1989.0162.3593.0348.5873.0996 1.6804-.0735 2.9184-.1609 1.1504.1937 2.2764.9728 3.0892.0806.0841.1648.1631.2518.2374-.3468.3714-1.1004 1.1926-1.9025 2.1576-.5677.6825-.9597.5517-1.0886.5087-.3919-.1307-.813-.5871-1.2381-1.3223-.4796-.839-.9635-2.0317-1.4155-3.5126zm6.0072 5.0871c-.1711-.0428-.3271-.1132-.4322-.1772.0889-.0394.2374-.0902.4833-.1409 1.2833-.2641 1.4815-.4506 1.9143-1.0002.0992-.126.2116-.2687.3673-.4426a.3549.3549 0 0 0 .0737-.1298c.1708-.1513.2724-.1099.4369-.0417.156.0646.3078.26.3695.4752.0291.1016.0619.2945-.0452.4444-.9043 1.2658-2.2216 1.2494-3.1676 1.0128zm2.094-3.988-.0525.141c-.133.3566-.2567.6881-.3334 1.003-.6674-.0021-1.3168-.2872-1.8105-.8024-.6279-.6551-.9131-1.5664-.7825-2.5004.1828-1.3079.1153-2.4468.079-3.0586-.005-.0857-.0095-.1607-.0122-.2199.2957-.2621 1.6659-.9962 2.6429-.7724.4459.1022.7176.4057.8305.928.5846 2.7038.0774 3.8307-.3302 4.7363-.084.1866-.1633.3629-.2311.5454zm7.3637 4.5725c-.0169.1768-.0358.376-.0618.5959l-.146.4383a.3547.3547 0 0 0-.0182.1077c-.0059.4747-.054.6489-.115.8693-.0634.2292-.1353.4891-.1794 1.0575-.11 1.4143-.8782 2.2267-2.4172 2.5565-1.5155.3251-1.7843-.4968-2.0212-1.2217a6.5824 6.5824 0 0 0-.0769-.2266c-.2154-.5858-.1911-1.4119-.1574-2.5551.0165-.5612-.0249-1.9013-.3302-2.6462.0044-.2932.0106-.5909.019-.8918a.3529.3529 0 0 0-.0153-.1126 1.4927 1.4927 0 0 0-.0439-.208c-.1226-.4283-.4213-.7866-.7797-.9351-.1424-.059-.4038-.1672-.7178-.0869.067-.276.1831-.5875.309-.9249l.0529-.142c.0595-.16.134-.3257.213-.5012.4265-.9476 1.0106-2.2453.3766-5.1772-.2374-1.0981-1.0304-1.6343-2.2324-1.5098-.7207.0746-1.3799.3654-1.7088.5321a5.6716 5.6716 0 0 0-.1958.1041c.0918-1.1064.4386-3.1741 1.7357-4.4823a4.0306 4.0306 0 0 1 .3033-.276.3532.3532 0 0 0 .1447-.0644c.7524-.5706 1.6945-.8506 2.802-.8325.4091.0067.8017.0339 1.1742.081 1.939.3544 3.2439 1.4468 4.0359 2.3827.8143.9623 1.2552 1.9315 1.4312 2.4543-1.3232-.1346-2.2234.1268-2.6797.779-.9926 1.4189.543 4.1729 1.2811 5.4964.1353.2426.2522.4522.2889.5413.2403.5825.5515.9713.7787 1.2552.0696.087.1372.1714.1885.245-.4008.1155-1.1208.3825-1.0552 1.717-.0123.1563-.0423.4469-.0834.8148-.0461.2077-.0702.4603-.0994.7662zm.8905-1.6211c-.0405-.8316.2691-.9185.5967-1.0105a2.8566 2.8566 0 0 0 .135-.0406 1.202 1.202 0 0 0 .1342.103c.5703.3765 1.5823.4213 3.0068.1344-.2016.1769-.5189.3994-.9533.6011-.4098.1903-1.0957.333-1.7473.3636-.7197.0336-1.0859-.0807-1.1721-.151zm.5695-9.2712c-.0059.3508-.0542.6692-.1054 1.0017-.055.3576-.112.7274-.1264 1.1762-.0142.4368.0404.8909.0932 1.3301.1066.887.216 1.8003-.2075 2.7014a3.5272 3.5272 0 0 1-.1876-.3856c-.0527-.1276-.1669-.3326-.3251-.6162-.6156-1.1041-2.0574-3.6896-1.3193-4.7446.3795-.5427 1.3408-.5661 2.1781-.463zm.2284 7.0137a12.3762 12.3762 0 0 0-.0853-.1074l-.0355-.0444c.7262-1.1995.5842-2.3862.4578-3.4385-.0519-.4318-.1009-.8396-.0885-1.2226.0129-.4061.0666-.7543.1185-1.0911.0639-.415.1288-.8443.1109-1.3505.0134-.0531.0188-.1158.0118-.1902-.0457-.4855-.5999-1.938-1.7294-3.253-.6076-.7073-1.4896-1.4972-2.6889-2.0395.5251-.1066 1.2328-.2035 2.0244-.1859 2.0515.0456 3.6746.8135 4.8242 2.2824a.908.908 0 0 1 .0667.1002c.7231 1.3556-.2762 6.2751-2.9867 10.5405zm-8.8166-6.1162c-.025.1794-.3089.4225-.6211.4225a.5821.5821 0 0 1-.0809-.0056c-.1873-.026-.3765-.144-.5059-.3156-.0458-.0605-.1203-.178-.1055-.2844.0055-.0401.0261-.0985.0925-.1488.1182-.0894.3518-.1226.6096-.0867.3163.0441.6426.1938.6113.4186zm7.9305-.4114c.0111.0792-.049.201-.1531.3102-.0683.0717-.212.1961-.4079.2232a.5456.5456 0 0 1-.075.0052c-.2935 0-.5414-.2344-.5607-.3717-.024-.1765.2641-.3106.5611-.352.297-.0414.6111.0088.6356.1851z"/></symbol>
+  <symbol id="lg-sqlalchemy" viewBox="0 0 24 24"><path d="M11.8 15.955a44.068 44.068 0 0 1-1.673-.691c-1.736-.757-1.981-.772-2.499-.143-.119.146-.25.236-.287.2-.111-.111.219-.644.617-.993.325-.285.433-.325.791-.285.228.025.985.29 1.682.586 1.573.669 2.034.811 2.635.811.731 0 1.106-.512.876-1.192-.057-.171-.04-.228.074-.228.213 0 .322.797.168 1.255a1.617 1.617 0 0 1-.424.614c-.251.211-.41.257-.879.254a3.853 3.853 0 0 1-1.082-.188h.001Zm.301-2.225c0-.048.179-.134.401-.188l.401-.099.086-1.446c.094-1.599.025-3.172-.148-3.383-.063-.074-.253-.165-.427-.205-.705-.156-.236-.264 1.133-.264 1.368 0 1.803.099 1.152.264-.561.14-.564.148-.564 2.43 0 1.266.046 2.22.111 2.342.092.171.228.207.752.207 1.081 0 1.453-.255 1.747-1.203.088-.284.315-.233.236.054-.037.134-.097.54-.134.91l-.068.669H14.44c-1.286 0-2.339-.04-2.339-.088Zm5.312-.068c0-.086.083-.171.219-.236.183-.086.302-.265.734-1.11.686-1.337 1.767-3.634 1.87-3.978.079-.262.097-.276.392-.31.171-.02.313-.031.316-.025l.527 1.152c.284.628.856 1.824 1.271 2.654.695 1.397.772 1.523 1.005 1.636.142.069.253.174.253.237 0 .099-.122.111-1.175.111-1.056 0-1.175-.012-1.175-.114 0-.068.091-.142.236-.191.134-.043.236-.122.236-.182 0-.057-.139-.432-.31-.834l-.31-.731h-2.35l-.225.495c-.421.928-.43 1.147-.037 1.252.196.054.25.097.227.185-.025.103-.127.117-.867.117-.794.006-.837 0-.837-.128Zm-15.652.025a10.933 10.933 0 0 1-.808-.196l-.549-.154.282-.518.281-.518-.227-.281c-.322-.399-.737-1.272-.74-1.554-.003-.657.851-1.61 1.898-2.122.72-.353 1.291-.362 2.009-.026l.54.253.157-.224c.085-.123.156-.285.156-.356 0-.071.071-.134.157-.134.085 0 .156.023.156.048 0 .063-.629 1.651-.669 1.691-.017.016-.187-.063-.381-.177-.546-.321-1.232-.535-1.764-.549-1.238-.031-1.667 1.178-.794 2.236l.308.373.839-.68c.942-.76 1.05-.777 1.784-.27.825.569.839 1.434.042 2.339-.705.805-1.431 1.027-2.677.819Zm5.984-.165c-.646-.301-1.229-.876-1.565-1.547-.538-1.076-.373-1.765.646-2.695.856-.782 1.556-1.087 2.498-1.087.68 0 .825.037 1.266.307 1.044.646 1.303 1.878.675 3.221-.737 1.577-2.294 2.37-3.52 1.801Zm-3.872-.702c.409-.322.381-.917-.063-1.389-.558-.592-.731-.566-1.713.253-.976.814-.982.783.185 1.155.771.251 1.255.242 1.591-.019Zm6.034-.046c.484-.239.817-1.343.68-2.259-.17-1.13-1.698-1.901-2.819-1.423-1.153.493-1.17 1.804-.037 2.985.791.828 1.471 1.044 2.176.697Zm11.359-1.414c.04-.071-.845-2.003-.928-2.023-.06-.017-.976 1.872-.976 2.014 0 .072 1.861.08 1.904.009Z"/></symbol>
+  <symbol id="lg-langgraph" viewBox="0 0 24 24"><path d="M5 19H10A5 5 0 115 14ZM19 14A5 5 0 1114 19H19ZM10 5A5 5 0 105 10V5ZM19 5V10A5 5 0 1014 5Z"/></symbol>
+  <symbol id="lg-scikitlearn" viewBox="0 0 24 24"><path d="M15.601 5.53c-1.91.035-3.981.91-5.63 2.56-2.93 2.93-2.083 8.53-1.088 9.525.805.804 6.595 1.843 9.526-1.088a9.74 9.74 0 0 0 .584-.643c.043-.292.205-.66.489-1.106a1.848 1.848 0 0 1-.537.176c-.144.265-.37.55-.676.855-.354.335-.607.554-.76.656a.795.795 0 0 1-.437.152c-.35 0-.514-.308-.494-.924-.22.316-.425.549-.612.7a.914.914 0 0 1-.578.224c-.194 0-.36-.09-.496-.273a1.03 1.03 0 0 1-.193-.507 4.016 4.016 0 0 1-.726.583c-.224.132-.47.197-.74.197-.3 0-.543-.096-.727-.288a.978.978 0 0 1-.257-.524v.004c-.3.276-.564.48-.79.611a1.295 1.295 0 0 1-.649.197.693.693 0 0 1-.571-.275c-.145-.183-.218-.43-.218-.739 0-.464.101-1.02.302-1.67.201-.65.445-1.25.733-1.797l.842-.312a.21.21 0 0 1 .06-.013c.063 0 .116.047.157.14.04.095.061.221.061.38 0 .451-.104.888-.312 1.31-.207.422-.532.873-.974 1.352-.018.23-.027.388-.027.474 0 .193.036.345.106.458.071.113.165.169.282.169a.71.71 0 0 0 .382-.13c.132-.084.333-.26.602-.523.028-.418.187-.798.482-1.142.324-.38.685-.569 1.08-.569.206 0 .37.054.494.16a.524.524 0 0 1 .186.417c0 .458-.486.829-1.459 1.114.088.43.32.646.693.646a.807.807 0 0 0 .417-.117c.129-.076.321-.243.575-.497.032-.252.118-.495.259-.728.182-.3.416-.544.701-.73.285-.185.537-.278.756-.278.276 0 .47.127.58.381l.677-.374h.186l-.292.971c-.15.488-.226.823-.226 1.004 0 .19.067.285.202.285.086 0 .181-.045.285-.137.104-.092.25-.232.437-.42v.001c.143-.155.274-.32.392-.494-.19-.084-.285-.21-.285-.375 0-.17.058-.352.174-.545.116-.194.275-.29.479-.29.172 0 .258.088.258.265 0 .139-.05.338-.149.596.367-.04.687-.32.961-.842l.228-.01c1.059-2.438.828-5.075-.83-6.732-1.019-1.02-2.408-1.5-3.895-1.471zm4.725 8.203a8.938 8.938 0 0 1-1.333 2.151 1.09 1.09 0 0 0-.012.147c0 .168.047.309.14.423.092.113.206.17.34.17.296 0 .714-.264 1.254-.787-.001.04-.003.08-.003.121 0 .146.012.368.036.666l.733-.172c0-.2.003-.357.01-.474.01-.157.033-.33.066-.517.02-.11.07-.216.152-.315l.186-.216a5.276 5.276 0 0 1 .378-.397c.062-.055.116-.099.162-.13a.26.26 0 0 1 .123-.046c.055 0 .083.035.083.106 0 .07-.052.236-.156.497-.194.486-.292.848-.292 1.084 0 .175.046.314.136.418a.45.45 0 0 0 .358.155c.365 0 .803-.269 1.313-.808v-.381c-.361.426-.623.64-.784.64-.109 0-.163-.067-.163-.2 0-.1.065-.316.195-.65.19-.486.285-.836.285-1.048a.464.464 0 0 0-.112-.319.36.36 0 0 0-.282-.127c-.165 0-.354.077-.567.233-.213.156-.5.436-.863.84.053-.262.165-.622.335-1.08l-.809.156a6.54 6.54 0 0 0-.399 1.074c-.04.156-.07.316-.092.48a7.447 7.447 0 0 1-.49.45.38.38 0 0 1-.229.08.208.208 0 0 1-.174-.082.352.352 0 0 1-.064-.222c0-.1.019-.214.056-.343.038-.13.12-.373.249-.731l.308-.849zm-17.21-2.927c-.863-.016-1.67.263-2.261.854-1.352 1.352-1.07 3.827.631 5.527 1.7 1.701 4.95 1.21 5.527.632.467-.466 1.07-3.827-.631-5.527-.957-.957-2.158-1.465-3.267-1.486zm12.285.358h.166v.21H15.4zm.427 0h.166v.865l.46-.455h.195l-.364.362.428.684h-.198l-.357-.575-.164.166v.41h-.166zm1.016 0h.166v.21h-.166zm.481.122h.166v.288h.172v.135h-.172v.717c0 .037.006.062.02.075.012.013.037.02.074.02a.23.23 0 0 0 .078-.01v.141a.802.802 0 0 1-.136.014.23.23 0 0 1-.15-.043.15.15 0 0 1-.052-.123v-.79h-.141v-.136h.141zm-3.562.258c.081 0 .15.012.207.038.057.024.1.061.13.11s.045.106.045.173h-.176c-.006-.111-.075-.167-.208-.167a.285.285 0 0 0-.164.041.134.134 0 0 0-.06.117c0 .035.015.065.045.088.03.024.08.044.15.06l.16.039a.47.47 0 0 1 .224.105c.047.046.07.108.07.186a.3.3 0 0 1-.052.175.327.327 0 0 1-.152.116.585.585 0 0 1-.226.041c-.136 0-.24-.03-.309-.088-.069-.059-.105-.149-.109-.269h.176c.004.037.01.065.017.084a.166.166 0 0 0 .034.054c.044.043.112.065.204.065a.31.31 0 0 0 .177-.045.139.139 0 0 0 .067-.119.116.116 0 0 0-.038-.09.287.287 0 0 0-.124-.055l-.156-.038a1.248 1.248 0 0 1-.159-.05.359.359 0 0 1-.098-.061.22.22 0 0 1-.058-.083.32.32 0 0 1-.016-.108c0-.096.036-.174.109-.232a.45.45 0 0 1 .29-.087zm1.035 0a.46.46 0 0 1 .202.043.351.351 0 0 1 .187.212.577.577 0 0 1 .023.126h-.168a.256.256 0 0 0-.078-.168.242.242 0 0 0-.17-.06.248.248 0 0 0-.155.05.306.306 0 0 0-.1.144.662.662 0 0 0-.034.224.58.58 0 0 0 .035.214.299.299 0 0 0 .101.135.261.261 0 0 0 .157.048c.142 0 .227-.084.256-.252h.167a.519.519 0 0 1-.065.22.35.35 0 0 1-.146.138.464.464 0 0 1-.216.048.448.448 0 0 1-.246-.066.441.441 0 0 1-.161-.192.703.703 0 0 1-.057-.293c0-.085.01-.163.032-.233a.522.522 0 0 1 .095-.182.403.403 0 0 1 .15-.117.453.453 0 0 1 .191-.04zm.603.03h.166v1.046H15.4zm1.443 0h.166v1.046h-.166zm-5.05.618c-.08 0-.2.204-.356.611-.155.407-.308.977-.459 1.71.281-.312.509-.662.683-1.05.175-.387.262-.72.262-.999a.455.455 0 0 0-.036-.197c-.025-.05-.056-.075-.093-.075zm4.662 1.797c-.221 0-.431.188-.629.563-.197.376-.296.722-.296 1.038 0 .12.029.216.088.29a.273.273 0 0 0 .223.111c.221 0 .43-.188.625-.565.196-.377.294-.725.294-1.043a.457.457 0 0 0-.083-.29.269.269 0 0 0-.222-.104zm-2.848.007c-.146 0-.285.11-.417.333-.133.222-.2.51-.2.866.566-.159.849-.452.849-.881 0-.212-.077-.318-.232-.318Z"/></symbol>
+  <symbol id="lg-typescript" viewBox="0 0 24 24"><path d="M1.125 0C.502 0 0 .502 0 1.125v21.75C0 23.498.502 24 1.125 24h21.75c.623 0 1.125-.502 1.125-1.125V1.125C24 .502 23.498 0 22.875 0zm17.363 9.75c.612 0 1.154.037 1.627.111a6.38 6.38 0 0 1 1.306.34v2.458a3.95 3.95 0 0 0-.643-.361 5.093 5.093 0 0 0-.717-.26 5.453 5.453 0 0 0-1.426-.2c-.3 0-.573.028-.819.086a2.1 2.1 0 0 0-.623.242c-.17.104-.3.229-.393.374a.888.888 0 0 0-.14.49c0 .196.053.373.156.529.104.156.252.304.443.444s.423.276.696.41c.273.135.582.274.926.416.47.197.892.407 1.266.628.374.222.695.473.963.753.268.279.472.598.614.957.142.359.214.776.214 1.253 0 .657-.125 1.21-.373 1.656a3.033 3.033 0 0 1-1.012 1.085 4.38 4.38 0 0 1-1.487.596c-.566.12-1.163.18-1.79.18a9.916 9.916 0 0 1-1.84-.164 5.544 5.544 0 0 1-1.512-.493v-2.63a5.033 5.033 0 0 0 3.237 1.2c.333 0 .624-.03.872-.09.249-.06.456-.144.623-.25.166-.108.29-.234.373-.38a1.023 1.023 0 0 0-.074-1.089 2.12 2.12 0 0 0-.537-.5 5.597 5.597 0 0 0-.807-.444 27.72 27.72 0 0 0-1.007-.436c-.918-.383-1.602-.852-2.053-1.405-.45-.553-.676-1.222-.676-2.005 0-.614.123-1.141.369-1.582.246-.441.58-.804 1.004-1.089a4.494 4.494 0 0 1 1.47-.629 7.536 7.536 0 0 1 1.77-.201zm-15.113.188h9.563v2.166H9.506v9.646H6.789v-9.646H3.375z"/></symbol>
+  <symbol id="lg-react" viewBox="0 0 24 24"><path d="M14.23 12.004a2.236 2.236 0 0 1-2.235 2.236 2.236 2.236 0 0 1-2.236-2.236 2.236 2.236 0 0 1 2.235-2.236 2.236 2.236 0 0 1 2.236 2.236zm2.648-10.69c-1.346 0-3.107.96-4.888 2.622-1.78-1.653-3.542-2.602-4.887-2.602-.41 0-.783.093-1.106.278-1.375.793-1.683 3.264-.973 6.365C1.98 8.917 0 10.42 0 12.004c0 1.59 1.99 3.097 5.043 4.03-.704 3.113-.39 5.588.988 6.38.32.187.69.275 1.102.275 1.345 0 3.107-.96 4.888-2.624 1.78 1.654 3.542 2.603 4.887 2.603.41 0 .783-.09 1.106-.275 1.374-.792 1.683-3.263.973-6.365C22.02 15.096 24 13.59 24 12.004c0-1.59-1.99-3.097-5.043-4.032.704-3.11.39-5.587-.988-6.38-.318-.184-.688-.277-1.092-.278zm-.005 1.09v.006c.225 0 .406.044.558.127.666.382.955 1.835.73 3.704-.054.46-.142.945-.25 1.44-.96-.236-2.006-.417-3.107-.534-.66-.905-1.345-1.727-2.035-2.447 1.592-1.48 3.087-2.292 4.105-2.295zm-9.77.02c1.012 0 2.514.808 4.11 2.28-.686.72-1.37 1.537-2.02 2.442-1.107.117-2.154.298-3.113.538-.112-.49-.195-.964-.254-1.42-.23-1.868.054-3.32.714-3.707.19-.09.4-.127.563-.132zm4.882 3.05c.455.468.91.992 1.36 1.564-.44-.02-.89-.034-1.345-.034-.46 0-.915.01-1.36.034.44-.572.895-1.096 1.345-1.565zM12 8.1c.74 0 1.477.034 2.202.093.406.582.802 1.203 1.183 1.86.372.64.71 1.29 1.018 1.946-.308.655-.646 1.31-1.013 1.95-.38.66-.773 1.288-1.18 1.87-.728.063-1.466.098-2.21.098-.74 0-1.477-.035-2.202-.093-.406-.582-.802-1.204-1.183-1.86-.372-.64-.71-1.29-1.018-1.946.303-.657.646-1.313 1.013-1.954.38-.66.773-1.286 1.18-1.868.728-.064 1.466-.098 2.21-.098zm-3.635.254c-.24.377-.48.763-.704 1.16-.225.39-.435.782-.635 1.174-.265-.656-.49-1.31-.676-1.947.64-.15 1.315-.283 2.015-.386zm7.26 0c.695.103 1.365.23 2.006.387-.18.632-.405 1.282-.66 1.933-.2-.39-.41-.783-.64-1.174-.225-.392-.465-.774-.705-1.146zm3.063.675c.484.15.944.317 1.375.498 1.732.74 2.852 1.708 2.852 2.476-.005.768-1.125 1.74-2.857 2.475-.42.18-.88.342-1.355.493-.28-.958-.646-1.956-1.1-2.98.45-1.017.81-2.01 1.085-2.964zm-13.395.004c.278.96.645 1.957 1.1 2.98-.45 1.017-.812 2.01-1.086 2.964-.484-.15-.944-.318-1.37-.5-1.732-.737-2.852-1.706-2.852-2.474 0-.768 1.12-1.742 2.852-2.476.42-.18.88-.342 1.356-.494zm11.678 4.28c.265.657.49 1.312.676 1.948-.64.157-1.316.29-2.016.39.24-.375.48-.762.705-1.158.225-.39.435-.788.636-1.18zm-9.945.02c.2.392.41.783.64 1.175.23.39.465.772.705 1.143-.695-.102-1.365-.23-2.006-.386.18-.63.406-1.282.66-1.933zM17.92 16.32c.112.493.2.968.254 1.423.23 1.868-.054 3.32-.714 3.708-.147.09-.338.128-.563.128-1.012 0-2.514-.807-4.11-2.28.686-.72 1.37-1.536 2.02-2.44 1.107-.118 2.154-.3 3.113-.54zm-11.83.01c.96.234 2.006.415 3.107.532.66.905 1.345 1.727 2.035 2.446-1.595 1.483-3.092 2.295-4.11 2.295-.22-.005-.406-.05-.553-.132-.666-.38-.955-1.834-.73-3.703.054-.46.142-.944.25-1.438zm4.56.64c.44.02.89.034 1.345.034.46 0 .915-.01 1.36-.034-.44.572-.895 1.095-1.345 1.565-.455-.47-.91-.993-1.36-1.565z"/></symbol>
+  <symbol id="lg-tailwindcss" viewBox="0 0 24 24"><path d="M12.001,4.8c-3.2,0-5.2,1.6-6,4.8c1.2-1.6,2.6-2.2,4.2-1.8c0.913,0.228,1.565,0.89,2.288,1.624 C13.666,10.618,15.027,12,18.001,12c3.2,0,5.2-1.6,6-4.8c-1.2,1.6-2.6,2.2-4.2,1.8c-0.913-0.228-1.565-0.89-2.288-1.624 C16.337,6.182,14.976,4.8,12.001,4.8z M6.001,12c-3.2,0-5.2,1.6-6,4.8c1.2-1.6,2.6-2.2,4.2-1.8c0.913,0.228,1.565,0.89,2.288,1.624 c1.177,1.194,2.538,2.576,5.512,2.576c3.2,0,5.2-1.6,6-4.8c-1.2,1.6-2.6,2.2-4.2,1.8c-0.913-0.228-1.565-0.89-2.288-1.624 C10.337,13.382,8.976,12,6.001,12z"/></symbol>
+  <symbol id="lg-supabase" viewBox="0 0 24 24"><path d="M11.9 1.036c-.015-.986-1.26-1.41-1.874-.637L.764 12.05C-.33 13.427.65 15.455 2.409 15.455h9.579l.113 7.51c.014.985 1.259 1.408 1.873.636l9.262-11.653c1.093-1.375.113-3.403-1.645-3.403h-9.642z"/></symbol>
+  <symbol id="lg-githubactions" viewBox="0 0 24 24"><path d="M10.984 13.836a.5.5 0 0 1-.353-.146l-.745-.743a.5.5 0 1 1 .706-.708l.392.391 1.181-1.18a.5.5 0 0 1 .708.707l-1.535 1.533a.504.504 0 0 1-.354.146zm9.353-.147l1.534-1.532a.5.5 0 0 0-.707-.707l-1.181 1.18-.392-.391a.5.5 0 1 0-.706.708l.746.743a.497.497 0 0 0 .706-.001zM4.527 7.452l2.557-1.585A1 1 0 0 0 7.09 4.17L4.533 2.56A1 1 0 0 0 3 3.406v3.196a1.001 1.001 0 0 0 1.527.85zm2.03-2.436L4 6.602V3.406l2.557 1.61zM24 12.5c0 1.93-1.57 3.5-3.5 3.5a3.503 3.503 0 0 1-3.46-3h-2.08a3.503 3.503 0 0 1-3.46 3 3.502 3.502 0 0 1-3.46-3h-.558c-.972 0-1.85-.399-2.482-1.042V17c0 1.654 1.346 3 3 3h.04c.244-1.693 1.7-3 3.46-3 1.93 0 3.5 1.57 3.5 3.5S13.43 24 11.5 24a3.502 3.502 0 0 1-3.46-3H8c-2.206 0-4-1.794-4-4V9.899A5.008 5.008 0 0 1 0 5c0-2.757 2.243-5 5-5s5 2.243 5 5a5.005 5.005 0 0 1-4.952 4.998A2.482 2.482 0 0 0 7.482 12h.558c.244-1.693 1.7-3 3.46-3a3.502 3.502 0 0 1 3.46 3h2.08a3.503 3.503 0 0 1 3.46-3c1.93 0 3.5 1.57 3.5 3.5zm-15 8c0 1.378 1.122 2.5 2.5 2.5s2.5-1.122 2.5-2.5-1.122-2.5-2.5-2.5S9 19.122 9 20.5zM5 9c2.206 0 4-1.794 4-4S7.206 1 5 1 1 2.794 1 5s1.794 4 4 4zm9 3.5c0-1.378-1.122-2.5-2.5-2.5S9 11.122 9 12.5s1.122 2.5 2.5 2.5 2.5-1.122 2.5-2.5zm9 0c0-1.378-1.122-2.5-2.5-2.5S18 11.122 18 12.5s1.122 2.5 2.5 2.5 2.5-1.122 2.5-2.5zm-13 8a.5.5 0 1 0 1 0 .5.5 0 0 0-1 0zm2 0a.5.5 0 1 0 1 0 .5.5 0 0 0-1 0zm12 0c0 1.93-1.57 3.5-3.5 3.5a3.503 3.503 0 0 1-3.46-3.002c-.007.001-.013.005-.021.005l-.506.017h-.017a.5.5 0 0 1-.016-.999l.506-.017c.018-.002.035.006.052.007A3.503 3.503 0 0 1 20.5 17c1.93 0 3.5 1.57 3.5 3.5zm-1 0c0-1.378-1.122-2.5-2.5-2.5S18 19.122 18 20.5s1.122 2.5 2.5 2.5 2.5-1.122 2.5-2.5z"/></symbol>
+  <symbol id="br-github" viewBox="0 0 24 24"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></symbol>
+  <symbol id="br-linkedin" viewBox="0 0 24 24"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/></symbol>
+  <symbol id="br-mail" viewBox="0 0 24 24"><rect x="2.75" y="5" width="18.5" height="14" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="m3.5 6.5 8.5 6.5 8.5-6.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-arrow-ur" viewBox="0 0 24 24"><path d="M7 17 17 7M8 7h9v9"/></symbol>
+  <symbol id="i-arrow-r" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+  <symbol id="i-arrow-up" viewBox="0 0 24 24"><path d="M12 19V5M6 11l6-6 6 6"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></symbol>
+  <symbol id="i-send" viewBox="0 0 24 24"><path d="M9 10 4 15l5 5"/><path d="M20 4v7a4 4 0 0 1-4 4H4"/></symbol>
+</svg>
+
+<header class="nav" id="nav">
+  <div class="nav-inner">
+    <a class="name" href="#top">Aly Ibrahim</a>
+    <nav class="links" aria-label="Sections">
+      <a class="link" href="#stack">Stack</a>
+      <a class="link" href="#work">Work</a>
+      <a class="link" href="#experience">Experience</a>
+      <a class="link" href="#contact">Contact</a>
+    </nav>
+    <div class="end">
+      <a class="btn btn-primary btn-sm" href="#contact">Let’s talk</a>
+      <button class="btn btn-icon btn-sm menu-btn" type="button" id="menu-btn" aria-expanded="false" aria-controls="mnav" aria-label="Open menu">
+        <span class="bars" aria-hidden="true"><i></i><i></i></span>
+      </button>
+    </div>
+    <nav class="mnav" id="mnav" aria-label="Sections" hidden>
+      <a class="mlink" href="#stack">Stack <svg class="i" aria-hidden="true"><use href="#i-arrow-r"/></svg></a>
+      <a class="mlink" href="#work">Work <svg class="i" aria-hidden="true"><use href="#i-arrow-r"/></svg></a>
+      <a class="mlink" href="#experience">Experience <svg class="i" aria-hidden="true"><use href="#i-arrow-r"/></svg></a>
+      <a class="mlink" href="#contact">Contact <svg class="i" aria-hidden="true"><use href="#i-arrow-r"/></svg></a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <!-- Hero -->
+  <section class="hero surface-ember" aria-labelledby="hero-title">
+    <div class="container hero-inner">
+      <div>
+        <span class="status-pill"><i></i>Open to internships</span>
+        <h1 id="hero-title">Engineering <strong>backend systems</strong> for <strong>AI products</strong>.</h1>
+        <p class="lede">I’m a CS student at Goldsmiths building with Python, FastAPI and LLMs — from REST APIs to RAG agents that answer real customer questions.</p>
+        <div class="actions">
+          <a class="btn btn-primary" href="#work">View the work <svg class="i"><use href="#i-arrow-r"/></svg></a>
+          <a class="btn btn-secondary" href="#contact">Contact me</a>
+        </div>
+        <div class="hero-social" aria-label="Profiles">
+          <a class="soc" href="https://github.com/AlyIbrahim1" target="_blank" rel="noopener" aria-label="GitHub"><svg aria-hidden="true"><use href="#br-github"/></svg></a>
+          <a class="soc" href="https://www.linkedin.com/" target="_blank" rel="noopener" aria-label="LinkedIn"><svg aria-hidden="true"><use href="#br-linkedin"/></svg></a>
+          <a class="soc" href="mailto:aly.ibrahim.2007@gmail.com" aria-label="Email"><svg aria-hidden="true"><use href="#br-mail"/></svg></a>
+        </div>
+        <ul class="facts">
+          <li><span class="k">Based in</span><span class="v">Cairo, Egypt</span></li>
+          <li><span class="k">Studying</span><span class="v">BSc CS · AI/ML track</span></li>
+        </ul>
+      </div>
+
+      <div class="term" role="img" aria-label="Terminal showing a traced API request through gateway, auth, FastAPI route, Postgres query and model prediction">
+        <div class="term-bar"><span class="dot dot-ember"></span><span class="dot dot-warning"></span><span class="dot dot-success"></span><span class="term-title">~/trace · request 7f3a…c1</span></div>
+        <div class="trace-req"><span class="verb">POST</span><span class="path">/v1/churn/predict</span><span class="ok">200 OK</span></div>
+        <div class="spans">
+          <div class="span"><span>http.request</span><span class="track"><span class="bar" style="--l:0%;--w:100%"></span></span><span class="ms">48ms</span></div>
+          <div class="span io"><span>auth.verify</span><span class="track"><span class="bar" style="--l:2%;--w:6%"></span></span><span class="ms">3ms</span></div>
+          <div class="span io"><span>db.get_customer</span><span class="track"><span class="bar" style="--l:8%;--w:23%"></span></span><span class="ms">11ms</span></div>
+          <div class="span"><span>features.build</span><span class="track"><span class="bar" style="--l:31%;--w:13%"></span></span><span class="ms">6ms</span></div>
+          <div class="span"><span>model.predict</span><span class="track"><span class="bar" style="--l:44%;--w:44%"></span></span><span class="ms">21ms</span></div>
+          <div class="span io"><span>cache.set</span><span class="track"><span class="bar" style="--l:88%;--w:6%"></span></span><span class="ms">3ms</span></div>
+        </div>
+        <div class="logs" id="logs" aria-hidden="true">
+          <div><span class="lv">INFO</span>req 7f3a…c1 · POST /v1/churn/predict</div>
+          <div><span class="lv">INFO</span>model churn_clf v3 · p(churn)=0.81</div>
+          <div><span class="lv">INFO</span>cache set churn:58213 · ttl 1h</div>
+          <div><span class="lv">INFO</span>200 OK · 48ms</div>
+        </div>
+        <div class="term-foot"><span>p95 <b>52ms</b></span><span>errors <b>0.0%</b></span><span>uptime <b>99.9%</b></span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TechMarquee -->
+  <div class="stack-strip" id="stack" aria-label="Technologies I work with">
+    <div class="marquee" data-pause-on-hover style="--duration: 32s;">
+      <div class="marquee-track">
+        <span class="tm-item"><svg class="tm-logo" aria-hidden="true"><use href="#lg-python"/></svg>Python</span>
+        <span class="tm-item"><svg class="tm-logo" aria-hidden="true"><use href="#lg-fastapi"/></svg>FastAPI</span>
+        <span class="tm-item"><svg class="tm-logo" aria-hidden="true"><use href="#lg-postgresql"/></svg>PostgreSQL</span>
+        <span class="tm-item"><svg class="tm-logo" aria-hidden="true"><use href="#lg-sqlalchemy"/></svg>SQLAlchemy</span>
+        <span class="tm-item"><svg class="tm-logo" aria-hidden="true"><use href="#lg-langgraph"/></svg>LangGraph</span>
+        <span class="tm-item"><svg class="tm-logo" aria-hidden="true"><use href="#lg-scikitlearn"/></svg>scikit-learn</span>
+        <span class="tm-item"><svg class="tm-logo" aria-hidden="true"><use href="#lg-typescript"/></svg>TypeScript</span>
+        <span class="tm-item"><svg class="tm-logo" aria-hidden="true"><use href="#lg-react"/></svg>React</span>
+        <span class="tm-item"><svg class="tm-logo" aria-hidden="true"><use href="#lg-tailwindcss"/></svg>Tailwind CSS</span>
+        <span class="tm-item"><svg class="tm-logo" aria-hidden="true"><use href="#lg-supabase"/></svg>Supabase</span>
+        <span class="tm-item"><svg class="tm-logo" aria-hidden="true"><use href="#lg-githubactions"/></svg>GitHub Actions</span>
+        <span aria-hidden="true" style="display:contents">
+        <span class="tm-item"><svg class="tm-logo" aria-hidden="true"><use href="#lg-python"/></svg>Python</span>
+        <span class="tm-item"><svg class="tm-logo" aria-hidden="true"><use href="#lg-fastapi"/></svg>FastAPI</span>
+        <span class="tm-item"><svg class="tm-logo" aria-hidden="true"><use href="#lg-postgresql"/></svg>PostgreSQL</span>
+        <span class="tm-item"><svg class="tm-logo" aria-hidden="true"><use href="#lg-sqlalchemy"/></svg>SQLAlchemy</span>
+        <span class="tm-item"><svg class="tm-logo" aria-hidden="true"><use href="#lg-langgraph"/></svg>LangGraph</span>
+        <span class="tm-item"><svg class="tm-logo" aria-hidden="true"><use href="#lg-scikitlearn"/></svg>scikit-learn</span>
+        <span class="tm-item"><svg class="tm-logo" aria-hidden="true"><use href="#lg-typescript"/></svg>TypeScript</span>
+        <span class="tm-item"><svg class="tm-logo" aria-hidden="true"><use href="#lg-react"/></svg>React</span>
+        <span class="tm-item"><svg class="tm-logo" aria-hidden="true"><use href="#lg-tailwindcss"/></svg>Tailwind CSS</span>
+        <span class="tm-item"><svg class="tm-logo" aria-hidden="true"><use href="#lg-supabase"/></svg>Supabase</span>
+        <span class="tm-item"><svg class="tm-logo" aria-hidden="true"><use href="#lg-githubactions"/></svg>GitHub Actions</span>
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Work -->
+  <section class="section" id="work" aria-labelledby="work-title">
+    <div class="container">
+      <div class="sec-head">
+        <div>
+          <div class="eyebrow">Work</div>
+          <h2 class="sec-title" id="work-title">Featured projects<br><span class="dim">&amp; shipped systems</span></h2>
+        </div>
+        <button class="btn btn-secondary" type="button" id="all-projects" aria-haspopup="dialog" aria-controls="projects-dialog">All Projects <svg class="i" aria-hidden="true"><use href="#i-arrow-ur"/></svg></button>
+      </div>
+
+      <div class="projects">
+        <a class="pcard" href="https://github.com/AlyIbrahim1" target="_blank" rel="noopener">
+          <div class="media surface-ember">
+            <div class="shot">
+              <svg viewBox="0 0 400 250" preserveAspectRatio="xMinYMin slice" role="img" aria-label="Placeholder screenshot of a chat interface">
+                <rect width="400" height="250" class="art-bg"/><rect width="400" height="34" class="art-bar"/>
+                <circle cx="18" cy="17" r="4" class="art-ember"/><circle cx="32" cy="17" r="4" class="art-warn"/><circle cx="46" cy="17" r="4" class="art-ok"/>
+                <rect x="190" y="54" width="186" height="30" rx="8" class="art-row-hi"/>
+                <rect x="204" y="66" width="120" height="6" rx="3" class="art-ink"/>
+                <rect x="24" y="98" width="260" height="92" rx="8" class="art-row"/>
+                <rect x="38" y="114" width="210" height="6" rx="3" class="art-ink-2"/>
+                <rect x="38" y="128" width="226" height="6" rx="3" class="art-ink-2"/>
+                <rect x="38" y="142" width="150" height="6" rx="3" class="art-ink-2"/>
+                <rect x="38" y="164" width="54" height="14" rx="7" class="art-ember" opacity=".55"/>
+                <rect x="98" y="164" width="62" height="14" rx="7" class="art-ember" opacity=".35"/>
+                <rect x="166" y="164" width="48" height="14" rx="7" class="art-ember" opacity=".25"/>
+                <rect x="24" y="206" width="352" height="30" rx="6" class="art-row"/>
+                <rect x="38" y="218" width="90" height="6" rx="3" class="art-ink-2"/>
+              </svg>
+            </div>
+          </div>
+          <div class="body">
+            <div class="title-row"><h3 class="title">RAG customer-service agent</h3><span class="btn btn-icon btn-sm is-round" aria-hidden="true"><svg class="i"><use href="#i-arrow-ur"/></svg></span></div>
+            <p class="desc">Answers customer questions from internal documents, with retrieval over embedded knowledge and a LangGraph flow for routing and follow-ups.</p>
+            <div class="pills"><span class="pill pill-solid">Individual project · e&amp;</span><span class="pill">LangGraph · ChromaDB · Embeddings</span></div>
+          </div>
+        </a>
+
+        <a class="pcard" href="https://github.com/AlyIbrahim1" target="_blank" rel="noopener">
+          <div class="media surface-ember">
+            <div class="shot">
+              <svg viewBox="0 0 400 250" preserveAspectRatio="xMinYMin slice" role="img" aria-label="Placeholder screenshot of a model evaluation view">
+                <defs><linearGradient id="a2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e0392f" stop-opacity=".35"/><stop offset="1" stop-color="#e0392f" stop-opacity="0"/></linearGradient></defs>
+                <rect width="400" height="250" class="art-bg"/><rect width="400" height="34" class="art-bar"/>
+                <circle cx="18" cy="17" r="4" class="art-ember"/><circle cx="32" cy="17" r="4" class="art-warn"/><circle cx="46" cy="17" r="4" class="art-ok"/>
+                <rect x="24" y="58" width="110" height="7" rx="3" class="art-ink"/>
+                <rect x="24" y="76" width="160" height="16" rx="4" class="art-ink-2"/>
+                <path d="M24 176 L66 168 L108 172 L150 150 L192 156 L234 124 L276 132" class="art-line"/>
+                <path d="M24 176 L66 168 L108 172 L150 150 L192 156 L234 124 L276 132 L276 200 L24 200 Z" fill="url(#a2)"/>
+                <circle cx="334" cy="98" r="28" class="art-track"/>
+                <circle cx="334" cy="98" r="28" class="art-ring" stroke-dasharray="176" stroke-dashoffset="48" transform="rotate(-90 334 98)"/>
+                <rect x="24" y="212" width="352" height="12" rx="3" class="art-row"/>
+                <rect x="24" y="230" width="240" height="12" rx="3" class="art-row"/>
+              </svg>
+            </div>
+          </div>
+          <div class="body">
+            <div class="title-row"><h3 class="title">Customer churn prediction</h3><span class="btn btn-icon btn-sm is-round" aria-hidden="true"><svg class="i"><use href="#i-arrow-ur"/></svg></span></div>
+            <p class="desc">Flags telecom customers likely to leave so retention teams can act first — an end-to-end pipeline from feature engineering to scored output.</p>
+            <div class="pills"><span class="pill pill-solid">Individual project · e&amp;</span><span class="pill">Python · ML pipeline</span></div>
+          </div>
+        </a>
+
+        <a class="pcard" href="https://github.com/AlyIbrahim1" target="_blank" rel="noopener">
+          <div class="media surface-ember">
+            <div class="shot">
+              <svg viewBox="0 0 400 250" preserveAspectRatio="xMinYMin slice" role="img" aria-label="Placeholder screenshot of a rent payments table">
+                <rect width="400" height="250" class="art-bg"/><rect width="400" height="34" class="art-bar"/>
+                <circle cx="18" cy="17" r="4" class="art-ember"/><circle cx="32" cy="17" r="4" class="art-warn"/><circle cx="46" cy="17" r="4" class="art-ok"/>
+                <rect x="24" y="54" width="70" height="6" rx="3" class="art-ink"/><rect x="150" y="54" width="60" height="6" rx="3" class="art-ink"/><rect x="290" y="54" width="46" height="6" rx="3" class="art-ink"/>
+                <g>
+                  <rect x="16" y="72" width="368" height="34" rx="5" class="art-row"/><rect x="28" y="86" width="56" height="6" rx="3" class="art-ink-2"/><rect x="150" y="86" width="90" height="6" rx="3" class="art-ink-2"/><circle cx="296" cy="89" r="4" class="art-ok"/><rect x="306" y="86" width="36" height="6" rx="3" class="art-ink-2"/>
+                  <rect x="16" y="112" width="368" height="34" rx="5" class="art-row"/><rect x="28" y="126" width="56" height="6" rx="3" class="art-ink-2"/><rect x="150" y="126" width="74" height="6" rx="3" class="art-ink-2"/><circle cx="296" cy="129" r="4" class="art-warn"/><rect x="306" y="126" width="44" height="6" rx="3" class="art-ink-2"/>
+                  <rect x="16" y="152" width="368" height="34" rx="5" class="art-row"/><rect x="28" y="166" width="56" height="6" rx="3" class="art-ink-2"/><rect x="150" y="166" width="96" height="6" rx="3" class="art-ink-2"/><circle cx="296" cy="169" r="4" class="art-ember"/><rect x="306" y="166" width="50" height="6" rx="3" class="art-ink-2"/>
+                  <rect x="16" y="192" width="368" height="34" rx="5" class="art-row"/><rect x="28" y="206" width="56" height="6" rx="3" class="art-ink-2"/><rect x="150" y="206" width="82" height="6" rx="3" class="art-ink-2"/><circle cx="296" cy="209" r="4" class="art-ok"/><rect x="306" y="206" width="36" height="6" rx="3" class="art-ink-2"/>
+                </g>
+              </svg>
+            </div>
+          </div>
+          <div class="body">
+            <div class="title-row"><h3 class="title">Rent Management app</h3><span class="btn btn-icon btn-sm is-round" aria-hidden="true"><svg class="i"><use href="#i-arrow-ur"/></svg></span></div>
+            <p class="desc">Tracks properties, tenants and rent payments and generates PDF documents — re-architected onto a FastAPI backend and a typed React front end, with CI on every push.</p>
+            <div class="pills"><span class="pill pill-solid">Solo build</span><span class="pill">FastAPI · React · Supabase</span></div>
+          </div>
+        </a>
+
+        <a class="pcard" href="https://github.com/AlyIbrahim1" target="_blank" rel="noopener">
+          <div class="media surface-ember">
+            <div class="shot">
+              <svg viewBox="0 0 400 250" preserveAspectRatio="xMinYMin slice" role="img" aria-label="Placeholder screenshot of API source code">
+                <rect width="400" height="250" class="art-bg"/><rect width="400" height="34" class="art-bar"/>
+                <circle cx="18" cy="17" r="4" class="art-ember"/><circle cx="32" cy="17" r="4" class="art-warn"/><circle cx="46" cy="17" r="4" class="art-ok"/>
+                <rect x="24" y="56" width="10" height="6" rx="2" class="art-ink-2"/><rect x="44" y="56" width="120" height="6" rx="3" class="art-ink"/>
+                <rect x="24" y="76" width="10" height="6" rx="2" class="art-ink-2"/><rect x="44" y="76" width="64" height="6" rx="3" class="art-key"/><rect x="114" y="76" width="70" height="6" rx="3" class="art-str"/>
+                <rect x="24" y="96" width="10" height="6" rx="2" class="art-ink-2"/><rect x="44" y="96" width="26" height="6" rx="3" class="art-key"/><rect x="76" y="96" width="62" height="6" rx="3" class="art-fn"/><rect x="144" y="96" width="90" height="6" rx="3" class="art-ink-2"/>
+                <rect x="24" y="116" width="10" height="6" rx="2" class="art-ink-2"/><rect x="72" y="116" width="150" height="6" rx="3" class="art-ink-2"/>
+                <rect x="24" y="136" width="10" height="6" rx="2" class="art-ink-2"/><rect x="72" y="136" width="44" height="6" rx="3" class="art-key"/><rect x="122" y="136" width="46" height="6" rx="3" class="art-str"/><rect x="174" y="136" width="110" height="6" rx="3" class="art-fn"/>
+                <rect x="24" y="170" width="352" height="44" rx="6" class="art-row"/>
+                <rect x="40" y="188" width="140" height="7" rx="3" class="art-ink-2"/>
+                <rect x="276" y="184" width="84" height="16" rx="4" class="art-ember" opacity=".7"/>
+              </svg>
+            </div>
+          </div>
+          <div class="body">
+            <div class="title-row"><h3 class="title">AI Property Price Estimator</h3><span class="btn btn-icon btn-sm is-round" aria-hidden="true"><svg class="i"><use href="#i-arrow-ur"/></svg></span></div>
+            <p class="desc">Predicts a property’s price from its listing features — a scikit-learn model served as a FastAPI endpoint and backed by PostgreSQL.</p>
+            <div class="pills"><span class="pill pill-solid">Capstone</span><span class="pill">scikit-learn · FastAPI · PostgreSQL</span></div>
+          </div>
+        </a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Experience -->
+  <section class="section" id="experience" aria-labelledby="exp-title">
+    <div class="container exp-grid">
+      <div class="intro">
+        <div class="eyebrow">Experience</div>
+        <h2 class="sec-title" id="exp-title">Where I’ve built<br><span class="dim">&amp; what comes next</span></h2>
+        <p>Roles, study and builds in order, ending with the step I’m working toward.</p>
+      </div>
+      <ol class="timeline">
+        <li class="step is-done">
+          <span class="marker" aria-hidden="true"></span>
+          <div class="meta">Aug 2026 <span class="sep">·</span> EUE UOL CS Society</div>
+          <h3 class="title">FeedForward hackathon</h3>
+          <p class="desc">A 24-hour build with a small team, using AI coding tools to go from idea to working prototype.</p>
+        </li>
+        <li class="step is-done">
+          <span class="marker" aria-hidden="true"></span>
+          <div class="meta">Aug 2026 — Sep 2026 <span class="sep">·</span> e&amp; Egypt</div>
+          <h3 class="title">AI &amp; Analytics Intern</h3>
+          <p class="desc">Worked on the AI &amp; Advanced Analytics team, owning two projects end to end.</p>
+          <ul class="list">
+            <li>Built a customer-churn prediction pipeline, from feature engineering to scored output.</li>
+            <li>Shipped a RAG customer-service agent on LangGraph and ChromaDB.</li>
+          </ul>
+        </li>
+        <li class="step is-current" aria-current="step">
+          <span class="marker" aria-hidden="true"></span>
+          <div class="meta">2025 — Present <span class="sep">·</span> Goldsmiths, University of London <span class="now">Now</span></div>
+          <h3 class="title">BSc Computer Science — AI/ML track</h3>
+          <p class="desc">Studying remotely from Cairo, with a focus on machine learning and backend systems.</p>
+        </li>
+        <li class="step is-upcoming">
+          <span class="marker" aria-hidden="true"></span>
+          <div class="meta">Next</div>
+          <h3 class="title">Software engineering internship</h3>
+          <p class="desc">Looking for a backend or AI/ML engineering role.</p>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section class="contact-band" id="contact" aria-labelledby="contact-title">
+    <div class="container">
+      <div class="contact">
+        <div class="head">
+          <h2 class="ctitle" id="contact-title">Interested in collaboration or have an offer? <strong>Contact me.</strong></h2>
+          <p class="sub">Open to internships, projects, and any question you may have about my work.</p>
+        </div>
+        <form class="term cform" id="cform" novalidate>
+          <div class="term-bar"><span class="dot dot-ember"></span><span class="dot dot-warning"></span><span class="dot dot-success"></span><span class="term-title">~/contact</span></div>
+          <div class="term-body">
+            <div class="row">
+              <label class="fld" for="c-name"><span class="key"><span class="prompt" aria-hidden="true">&gt;</span> name</span>
+                <input class="tin" id="c-name" type="text" name="name" autocomplete="name" spellcheck="false"></label>
+              <label class="fld" for="c-email"><span class="key"><span class="prompt" aria-hidden="true">&gt;</span> email</span>
+                <input class="tin" id="c-email" type="email" name="email" autocomplete="email" spellcheck="false"></label>
+            </div>
+            <label class="fld" for="c-message"><span class="key"><span class="prompt" aria-hidden="true">&gt;</span> message</span>
+              <textarea class="tin" id="c-message" name="message" rows="4"></textarea></label>
+            <div class="send-row">
+              <output class="out" id="c-out" role="status" aria-live="polite"></output>
+              <button class="btn btn-primary btn-sm" type="submit">Send <svg class="i" aria-hidden="true"><use href="#i-send"/></svg></button>
+            </div>
+            <div class="mail"><span class="cm">// or email me directly</span><a class="mail-link" href="mailto:aly.ibrahim.2007@gmail.com">aly.ibrahim.2007@gmail.com</a></div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="container footer">
+    <div class="top">
+      <div class="id">
+        <a class="fname" href="#top">Aly Ibrahim</a>
+        <span class="fsep" aria-hidden="true"></span>
+        <nav class="site-links" aria-label="Footer">
+          <a class="flink" href="#stack">Stack</a>
+          <a class="flink" href="#work">Work</a>
+          <a class="flink" href="#experience">Experience</a>
+        </nav>
+      </div>
+      <div class="elsewhere">
+        <a class="ext" href="https://github.com/AlyIbrahim1" target="_blank" rel="noopener" aria-label="GitHub"><svg class="brand" aria-hidden="true"><use href="#br-github"/></svg><span class="lbl">GitHub</span><svg class="i" aria-hidden="true"><use href="#i-arrow-ur"/></svg></a>
+        <a class="ext" href="https://www.linkedin.com/" target="_blank" rel="noopener" aria-label="LinkedIn"><svg class="brand" aria-hidden="true"><use href="#br-linkedin"/></svg><span class="lbl">LinkedIn</span><svg class="i" aria-hidden="true"><use href="#i-arrow-ur"/></svg></a>
+        <a class="ext" href="mailto:aly.ibrahim.2007@gmail.com" aria-label="Email"><svg class="brand" aria-hidden="true"><use href="#br-mail"/></svg><span class="lbl">Email</span><svg class="i" aria-hidden="true"><use href="#i-arrow-ur"/></svg></a>
+        <button class="btn btn-icon btn-sm is-round" type="button" id="to-top" aria-label="Back to top"><svg class="i"><use href="#i-arrow-up"/></svg></button>
+      </div>
+    </div>
+    <div class="bottom">
+      <span>© <span id="yr">2026</span> Aly Ibrahim</span>
+      <span class="clock"><i class="d"></i>Cairo <span class="time" id="clock">--:--</span> · <span id="tz">UTC+3</span></span>
+    </div>
+  </div>
+</footer>
+
+
+<dialog class="pdialog" id="projects-dialog" aria-labelledby="pd-title">
+  <div class="pd-head">
+    <div>
+      <div class="eyebrow">Archive</div>
+      <h2 class="pd-title" id="pd-title">All projects</h2>
+    </div>
+    <button class="btn btn-icon" type="button" id="pd-close" aria-label="Close"><svg class="i"><use href="#i-x"/></svg></button>
+  </div>
+      <ul class="more">
+        <li><a href="https://github.com/AlyIbrahim1" target="_blank" rel="noopener"><span class="t">claude-statusline</span><span class="d">A Neovim statusline that reads Claude Code’s live JSON over stdin.</span><span class="s">Neovim · CLI <svg class="i"><use href="#i-arrow-ur"/></svg></span></a></li>
+        <li><a href="https://github.com/AlyIbrahim1" target="_blank" rel="noopener"><span class="t">Egyptian Adventure</span><span class="d">A 2D platformer that started as a university final project.</span><span class="s">JavaScript · p5.js <svg class="i"><use href="#i-arrow-ur"/></svg></span></a></li>
+        <li><a href="https://github.com/AlyIbrahim1" target="_blank" rel="noopener"><span class="t">Internet History</span><span class="d">A history site rendered from structured JSON with templates.</span><span class="s">Handlebars · JSON <svg class="i"><use href="#i-arrow-ur"/></svg></span></a></li>
+      </ul>
+</dialog>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function () {
+  var $ = function (s) { return document.querySelector(s); };
+  $('#yr').textContent = new Date().getFullYear();
+
+  // NavBar: frosted once scrolled, active section link
+  var nav = $('#nav');
+  function onScroll() { nav.classList.toggle('is-scrolled', window.scrollY > 8); }
+  onScroll(); window.addEventListener('scroll', onScroll, { passive: true });
+  // Active section: explicit rules per section so the short Stack strip and the last section (Contact) highlight reliably
+  var links = document.querySelectorAll('.nav .link, .nav .mlink');
+  var sec = { stack: $('#stack'), work: $('#work'), experience: $('#experience'), contact: $('#contact') };
+  var current = null, ticking = false;
+  function activeSection() {
+    var vh = window.innerHeight, probe = vh * 0.4;
+    var navBottom = nav.querySelector('.nav-inner').getBoundingClientRect().bottom;
+    var atBottom = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 4;
+    var top = function (k) { return sec[k].getBoundingClientRect().top; };
+    if (atBottom || top('contact') <= probe) return 'contact';
+    if (top('experience') <= probe) return 'experience';
+    var st = sec.stack.getBoundingClientRect();
+    if (top('work') <= probe && st.bottom <= navBottom + 40) return 'work';
+    if (st.top <= vh * 0.6) return 'stack';
+    return null;
+  }
+  function updateActive() {
+    ticking = false;
+    var a = activeSection();
+    if (a === current) return;
+    current = a;
+    links.forEach(function (l) {
+      var on = l.getAttribute('href') === '#' + a;
+      l.classList.toggle('is-active', on);
+      if (on) l.setAttribute('aria-current', 'true'); else l.removeAttribute('aria-current');
+    });
+  }
+  function requestUpdate() { if (!ticking) { ticking = true; requestAnimationFrame(updateActive); } }
+  window.addEventListener('scroll', requestUpdate, { passive: true });
+  window.addEventListener('resize', requestUpdate);
+  updateActive();
+
+
+  // Mobile menu
+  var menuBtn = $('#menu-btn'), mnav = $('#mnav');
+  function setMenu(open) {
+    nav.classList.toggle('is-open', open);
+    mnav.hidden = !open;
+    menuBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    menuBtn.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+  }
+  menuBtn.addEventListener('click', function () { setMenu(mnav.hidden); });
+  mnav.addEventListener('click', function (e) { if (e.target.closest('a')) setMenu(false); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !mnav.hidden) { setMenu(false); menuBtn.focus(); } });
+  document.addEventListener('click', function (e) { if (!mnav.hidden && !nav.contains(e.target)) setMenu(false); });
+  window.addEventListener('resize', function () { if (window.innerWidth > 767 && !mnav.hidden) setMenu(false); });
+
+  // Footer: live Cairo clock + current offset
+  function tick() {
+    try {
+      var now = new Date();
+      $('#clock').textContent = new Intl.DateTimeFormat('en-GB', { hour: '2-digit', minute: '2-digit', timeZone: 'Africa/Cairo' }).format(now);
+      var p = new Intl.DateTimeFormat('en-US', { timeZone: 'Africa/Cairo', timeZoneName: 'shortOffset' }).formatToParts(now);
+      var tz = p.filter(function (x) { return x.type === 'timeZoneName'; })[0];
+      if (tz) $('#tz').textContent = tz.value.replace('GMT', 'UTC');
+    } catch (e) {}
+  }
+  tick(); setInterval(tick, 30000);
+  $('#to-top').addEventListener('click', function () { window.scrollTo({ top: 0, behavior: 'smooth' }); });
+
+  // ContactForm: validate, then hand off to the visitor's mail app
+  var form = $('#cform'), out = $('#c-out');
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var name = form.elements.name, email = form.elements.email, msg = form.elements.message;
+    var emailOk = /\S+@\S+\.\S+/.test(email.value), msgOk = msg.value.trim().length > 0;
+    email.setAttribute('aria-invalid', emailOk ? 'false' : 'true');
+    msg.setAttribute('aria-invalid', msgOk ? 'false' : 'true');
+    if (!emailOk || !msgOk) {
+      out.className = 'out is-error';
+      out.textContent = '✗ ' + (!emailOk ? 'email looks invalid' : 'message is empty');
+      (!emailOk ? email : msg).focus();
+      return;
+    }
+    var subject = 'Portfolio enquiry' + (name.value.trim() ? ' from ' + name.value.trim() : '');
+    var body = msg.value.trim() + '\n\n— ' + (name.value.trim() || 'Sent from your portfolio') + ' (' + email.value.trim() + ')';
+    window.location.href = 'mailto:aly.ibrahim.2007@gmail.com?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+    out.className = 'out is-sent';
+    out.textContent = '✓ opening your mail app — reply goes to ' + email.value.trim();
+  });
+
+
+  // All projects dialog
+  var dlg = $('#projects-dialog'), opener = $('#all-projects');
+  opener.addEventListener('click', function () {
+    if (dlg.showModal) dlg.showModal(); else dlg.setAttribute('open', '');
+    document.documentElement.classList.add('dialog-open');
+  });
+  function closeDlg() { if (dlg.close) dlg.close(); else dlg.removeAttribute('open'); }
+  $('#pd-close').addEventListener('click', closeDlg);
+  dlg.addEventListener('click', function (e) { if (e.target === dlg) closeDlg(); });
+  dlg.addEventListener('close', function () { document.documentElement.classList.remove('dialog-open'); opener.focus(); });
+
+  // Hero terminal: live log stream
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var logs = $('#logs');
+  var lines = [
+    ['INFO', 'req 7f3a…c1 · POST /v1/churn/predict'],
+    ['INFO', 'model churn_clf v3 · p(churn)=0.81'],
+    ['INFO', 'cache set churn:58213 · ttl 1h'],
+    ['INFO', '200 OK · 48ms'],
+    ['INFO', 'req 9b1e…04 · POST /v1/churn/predict'],
+    ['INFO', 'cache hit churn:58213 · 2ms'],
+    ['INFO', '200 OK · 3ms'],
+    ['INFO', 'req c42d…9a · POST /v1/churn/predict'],
+    ['WARN', 'db: slow query · 180ms · retrying replica'],
+    ['INFO', 'model churn_clf v3 · p(churn)=0.12'],
+    ['INFO', '200 OK · 221ms'],
+    ['INFO', 'req 1d07…e2 · POST /v1/churn/predict'],
+    ['WARN', 'auth: token expired · sub=svc-dashboard'],
+    ['WARN', '401 Unauthorized · 2ms'],
+    ['INFO', 'req 5a9c…3f · POST /v1/churn/batch · 250 ids'],
+    ['INFO', 'db: 250 rows · 38ms'],
+    ['INFO', 'model churn_clf v3 · 250 scored · 31 high-risk'],
+    ['INFO', '200 OK · 164ms'],
+    ['INFO', 'req e810…7b · POST /v1/churn/predict'],
+    ['WARN', 'db: customer 99999 not found'],
+    ['WARN', '404 Not Found · 6ms'],
+    ['INFO', 'req 3c6f…d8 · POST /v1/churn/predict'],
+    ['WARN', 'validation: tenure must be ≥ 0'],
+    ['WARN', '422 Unprocessable Entity · 1ms'],
+    ['INFO', 'req 88b2…41 · POST /v1/churn/predict'],
+    ['INFO', 'cache hit churn:60177 · 2ms'],
+    ['INFO', '200 OK · 4ms']
+  ], i = 4;
+  setInterval(function () {
+    var l = lines[i++ % lines.length];
+    var d = document.createElement('div');
+    d.innerHTML = '<span class="lv' + (l[0] === 'WARN' ? ' w' : l[0] === 'DEBUG' ? ' d' : '') + '">' + l[0] + '</span>' + l[1];
+    logs.appendChild(d);
+    while (logs.children.length > 4) logs.removeChild(logs.firstElementChild);
+  }, 1600);
+})();
+</script>
+</body>
+</html>

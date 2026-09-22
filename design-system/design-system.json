@@ -1,0 +1,212 @@
+{
+  "v": 3,
+  "assetGroups": {
+    "Icons": {
+      "files": {
+        "arrow-right.svg": {
+          "blob": "bedcf1b3ea31fa943ff467fbf2452c56",
+          "name": "arrow-right.svg",
+          "size": 218,
+          "type": "image/svg+xml"
+        },
+        "arrow-up-right.svg": {
+          "blob": "576b384d53ceea03857492574b0a3e68",
+          "name": "arrow-up-right.svg",
+          "size": 215,
+          "type": "image/svg+xml"
+        },
+        "arrow-up.svg": {
+          "blob": "370bd235bd1a7bc372edc6dbb8ad3258",
+          "name": "arrow-up.svg",
+          "size": 218,
+          "type": "image/svg+xml"
+        },
+        "close.svg": {
+          "blob": "4343ccb5275ca5aab138a7b7d88fc053",
+          "name": "close.svg",
+          "size": 217,
+          "type": "image/svg+xml"
+        },
+        "send.svg": {
+          "blob": "8b93c77d7a86ce48601ad65b84024459",
+          "name": "send.svg",
+          "size": 246,
+          "type": "image/svg+xml"
+        }
+      },
+      "name": "Icons",
+      "order": [
+        "arrow-up-right.svg",
+        "arrow-right.svg",
+        "arrow-up.svg",
+        "close.svg",
+        "send.svg"
+      ],
+      "tile": "s"
+    },
+    "Social": {
+      "files": {
+        "github.svg": {
+          "blob": "cccbfe452b9aeadd36bc93e7e8c7edde",
+          "name": "github.svg",
+          "size": 829,
+          "type": "image/svg+xml"
+        },
+        "linkedin.svg": {
+          "blob": "f01e5ba1b88738ddae987a5608a872bd",
+          "name": "linkedin.svg",
+          "size": 485,
+          "type": "image/svg+xml"
+        },
+        "mail.svg": {
+          "blob": "46513ea0616d28a56e88f2453bbff651",
+          "name": "mail.svg",
+          "size": 340,
+          "type": "image/svg+xml"
+        }
+      },
+      "name": "Social",
+      "order": [
+        "github.svg",
+        "linkedin.svg",
+        "mail.svg"
+      ],
+      "tile": "s"
+    },
+    "Stack": {
+      "files": {
+        "fastapi.svg": {
+          "blob": "4ed3dfa0cb7e10e090730ef3c78f7f5e",
+          "name": "fastapi.svg",
+          "size": 353,
+          "type": "image/svg+xml"
+        },
+        "github-actions.svg": {
+          "blob": "f829b770372076b0bf1cc2b9203392cc",
+          "name": "github-actions.svg",
+          "size": 1726,
+          "type": "image/svg+xml"
+        },
+        "langgraph.svg": {
+          "blob": "a994dd47b95dfc894c4d00f0d17b6a11",
+          "name": "langgraph.svg",
+          "size": 206,
+          "type": "image/svg+xml"
+        },
+        "postgresql.svg": {
+          "blob": "ea6393833a6370d36927544c207639b7",
+          "name": "postgresql.svg",
+          "size": 5208,
+          "type": "image/svg+xml"
+        },
+        "python.svg": {
+          "blob": "6196933b950cc0db356d976fd4003e5f",
+          "name": "python.svg",
+          "size": 1525,
+          "type": "image/svg+xml"
+        },
+        "react.svg": {
+          "blob": "4211c5f8e61f8c5d1c9c254e98775299",
+          "name": "react.svg",
+          "size": 2934,
+          "type": "image/svg+xml"
+        },
+        "scikit-learn.svg": {
+          "blob": "ac97e802480886f099db4b763e76ceba",
+          "name": "scikit-learn.svg",
+          "size": 4941,
+          "type": "image/svg+xml"
+        },
+        "sqlalchemy.svg": {
+          "blob": "47b58105e08cf28b9ceefefd4048e383",
+          "name": "sqlalchemy.svg",
+          "size": 2460,
+          "type": "image/svg+xml"
+        },
+        "supabase.svg": {
+          "blob": "f3144dca372a9137338be242293c5d3d",
+          "name": "supabase.svg",
+          "size": 308,
+          "type": "image/svg+xml"
+        },
+        "tailwind-css.svg": {
+          "blob": "ce07af1868326069bb2ec9b80967495e",
+          "name": "tailwind-css.svg",
+          "size": 603,
+          "type": "image/svg+xml"
+        },
+        "typescript.svg": {
+          "blob": "459b854c23a197c3c6bb9ddb83519929",
+          "name": "typescript.svg",
+          "size": 1297,
+          "type": "image/svg+xml"
+        }
+      },
+      "name": "Stack",
+      "order": [
+        "python.svg",
+        "fastapi.svg",
+        "postgresql.svg",
+        "sqlalchemy.svg",
+        "langgraph.svg",
+        "scikit-learn.svg",
+        "typescript.svg",
+        "react.svg",
+        "tailwind-css.svg",
+        "supabase.svg",
+        "github-actions.svg"
+      ],
+      "tile": "s"
+    },
+    "Textures": {
+      "files": {
+        "grain.svg": {
+          "blob": "003e69f908c1ebb906ee2a2fb84eec52",
+          "name": "grain.svg",
+          "size": 260,
+          "type": "image/svg+xml"
+        }
+      },
+      "name": "Textures",
+      "order": [
+        "grain.svg"
+      ],
+      "tile": "m"
+    }
+  },
+  "blobs": {},
+  "createdOnFiles": {
+    "at": "2026-09-22T06:05:36Z",
+    "v": 1
+  },
+  "docs": {
+    "readme": "project/README.md",
+    "sections": []
+  },
+  "groups": [
+    "Icons",
+    "Social",
+    "Stack",
+    "Textures"
+  ],
+  "lastChange": {
+    "by": "Aly",
+    "at": "2026-09-22T06:22:35Z",
+    "via": "Claude (Cowork)",
+    "note": "README: removed a duplicated Iconography section."
+  },
+  "layout": "files",
+  "libraries": [
+    {
+      "name": "react",
+      "version": "18"
+    },
+    {
+      "name": "react-dom",
+      "version": "18"
+    }
+  ],
+  "namespace": "Aly",
+  "sections": {},
+  "title": "Aly Ibrahim"
+}

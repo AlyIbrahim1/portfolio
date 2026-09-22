@@ -1,0 +1,14 @@
+<!-- @dsCard group="Surfaces" height=200 -->
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><title>TerminalWindow — preview</title></head>
+<body>
+<div id="root" class="ds-pad"></div>
+<script>
+  var A = window.Aly, h = React.createElement;
+  ReactDOM.createRoot(document.getElementById('root')).render(
+    h(A.TerminalWindow,{title:'~/api · main.py',footer:[h('span',{key:1},'python ',h('b',null,'3.12')),h('span',{key:2},'tests ',h('b',null,'passing'))]},h('pre',{className:'code-block',style:{margin:0,padding:'16px',color:'var(--code-punctuation)'}},h('span',{style:{color:'var(--code-keyword)'}},'@app.post'),'(',h('span',{style:{color:'var(--code-string)'}},'"/v1/churn/predict"'),')\n',h('span',{style:{color:'var(--code-keyword)'}},'async def '),h('span',{style:{color:'var(--code-function)'}},'predict'),'(req: Customer):\n    ',h('span',{style:{color:'var(--code-comment)'}},'# score one customer'),'\n    ',h('span',{style:{color:'var(--code-keyword)'}},'return '),'model.score(req)'))
+  );
+</script>
+</body>
+</html>

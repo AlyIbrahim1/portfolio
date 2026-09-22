@@ -1,0 +1,14 @@
+<!-- @dsCard group="Content" height=170 -->
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><title>SectionLabel — preview</title></head>
+<body>
+<div id="root" class="ds-pad"></div>
+<script>
+  var A = window.Aly, h = React.createElement;
+  ReactDOM.createRoot(document.getElementById('root')).render(
+    h(A.SectionLabel,{eyebrow:'Work',title:'Featured projects',dim:'& shipped systems',action:h(A.Button,{variant:'secondary',icon:'arrow-up-right'},'All Projects')})
+  );
+</script>
+</body>
+</html>

@@ -1,0 +1,14 @@
+<!-- @dsCard group="Foundations" height=120 -->
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><title>Icon — preview</title></head>
+<body>
+<div id="root" class="ds-pad"></div>
+<script>
+  var A = window.Aly, h = React.createElement;
+  ReactDOM.createRoot(document.getElementById('root')).render(
+    h('div',{className:'ds-row',style:{gap:'20px',color:'var(--ink-secondary)'}},A.iconNames.map(function(n){return h('span',{key:n,title:n,style:{display:'inline-flex'}},h(A.Icon,{name:n,size:22,label:n}));}))
+  );
+</script>
+</body>
+</html>

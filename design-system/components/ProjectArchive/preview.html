@@ -1,0 +1,14 @@
+<!-- @dsCard group="Showcase" height=330 -->
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><title>ProjectArchive — preview</title></head>
+<body>
+<div id="root" class="ds-pad"></div>
+<script>
+  var A = window.Aly, h = React.createElement;
+  ReactDOM.createRoot(document.getElementById('root')).render(
+    h('div',{style:{maxWidth:'720px'}},h(A.ProjectArchive,{inline:true,items:[{title:'claude-statusline',description:'A Neovim statusline that reads Claude Code’s live JSON over stdin.',stack:'Neovim · CLI'},{title:'Egyptian Adventure',description:'A 2D platformer that started as a university final project.',stack:'JavaScript · p5.js'},{title:'Internet History',description:'A history site rendered from structured JSON with templates.',stack:'Handlebars · JSON'}]}))
+  );
+</script>
+</body>
+</html>

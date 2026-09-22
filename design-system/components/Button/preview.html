@@ -1,0 +1,16 @@
+<!-- @dsCard group="Actions" height=150 -->
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><title>Button — preview</title></head>
+<body>
+<div id="root" class="ds-pad"></div>
+<script>
+  var A = window.Aly, h = React.createElement;
+  ReactDOM.createRoot(document.getElementById('root')).render(
+    h('div',{className:'ds-stack'},
+ h('div',{className:'ds-row'},h(A.Button,{variant:'primary',icon:'arrow-right',shine:true},'View the work'),h(A.Button,{variant:'secondary'},'Contact me'),h(A.Button,{variant:'ghost'},'Details'),h(A.Button,{variant:'primary',disabled:true},'Disabled')),
+ h('div',{className:'ds-row'},h(A.Button,{variant:'primary',size:'sm'},'Let’s talk'),h(A.Button,{variant:'secondary',size:'sm',icon:'arrow-up-right'},'All Projects'),h(A.Button,{variant:'icon','aria-label':'Close'},h(A.Icon,{name:'close'})),h(A.Button,{variant:'icon',size:'sm',round:true,'aria-label':'Back to top'},h(A.Icon,{name:'arrow-up'}))))
+  );
+</script>
+</body>
+</html>

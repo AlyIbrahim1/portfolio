@@ -1,0 +1,17 @@
+<!-- @dsCard group="Showcase" height=470 -->
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><title>Timeline — preview</title></head>
+<body>
+<div id="root" class="ds-pad"></div>
+<script>
+  var A = window.Aly, h = React.createElement;
+  ReactDOM.createRoot(document.getElementById('root')).render(
+    h(A.Timeline,{items:[
+ {state:'done',date:'Aug 2026 — Sep 2026',org:'e& Egypt',title:'AI & Analytics Intern',description:'Worked on the AI & Advanced Analytics team, owning two projects end to end.',bullets:['Built a customer-churn prediction pipeline, from feature engineering to scored output.','Shipped a RAG customer-service agent on LangGraph and ChromaDB.']},
+ {state:'current',date:'2025 — Present',org:'Goldsmiths, University of London',title:'BSc Computer Science — AI/ML track',description:'Studying remotely from Cairo, with a focus on machine learning and backend systems.'},
+ {state:'upcoming',date:'Next',title:'Software engineering internship',description:'Looking for a backend or AI/ML engineering role.'}]})
+  );
+</script>
+</body>
+</html>

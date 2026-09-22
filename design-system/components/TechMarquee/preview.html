@@ -1,0 +1,14 @@
+<!-- @dsCard group="Showcase" height=100 -->
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><title>TechMarquee — preview</title></head>
+<body>
+<div id="root"></div>
+<script>
+  var A = window.Aly, h = React.createElement;
+  ReactDOM.createRoot(document.getElementById('root')).render(
+    h('div',{style:{padding:'16px 0'}},h(A.TechMarquee,{items:[['python','Python'],['fastapi','FastAPI'],['postgresql','PostgreSQL'],['sqlalchemy','SQLAlchemy'],['langgraph','LangGraph'],['scikit-learn','scikit-learn'],['typescript','TypeScript'],['react','React'],['tailwind-css','Tailwind CSS'],['supabase','Supabase'],['github-actions','GitHub Actions']].map(function(x){return{logo:x[0],label:x[1]};})}))
+  );
+</script>
+</body>
+</html>

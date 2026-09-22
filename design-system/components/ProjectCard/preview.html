@@ -1,0 +1,16 @@
+<!-- @dsCard group="Showcase" height=520 -->
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><title>ProjectCard — preview</title></head>
+<body>
+<div id="root" class="ds-pad"></div>
+<script>
+  var A = window.Aly, h = React.createElement;
+  ReactDOM.createRoot(document.getElementById('root')).render(
+    h('div',{className:'projects',style:{paddingBottom:0}},
+ h(A.ProjectCard,{title:'RAG customer-service agent',art:'chat',lead:true,tags:['Individual project · e&','LangGraph · ChromaDB · Embeddings'],description:'Answers customer questions from internal documents, with retrieval over embedded knowledge and a LangGraph flow for routing and follow-ups.'}),
+ h(A.ProjectCard,{title:'Customer churn prediction',art:'chart',lead:true,tags:['Individual project · e&','Python · ML pipeline'],description:'Flags telecom customers likely to leave so retention teams can act first.'}))
+  );
+</script>
+</body>
+</html>

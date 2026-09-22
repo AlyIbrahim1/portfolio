@@ -1,0 +1,14 @@
+<!-- @dsCard group="Content" height=80 -->
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><title>Pill — preview</title></head>
+<body>
+<div id="root" class="ds-pad"></div>
+<script>
+  var A = window.Aly, h = React.createElement;
+  ReactDOM.createRoot(document.getElementById('root')).render(
+    h('div',{className:'ds-row'},h(A.Pill,{variant:'status'},'Open to internships'),h(A.Pill,{variant:'solid'},'Individual project · e&'),h(A.Pill,null,'LangGraph · ChromaDB · Embeddings'),h(A.Pill,{variant:'now'}))
+  );
+</script>
+</body>
+</html>

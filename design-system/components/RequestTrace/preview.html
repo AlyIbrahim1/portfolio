@@ -1,0 +1,17 @@
+<!-- @dsCard group="Surfaces" height=400 -->
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><title>RequestTrace — preview</title></head>
+<body>
+<div id="root" class="ds-pad"></div>
+<script>
+  var A = window.Aly, h = React.createElement;
+  ReactDOM.createRoot(document.getElementById('root')).render(
+    h('div',{style:{maxWidth:'560px'}},h(A.RequestTrace,{title:'~/trace · request 7f3a…c1',method:'POST',path:'/v1/churn/predict',status:'200 OK',
+ spans:[{name:'http.request',start:0,width:100,ms:48},{name:'auth.verify',start:2,width:6,ms:3,io:true},{name:'db.get_customer',start:8,width:23,ms:11,io:true},{name:'features.build',start:31,width:13,ms:6},{name:'model.predict',start:44,width:44,ms:21},{name:'cache.set',start:88,width:6,ms:3,io:true}],
+ logs:[['INFO','req 7f3a…c1 · POST /v1/churn/predict'],['INFO','model churn_clf v3 · p(churn)=0.81'],['WARN','db: slow query · 180ms · retrying replica'],['INFO','200 OK · 48ms']],
+ stats:[['p95','52ms'],['errors','0.0%'],['uptime','99.9%']]}))
+  );
+</script>
+</body>
+</html>
