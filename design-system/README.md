@@ -1,5 +1,7 @@
 A personal developer-portfolio system for showing work and starting conversations. It pairs warm near-black surfaces and off-white ink with polished chrome for actions and a single ember red as atmosphere. Every screen should feel like it was built with care, by someone you'd want on your team.
 
+There is a full reference of how the page should look like as a template at @./template.html
+
 ## Content fundamentals
 
 Write for two readers at once. Recruiters skim for fit and proof. Developers read for substance and taste. The copy should give both what they need in the first few seconds, then reward a closer look.
