@@ -39,7 +39,7 @@ export function ContactForm({ email: recipient, accessKey }: ContactFormProps) {
       const response = await fetch('https://api.web3forms.com/submit', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-        body: JSON.stringify({ access_key: accessKey, subject: `Portfolio enquiry${name ? ` from ${name}` : ''}`, from_name: name || 'Portfolio visitor', name, email, message, botcheck: data.get('botcheck') }),
+        body: JSON.stringify({ access_key: accessKey, subject: `Portfolio enquiry${name ? ` from ${name}` : ''}`, from_name: name || 'Portfolio visitor', name, email, message, botcheck: Boolean(data.get('botcheck')) }),
       })
       const result = (await response.json()) as { success?: boolean }
       if (!response.ok || !result.success) throw new Error('send failed')

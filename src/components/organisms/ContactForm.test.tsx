@@ -34,7 +34,7 @@ describe('ContactForm', () => {
     expect(await screen.findByText(/✓ sent/)).toBeInTheDocument()
     const [url, init] = fetchMock.mock.calls[0]
     expect(url).toBe('https://api.web3forms.com/submit')
-    expect(JSON.parse(String(init?.body))).toMatchObject({ access_key: 'test-key', name: 'Ada Lovelace', email: 'ada@example.com', message: 'Hello & welcome', subject: 'Portfolio enquiry from Ada Lovelace' })
+    expect(JSON.parse(String(init?.body))).toMatchObject({ access_key: 'test-key', name: 'Ada Lovelace', email: 'ada@example.com', message: 'Hello & welcome', subject: 'Portfolio enquiry from Ada Lovelace', botcheck: false })
     expect(screen.getByLabelText(/message/)).toHaveValue('')
   })
 
