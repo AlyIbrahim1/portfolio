@@ -126,6 +126,20 @@ section[id],
   }
 }
 
+@media (max-width: 600px) {
+  .hero-inner {
+    padding-top: var(--space-6);
+  }
+
+  .hero .lede {
+    font-size: 15px;
+  }
+
+  .hero .facts {
+    margin-top: var(--space-6);
+  }
+}
+
 @media (min-width: 961px) {
   .hero {
     min-height: calc(100vh - var(--marquee-h));
