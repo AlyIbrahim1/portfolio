@@ -29,7 +29,7 @@ export function PortfolioPage() {
         <StackSection technologies={technologies} />
         <WorkSection projects={projects} archiveProjects={archiveProjects} />
         <ExperienceSection items={timeline} />
-        <ContactSection email={profile.email} />
+        <ContactSection email={profile.email} accessKey={profile.contactFormKey} />
       </main>
       <Footer name={profile.name} links={navigation} elsewhere={socialLinks} city={profile.city} timeZone={profile.timeZone} />
     </>

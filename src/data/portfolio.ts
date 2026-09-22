@@ -12,7 +12,9 @@ import type {
 
 export const profile = {
   name: 'Aly Ibrahim',
-  email: 'aly.ibrahim.2007@gmail.com',
+  email: 'aly.ibrahim.w@icloud.com',
+  // ponytail: Web3Forms keys are public by design — they can only deliver to the signup address.
+  contactFormKey: 'ff6ff57b-fd2d-4bde-af30-234b3c05e458',
   city: 'Cairo',
   timeZone: 'Africa/Cairo',
   location: 'Cairo, Egypt',
