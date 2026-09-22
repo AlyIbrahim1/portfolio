@@ -3,6 +3,17 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches: [main]
+    # Only files that end up in the built site (or change how it's built).
+    paths:
+      - src/**
+      - public/**
+      - index.html
+      - package.json
+      - package-lock.json
+      - vite.config.ts
+      - tsconfig.json
+      - eslint.config.js
+      - .github/workflows/deploy.yml
   workflow_dispatch:
 
 permissions:
