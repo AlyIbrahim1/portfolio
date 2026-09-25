@@ -10,6 +10,9 @@ import type {
   TraceStat,
 } from '../types/portfolio'
 
+const ragPreview = new URL('../assets/project-previews/eand-rag-agent-card.webp', import.meta.url).href
+const statuslinePreview = new URL('../assets/project-previews/claude-statusline-card.webp', import.meta.url).href
+
 export const profile = {
   name: 'Aly Ibrahim',
   email: 'aly.ibrahim.w@icloud.com',
@@ -54,8 +57,8 @@ export const projects = [
     title: 'RAG customer-service assistant',
     description: 'Answers customer questions from internal documentation — LangGraph routes each query and an MCP tool pulls ChromaDB context only when the answer depends on the docs.',
     href: 'https://github.com/AlyIbrahim1',
-    art: 'chat',
-    artLabel: 'Placeholder screenshot of a chat interface',
+    visual: { type: 'preview', src: ragPreview },
+    artLabel: 'e& customer website with the AI assistant chat open',
     tags: ['Internship · e& Egypt', 'LangGraph · ChromaDB · MCP'],
     lead: true,
     external: true,
@@ -65,7 +68,7 @@ export const projects = [
     title: 'Customer churn prediction',
     description: 'Flags telecom customers likely to leave across 7,043 records — benchmarked SVM, LightGBM and random forest, then packaged the winner (F2 0.737) for batch and single predictions.',
     href: 'https://github.com/AlyIbrahim1',
-    art: 'chart',
+    visual: { type: 'placeholder', artwork: 'chart' },
     artLabel: 'Placeholder screenshot of a model evaluation view',
     tags: ['Internship · e& Egypt', 'Python · scikit-learn · LightGBM'],
     lead: true,
@@ -76,8 +79,8 @@ export const projects = [
     title: 'claude-statusline',
     description: 'An open-source Claude Code statusline for context, rate limits, cost and tokens — a Rust renderer cut startup from ~100ms to ~5ms, with 3.8k npm downloads.',
     href: 'https://github.com/AlyIbrahim1/claude-statusline',
-    art: 'code',
-    artLabel: 'Placeholder screenshot of source code',
+    visual: { type: 'preview', src: statuslinePreview },
+    artLabel: 'claude-statusline session history dashboard showing usage and cost',
     tags: ['Open source · npm', 'Rust · JavaScript · GitHub Actions'],
     lead: true,
     external: true,
@@ -87,7 +90,7 @@ export const projects = [
     title: 'Rent Manager',
     description: 'Tracks renters, properties, dues and invoices for my family — tenant-scoped FastAPI APIs, Supabase auth, React dashboards and PDF receipts, with CI on every push.',
     href: 'https://github.com/AlyIbrahim1',
-    art: 'table',
+    visual: { type: 'placeholder', artwork: 'table' },
     artLabel: 'Placeholder screenshot of a rent payments table',
     tags: ['Solo build', 'FastAPI · React · Supabase'],
     lead: true,

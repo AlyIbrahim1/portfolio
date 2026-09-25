@@ -6,14 +6,13 @@ import { TableArtwork } from '../artwork/TableArtwork'
 
 interface ProjectArtworkProps {
   kind: ProjectArtworkKind
-  label: string
 }
 
-export function ProjectArtwork({ kind, label }: ProjectArtworkProps) {
+export function ProjectArtwork({ kind }: ProjectArtworkProps) {
   switch (kind) {
-    case 'chat': return <ChatArtwork label={label} />
-    case 'chart': return <ChartArtwork label={label} />
-    case 'table': return <TableArtwork label={label} />
-    case 'code': return <CodeArtwork label={label} />
+    case 'chat': return <ChatArtwork />
+    case 'chart': return <ChartArtwork />
+    case 'table': return <TableArtwork />
+    case 'code': return <CodeArtwork />
   }
 }

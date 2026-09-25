@@ -41,12 +41,16 @@ export interface Technology {
 
 export type ProjectArtworkKind = 'chat' | 'chart' | 'table' | 'code'
 
+export type ProjectVisual =
+  | { type: 'placeholder'; artwork: ProjectArtworkKind }
+  | { type: 'preview'; src: string }
+
 export interface Project {
   id: string
   title: string
   description: string
   href: string
-  art: ProjectArtworkKind
+  visual: ProjectVisual
   artLabel: string
   tags: readonly string[]
   lead?: boolean
