@@ -9,6 +9,8 @@ import { NavBar } from '../components/organisms/NavBar'
 import {
   archiveProjects,
   navigation,
+  nextTimelineItem,
+  nowTimelineItemId,
   profile,
   projects,
   socialLinks,
@@ -28,7 +30,7 @@ export function PortfolioPage() {
         <HeroSection socials={socialLinks} spans={traceSpans} logs={traceLogs} stats={traceStats} location={profile.location} education={profile.education} />
         <StackSection technologies={technologies} />
         <WorkSection projects={projects} archiveProjects={archiveProjects} />
-        <ExperienceSection items={timeline} />
+        <ExperienceSection items={timeline} nextItem={nextTimelineItem} nowItemId={nowTimelineItemId} />
         <ContactSection email={profile.email} accessKey={profile.contactFormKey} />
       </main>
       <Footer name={profile.name} links={navigation} elsewhere={socialLinks} city={profile.city} timeZone={profile.timeZone} />

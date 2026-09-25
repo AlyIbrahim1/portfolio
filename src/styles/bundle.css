@@ -444,33 +444,27 @@ textarea.input { height: auto; min-height: 132px; padding: var(--space-3) var(--
 .timeline { list-style: none; margin: 0; padding: 0; max-width: 760px; }
 .step { position: relative; padding: 0 0 var(--space-8) calc(16px + var(--space-6)); }
 .step:last-child { padding-bottom: 0; }
-.step::before { content: ""; position: absolute; left: 7px; top: 22px; bottom: -2px; width: 2px; border-radius: 2px; background: var(--border-hairline); }
+.step::before { content: ""; position: absolute; left: 7px; top: 22px; bottom: -2px; width: 2px; border-radius: 2px; background: var(--ink-primary); }
 .step:last-child::before { display: none; }
-.step.is-done::before { background: var(--ink-primary); }
-.step.is-current::before { background: linear-gradient(180deg, var(--ember-400) 0%, var(--border-hairline) 70%); }
-.marker { position: absolute; left: 0; top: 2px; width: 16px; height: 16px; border-radius: var(--radius-full); border: 2px solid var(--border-hairline); background: var(--bg-canvas); }
-.is-done .marker { border-color: var(--ink-primary); }
-.is-current .marker { border-color: var(--ink-primary); box-shadow: 0 0 0 4px rgba(214,52,40,0.18), 0 0 18px rgba(214,52,40,0.55); }
-.is-current .marker::after { content: ""; position: absolute; inset: 3px; border-radius: var(--radius-full); background: var(--ember-400); }
-/* Breathing current step — one --pulse value drives the halo, the core and the rail */
-@property --pulse { syntax: "<number>"; inherits: true; initial-value: 1; }
-.step.is-current { --pulse: 1; isolation: isolate; animation: breathe 3.2s ease-in-out infinite; }
-@keyframes breathe { 0%, 100% { --pulse: 0; } 50% { --pulse: 1; } }
-.step.is-current::before {
+.step.is-highlighted::before {
   background: linear-gradient(180deg,
-    color-mix(in srgb, var(--ember-400) calc(var(--pulse) * 100%), var(--border-hairline)) 0%,
-    var(--border-hairline) 70%);
+    color-mix(in srgb, var(--ember-400) calc(var(--pulse) * 100%), var(--border-strong)) 0%,
+    var(--border-strong) 70%);
 }
-.is-current .marker { box-shadow: none; }
-.is-current .marker::before {
+.marker { position: absolute; left: 0; top: 2px; width: 16px; height: 16px; border-radius: var(--radius-full); border: 2px solid var(--ink-primary); background: var(--bg-canvas); }
+.is-highlighted .marker::after { content: ""; position: absolute; inset: 3px; border-radius: var(--radius-full); background: var(--ember-400); }
+/* Breathing highlighted marker and rail */
+@property --pulse { syntax: "<number>"; inherits: true; initial-value: 1; }
+.step.is-highlighted { --pulse: 1; isolation: isolate; animation: breathe 3.2s ease-in-out infinite; }
+@keyframes breathe { 0%, 100% { --pulse: 0; } 50% { --pulse: 1; } }
+.is-highlighted .marker::before {
   content: ""; position: absolute; z-index: -1; left: 50%; top: 50%; width: 64px; height: 64px;
   transform: translate(-50%, -50%); border-radius: 50%; pointer-events: none;
   background: radial-gradient(closest-side, rgba(224,57,47,0.55) 0%, rgba(214,52,40,0.28) 35%, rgba(198,43,38,0.10) 62%, rgba(198,43,38,0) 100%);
   opacity: var(--pulse);
 }
-.is-current .marker::after { opacity: calc(0.45 + 0.55 * var(--pulse)); transform: scale(calc(0.8 + 0.2 * var(--pulse))); }
-@media (prefers-reduced-motion: reduce) { .step.is-current { animation: none; --pulse: 1; } }
-.is-upcoming .marker { border-color: var(--border-strong); border-style: dashed; }
+.is-highlighted .marker::after { opacity: calc(0.45 + 0.55 * var(--pulse)); transform: scale(calc(0.8 + 0.2 * var(--pulse))); }
+@media (prefers-reduced-motion: reduce) { .step.is-highlighted { animation: none; --pulse: 1; } }
 .meta { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2); font-family: var(--font-mono); font-size: 12px; color: var(--ink-tertiary); line-height: 20px; }
 .meta .sep { color: var(--border-strong); }
 .now { height: 18px; padding: 0 var(--space-2); display: inline-flex; align-items: center; font-family: var(--font-sans); font-weight: 500; font-size: 11px; color: var(--ink-inverse); background: var(--gradient-chrome); border-radius: var(--radius-full); box-shadow: inset 0 1px 0 rgba(255,255,255,0.9); }
@@ -480,7 +474,7 @@ textarea.input { height: auto; min-height: 132px; padding: var(--space-3) var(--
 .step .list li { position: relative; padding-left: var(--space-4); }
 .step .list li::before { content: ""; position: absolute; left: 0; top: 0.72em; width: 6px; height: 1px; background: var(--ember-400); }
 .step .list li + li { margin-top: var(--space-1); }
-.is-upcoming .title { color: var(--ink-secondary); } .is-upcoming .desc { color: var(--ink-tertiary); }
+.is-next .title { color: var(--ink-secondary); } .is-next .desc { color: var(--ink-tertiary); }
 
 /* ---- ContactForm ---- */
 .contact-band { position: relative; padding-block: var(--space-24); background: var(--bg-canvas); isolation: isolate; }

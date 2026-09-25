@@ -67,7 +67,6 @@ export interface ArchiveProject {
 
 export interface TimelineItem {
   id: string
-  state: 'done' | 'current' | 'upcoming'
   date: string
   org?: string
   title: string

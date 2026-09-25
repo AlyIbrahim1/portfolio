@@ -16,7 +16,6 @@ const statuslinePreview = new URL('../assets/project-previews/claude-statusline-
 export const profile = {
   name: 'Aly Ibrahim',
   email: 'aly.ibrahim.w@icloud.com',
-  // ponytail: Web3Forms keys are public by design — they can only deliver to the signup address.
   contactFormKey: 'ff6ff57b-fd2d-4bde-af30-234b3c05e458',
   city: 'Cairo',
   timeZone: 'Africa/Cairo',
@@ -56,10 +55,10 @@ export const projects = [
     id: 'rag-customer-service-assistant',
     title: 'RAG customer-service assistant',
     description: 'Answers customer questions from internal documentation — LangGraph routes each query and an MCP tool pulls ChromaDB context only when the answer depends on the docs.',
-    href: 'https://github.com/AlyIbrahim1',
+    href: 'https://github.com/AlyIbrahim1/rag-customer-service-agent',
     visual: { type: 'preview', src: ragPreview },
     artLabel: 'e& customer website with the AI assistant chat open',
-    tags: ['Internship · e& Egypt', 'LangGraph · ChromaDB · MCP'],
+    tags: ['Internship · e& Egypt', 'LangGraph · RAG · MCP'],
     lead: true,
     external: true,
   },
@@ -70,7 +69,7 @@ export const projects = [
     href: 'https://github.com/AlyIbrahim1',
     visual: { type: 'placeholder', artwork: 'chart' },
     artLabel: 'Placeholder screenshot of a model evaluation view',
-    tags: ['Internship · e& Egypt', 'Python · scikit-learn · LightGBM'],
+    tags: ['Internship · e& Egypt', 'Python · ML'],
     lead: true,
     external: true,
   },
@@ -81,7 +80,7 @@ export const projects = [
     href: 'https://github.com/AlyIbrahim1/claude-statusline',
     visual: { type: 'preview', src: statuslinePreview },
     artLabel: 'claude-statusline session history dashboard showing usage and cost',
-    tags: ['Open source · npm', 'Rust · JavaScript · GitHub Actions'],
+    tags: ['Open source · npm', 'Rust · JavaScript · Claude Integration'],
     lead: true,
     external: true,
   },
@@ -92,7 +91,7 @@ export const projects = [
     href: 'https://github.com/AlyIbrahim1',
     visual: { type: 'placeholder', artwork: 'table' },
     artLabel: 'Placeholder screenshot of a rent payments table',
-    tags: ['Solo build', 'FastAPI · React · Supabase'],
+    tags: ['Solo build', 'FastAPI · React · Fullstack'],
     lead: true,
     external: true,
   },
@@ -103,10 +102,13 @@ export const archiveProjects = [
 ] as const satisfies readonly ArchiveProject[]
 
 export const timeline = [
-  { id: 'eand-internship', state: 'done', date: 'Aug 2026 — Sep 2026', org: 'e& Egypt', title: 'AI & Advanced Analytics Intern', description: 'Built two AI projects end to end on the AI & Advanced Analytics team.', bullets: ['Built a churn prediction pipeline on 7,043 telecom records; random forest reached an F2 of 0.737.', 'Built a RAG customer-service assistant with LangGraph, ChromaDB and MCP-routed retrieval.'] },
-  { id: 'university-of-london', state: 'current', date: 'Oct 2024 — 2028', org: 'University of London (Goldsmiths) · EUE', title: 'BSc Computer Science — ML & AI track', description: 'Studying in Cairo through EUE, on track for First-class Honours (~3.8 GPA).' },
-  { id: 'next-role', state: 'upcoming', date: 'Next', title: 'Software engineering internship', description: 'Looking for a backend or AI/ML engineering role.' },
+  { id: 'university-of-london', date: 'Oct 2024 — 2028', org: 'University of London (Goldsmiths) · EUE', title: 'BSc Computer Science — ML & AI track', description: 'Studying in Cairo through EUE, First-class Honours ~3.8 GPA.' },
+  { id: 'eand-internship', date: 'Aug 2026 — Sep 2026', org: 'e& Egypt', title: 'AI & Advanced Analytics Intern', description: 'Built two AI projects end to end on the AI & Advanced Analytics team.', bullets: ['Built a churn prediction pipeline on 7,043 telecom records; random forest reached an F2 of 0.737.', 'Built a RAG customer-service assistant with LangGraph, ChromaDB and MCP-routed retrieval.'] },
 ] as const satisfies readonly TimelineItem[]
+
+export const nowTimelineItemId: (typeof timeline)[number]['id'] = 'university-of-london'
+
+export const nextTimelineItem = { id: 'next-role', date: 'Next', title: 'Software engineering / AI internship', description: 'Looking for a backend or AI/ML engineering role.' } satisfies TimelineItem
 
 export const traceSpans = [
   { id: 'request', name: 'http.request', start: 0, width: 100, ms: 48 },
