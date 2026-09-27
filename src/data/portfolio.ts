@@ -12,6 +12,7 @@ import type {
 
 const ragPreview = new URL('../assets/project-previews/eand-rag-agent-card.webp', import.meta.url).href
 const statuslinePreview = new URL('../assets/project-previews/claude-statusline-card.webp', import.meta.url).href
+const telecomRetentionPreview = new URL('../assets/project-previews/telecom-retention-preview.webp', import.meta.url).href
 
 export const profile = {
   name: 'Aly Ibrahim',
@@ -63,13 +64,13 @@ export const projects = [
     external: true,
   },
   {
-    id: 'customer-churn-prediction',
-    title: 'Customer churn prediction',
-    description: 'Flags telecom customers likely to leave across 7,043 records — benchmarked SVM, LightGBM and random forest, then packaged the winner (F2 0.737) for batch and single predictions.',
-    href: 'https://github.com/AlyIbrahim1',
-    visual: { type: 'placeholder', artwork: 'chart' },
-    artLabel: 'Placeholder screenshot of a model evaluation view',
-    tags: ['Internship · e& Egypt', 'Python · ML'],
+    id: 'telecom-retention-workbench',
+    title: 'Telecom retention workbench',
+    description: 'Turns churn scores for 7,043 telecom customers into a local retention workbench — review records, build capacity-limited campaigns, and log simulated outreach. The random forest model reached F2 0.737.',
+    href: 'https://github.com/AlyIbrahim1/telecom-retention-campaign-workbench',
+    visual: { type: 'preview', src: telecomRetentionPreview },
+    artLabel: 'Retention Workbench overview showing customer metrics, churn predictions and the assistant panel',
+    tags: ['Internship · e& Egypt', 'React · FastAPI · ML'],
     lead: true,
     external: true,
   },
