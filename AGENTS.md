@@ -12,7 +12,7 @@ scope unless the task explicitly asks for it.
 
 ## Content
 
-For the information about me that should be written in the project, including headline, timeline, projects, and socials, should all be extracted from `@../Resume/experience-inventory/` as the single source of truth about me.
+For the information about me that should be written in the project, including headline, timeline, projects, and socials, should all be extracted from the Obsidian vault at `/mnt/d/Obsidian/Experience Inventory` as the single source of truth about me. Read its `AGENTS.md` first (workflow 3 covers the portfolio): it has the map and trust rules (only `visibility: public` repos get links; skip `[Draft, unverified]`, `[Inferred]` and warning/todo callouts; keep numbers exactly as recorded). If the portfolio and the vault disagree, tell me and update the vault only after I confirm which is right.
 
 ## Progressive disclosure
 
