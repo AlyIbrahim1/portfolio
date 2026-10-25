@@ -2,6 +2,10 @@
   // Static-assets Worker: no script, Cloudflare serves the Vite build directly.
   "name": "portfolio",
   "compatibility_date": "2026-10-25",
+  // Serve only on alyibrahim.dev; without these, every deploy re-enables the
+  // public workers.dev and preview URLs turned off in the dashboard.
+  "workers_dev": false,
+  "preview_urls": false,
   "assets": {
     "directory": "./dist",
     // Unknown paths get public/404.html with a real 404 status.
