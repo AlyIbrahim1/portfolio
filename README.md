@@ -62,7 +62,9 @@ change what the site says, edit `src/data/portfolio.ts`.
 
 The site runs as a static-assets Cloudflare Worker named `portfolio`: there is
 no Worker script, Cloudflare serves `dist/` directly. `wrangler.jsonc` holds
-the Worker config, and unknown paths fall back to `index.html`.
+the Worker config: unknown paths get `public/404.html` with a 404 status, and
+`public/_headers` lets browsers cache the fingerprinted files in `/assets` for
+a year.
 
 Workers Builds deploys from the GitHub repo. Pushing to `main` deploys to
 https://alyibrahim.dev/; other branches upload preview versions. The build is

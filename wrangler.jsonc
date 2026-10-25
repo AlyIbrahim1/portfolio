@@ -4,7 +4,7 @@
   "compatibility_date": "2026-10-25",
   "assets": {
     "directory": "./dist",
-    // Unknown paths fall back to index.html, matching the dashboard default.
-    "not_found_handling": "single-page-application"
+    // Unknown paths get public/404.html with a real 404 status.
+    "not_found_handling": "404-page"
   }
 }
