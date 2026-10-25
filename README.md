@@ -1,7 +1,7 @@
 # Portfolio
 
 My personal developer portfolio — a single-page site built from a hand-written
-design system, migrated to React and TypeScript, and deployed to Cloudflare Pages.
+design system, migrated to React and TypeScript, and deployed to Cloudflare Workers.
 
 **Live site:** https://alyibrahim.dev/
 
@@ -16,12 +16,12 @@ design system, migrated to React and TypeScript, and deployed to Cloudflare Page
 - **Accessibility built in.** Semantic landmarks, a keyboard-navigable project
   dialog with focus return, `aria-current` section tracking, and a
   `prefers-reduced-motion` hook.
-- **Deployed on every push.** Cloudflare Pages lints, tests and builds before it
+- **Deployed on every push.** Cloudflare Workers Builds lints, tests and builds before it
   publishes, so a broken commit never reaches the live site.
 
 ## Stack
 
-React 19 · TypeScript 5.9 · Vite 7 · Vitest · ESLint · Cloudflare Pages
+React 19 · TypeScript 5.9 · Vite 7 · Vitest · ESLint · Cloudflare Workers
 
 ## Getting started
 
@@ -60,14 +60,18 @@ change what the site says, edit `src/data/portfolio.ts`.
 
 ## Deployment
 
-Cloudflare Pages builds from the GitHub repo. Pushing to `main` deploys to
-https://alyibrahim.dev/; other branches get preview deployments. The project
-is configured in the Cloudflare dashboard:
+The site runs as a static-assets Cloudflare Worker named `portfolio`: there is
+no Worker script, Cloudflare serves `dist/` directly. `wrangler.jsonc` holds
+the Worker config, and unknown paths fall back to `index.html`.
+
+Workers Builds deploys from the GitHub repo. Pushing to `main` deploys to
+https://alyibrahim.dev/; other branches upload preview versions. The build is
+configured in the Cloudflare dashboard under the Worker's Settings → Build:
 
 | Setting | Value |
 |---|---|
 | Build command | `npm run lint && npm run test:run && npm run build` |
-| Build output directory | `dist` |
+| Deploy command | `npx wrangler deploy` |
 | Environment variable | `NODE_VERSION=22` |
 
 ## License

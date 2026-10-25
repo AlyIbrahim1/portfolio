@@ -1,0 +1,10 @@
+{
+  // Static-assets Worker: no script, Cloudflare serves the Vite build directly.
+  "name": "portfolio",
+  "compatibility_date": "2026-10-25",
+  "assets": {
+    "directory": "./dist",
+    // Unknown paths fall back to index.html, matching the dashboard default.
+    "not_found_handling": "single-page-application"
+  }
+}
