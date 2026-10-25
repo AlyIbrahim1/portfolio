@@ -1,9 +1,9 @@
 # Portfolio
 
 My personal developer portfolio — a single-page site built from a hand-written
-design system, migrated to React and TypeScript, and deployed to GitHub Pages.
+design system, migrated to React and TypeScript, and deployed to Cloudflare Pages.
 
-**Live site:** https://alyibrahim1.github.io/portfolio/
+**Live site:** https://alyibrahim.dev/
 
 ![The portfolio hero section](.github/assets/preview.webp)
 
@@ -16,12 +16,12 @@ design system, migrated to React and TypeScript, and deployed to GitHub Pages.
 - **Accessibility built in.** Semantic landmarks, a keyboard-navigable project
   dialog with focus return, `aria-current` section tracking, and a
   `prefers-reduced-motion` hook.
-- **Deployed on every push.** GitHub Actions lints, tests and builds before it
+- **Deployed on every push.** Cloudflare Pages lints, tests and builds before it
   publishes, so a broken commit never reaches the live site.
 
 ## Stack
 
-React 19 · TypeScript 5.9 · Vite 7 · Vitest · ESLint · GitHub Actions
+React 19 · TypeScript 5.9 · Vite 7 · Vitest · ESLint · Cloudflare Pages
 
 ## Getting started
 
@@ -41,7 +41,7 @@ npm run dev      # http://localhost:5173
 | `npm run preview` | Serve the production build locally |
 | `npm run lint` | Lint `src` and the Vite config |
 | `npm run test` | Run the tests in watch mode |
-| `npm run test:run` | Run the tests once (used by CI) |
+| `npm run test:run` | Run the tests once (used by the deploy build) |
 
 ## Project structure
 
@@ -60,9 +60,15 @@ change what the site says, edit `src/data/portfolio.ts`.
 
 ## Deployment
 
-Pushing to `main` triggers `.github/workflows/deploy.yml`, which installs,
-lints, tests, builds and publishes `dist/` to GitHub Pages. Assets are served
-from `/portfolio/`, set by `base` in `vite.config.ts`.
+Cloudflare Pages builds from the GitHub repo. Pushing to `main` deploys to
+https://alyibrahim.dev/; other branches get preview deployments. The project
+is configured in the Cloudflare dashboard:
+
+| Setting | Value |
+|---|---|
+| Build command | `npm run lint && npm run test:run && npm run build` |
+| Build output directory | `dist` |
+| Environment variable | `NODE_VERSION=22` |
 
 ## License
 
