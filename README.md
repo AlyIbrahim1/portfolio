@@ -37,8 +37,8 @@ npm run dev      # http://localhost:5173
 | Command | What it does |
 |---|---|
 | `npm run dev` | Start the dev server |
-| `npm run build` | Typecheck, then build to `dist/` |
-| `npm run preview` | Serve `dist/` through the Worker runtime, with the real headers and 404 page |
+| `npm run build` | Typecheck, build to `dist/`, then prerender the page into `dist/index.html` |
+| `npm run preview` | Build, then serve `dist/` through the Worker runtime, with the real headers and 404 page. It does not pick up later builds while running on a Windows drive under WSL (`/mnt/…`), so stop it and run it again after a change |
 | `npm run lint` | Lint `src` and the Vite config |
 | `npm run test` | Run the tests in watch mode |
 | `npm run test:run` | Run the tests once (used by the deploy build) |

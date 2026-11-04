@@ -45,18 +45,31 @@
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:image:alt" content="Aly Ibrahim's portfolio: “Engineering production systems and AI products” beside a request trace panel." />
 
-    <!-- Structured data (schema.org Person) -->
+    <!-- Structured data: WebSite gives Google the site name shown above the
+        result; Person ties the page to the GitHub and LinkedIn profiles -->
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
-        "@type": "Person",
-        "name": "Aly Ibrahim",
-        "url": "https://alyibrahim.dev/",
-        "image": "https://alyibrahim.dev/og.jpg",
-        "description": "Engineering production systems and AI products. CS student at the University of London, based in Cairo.",
-        "address": { "@type": "PostalAddress", "addressLocality": "Cairo", "addressCountry": "EG" },
-        "affiliation": { "@type": "CollegeOrUniversity", "name": "University of London" },
-        "sameAs": ["https://github.com/AlyIbrahim1", "https://www.linkedin.com/in/alyibrahim1"]
+        "@graph": [
+          {
+            "@type": "WebSite",
+            "name": "Aly Ibrahim",
+            "alternateName": "alyibrahim.dev",
+            "url": "https://alyibrahim.dev/",
+            "author": { "@id": "https://alyibrahim.dev/#person" }
+          },
+          {
+            "@type": "Person",
+            "@id": "https://alyibrahim.dev/#person",
+            "name": "Aly Ibrahim",
+            "url": "https://alyibrahim.dev/",
+            "image": "https://alyibrahim.dev/og.jpg",
+            "description": "Engineering production systems and AI products. CS student at the University of London, based in Cairo.",
+            "address": { "@type": "PostalAddress", "addressLocality": "Cairo", "addressCountry": "EG" },
+            "affiliation": { "@type": "CollegeOrUniversity", "name": "University of London" },
+            "sameAs": ["https://github.com/AlyIbrahim1", "https://www.linkedin.com/in/alyibrahim1"]
+          }
+        ]
       }
     </script>
   </head>

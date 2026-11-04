@@ -10,9 +10,9 @@ import type {
   TraceStat,
 } from '../types/portfolio'
 
-const ragPreview = new URL('../assets/project-previews/eand-rag-agent-card.webp', import.meta.url).href
-const statuslinePreview = new URL('../assets/project-previews/claude-statusline-card.webp', import.meta.url).href
-const telecomRetentionPreview = new URL('../assets/project-previews/telecom-retention-preview.webp', import.meta.url).href
+import ragPreview from '../assets/project-previews/eand-rag-agent-card.webp'
+import statuslinePreview from '../assets/project-previews/claude-statusline-card.webp'
+import telecomRetentionPreview from '../assets/project-previews/telecom-retention-preview.webp'
 
 export const profile = {
   name: 'Aly Ibrahim',

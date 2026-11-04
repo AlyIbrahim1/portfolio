@@ -201,3 +201,9 @@ section[id],
 .fld .key {
   color: var(--ink-primary);
 }
+
+/* Classes instead of inline styles: the CSP blocks style attributes, which
+   the prerendered HTML would otherwise carry. */
+.radius-lg { border-radius: var(--radius-lg); }
+.radius-none { border-radius: var(--radius-none); }
+.icon-sprite { position: absolute; width: 0; height: 0; overflow: hidden; }

@@ -5,9 +5,9 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc --noEmit && vite build",
+    "build": "tsc --noEmit && vite build && vite build --ssr src/entry-server.tsx --outDir dist-ssr && node scripts/prerender.js",
     "lint": "eslint src vite.config.ts",
-    "preview": "wrangler dev",
+    "preview": "npm run build && wrangler dev",
     "test": "vitest",
     "test:run": "vitest run"
   },

@@ -11,8 +11,8 @@ interface SurfaceProps {
 export function Surface({ as: Component = 'div', radius = 'lg', className = '', style, children }: SurfaceProps) {
   return (
     <Component
-      className={['surface-ember', className].filter(Boolean).join(' ')}
-      style={{ borderRadius: radius === 'none' ? 'var(--radius-none)' : 'var(--radius-lg)', ...style }}
+      className={['surface-ember', `radius-${radius}`, className].filter(Boolean).join(' ')}
+      style={style}
     >
       {children}
     </Component>

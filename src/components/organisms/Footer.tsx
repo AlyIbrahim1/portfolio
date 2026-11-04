@@ -11,6 +11,9 @@ interface FooterProps {
   timeZone: string
 }
 
+// Shown in the prerendered HTML and if Intl fails; the effect fills in the real time.
+const fallbackClock = { time: '--:--', offset: 'UTC+3' }
+
 function getClock(timeZone: string) {
   try {
     const now = new Date()
@@ -19,12 +22,12 @@ function getClock(timeZone: string) {
     const offset = parts.find((part) => part.type === 'timeZoneName')?.value.replace('GMT', 'UTC') ?? 'UTC+3'
     return { time, offset }
   } catch {
-    return { time: '--:--', offset: 'UTC+3' }
+    return fallbackClock
   }
 }
 
 export function Footer({ name, links, elsewhere, city, timeZone }: FooterProps) {
-  const [clock, setClock] = useState(() => getClock(timeZone))
+  const [clock, setClock] = useState(fallbackClock)
 
   useEffect(() => {
     const update = () => setClock(getClock(timeZone))
@@ -51,7 +54,8 @@ export function Footer({ name, links, elsewhere, city, timeZone }: FooterProps) 
           </div>
         </div>
         <div className="bottom">
-          <span>© {new Date().getFullYear()} {name}</span>
+          {/* The year comes from the build, so a visit after New Year must not fail hydration */}
+          <span suppressHydrationWarning>© {new Date().getFullYear()} {name}</span>
           <span className="clock"><i className="d" />{city} <span className="time">{clock.time}</span> · {clock.offset}</span>
         </div>
       </div>

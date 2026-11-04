@@ -12,7 +12,7 @@ interface NavBarProps {
 
 export function NavBar({ name, links, cta }: NavBarProps) {
   const [open, setOpen] = useState(false)
-  const [scrolled, setScrolled] = useState(() => window.scrollY > 8)
+  const [scrolled, setScrolled] = useState(false) // The prerendered HTML has no window; the effect reads the real value
   const navRef = useRef<HTMLElement>(null)
   const activeSection = useActiveSection()
 

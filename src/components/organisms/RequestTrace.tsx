@@ -1,4 +1,4 @@
-import { useEffect, useState, type CSSProperties } from 'react'
+import { useEffect, useState } from 'react'
 import { useReducedMotion } from '../../hooks/useReducedMotion'
 import type { TraceLog, TraceSpan, TraceStat } from '../../types/portfolio'
 import { TerminalWindow } from '../molecules/TerminalWindow'
@@ -13,8 +13,6 @@ interface RequestTraceProps {
   stats: readonly TraceStat[]
   label: string
 }
-
-type SpanStyle = CSSProperties & { '--l': string; '--w': string }
 
 export function RequestTrace({ title, method, path, status, spans, logs, stats, label }: RequestTraceProps) {
   const [cursor, setCursor] = useState(4)
@@ -50,7 +48,7 @@ export function RequestTrace({ title, method, path, status, spans, logs, stats, 
           {spans.map((span) => (
             <div className={['span', span.io ? 'io' : ''].filter(Boolean).join(' ')} key={span.id}>
               <span>{span.name}</span>
-              <span className="track"><span className="bar" style={{ '--l': `${span.start}%`, '--w': `${span.width}%` } as SpanStyle} /></span>
+              <span className="track"><span className="bar" ref={(bar) => { bar?.style.setProperty('--l', `${span.start}%`); bar?.style.setProperty('--w', `${span.width}%`) }} /></span>
               <span className="ms">{span.ms}ms</span>
             </div>
           ))}

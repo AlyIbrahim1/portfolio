@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 const query = '(prefers-reduced-motion: reduce)'
 
 export function useReducedMotion() {
-  const [reducedMotion, setReducedMotion] = useState(() => window.matchMedia(query).matches)
+  const [reducedMotion, setReducedMotion] = useState(false) // The prerendered HTML has no window; the effect reads the real value
 
   useEffect(() => {
     const media = window.matchMedia(query)

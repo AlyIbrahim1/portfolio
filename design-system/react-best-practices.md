@@ -8,9 +8,10 @@ application data.
 ## 1. Choose the smallest architecture that fits
 
 Use React with TypeScript and a lightweight build tool. Vite's React TypeScript
-template is a suitable baseline for this client-only page. Create React App is
-deprecated, and this site does not currently need a framework's routing, server
-rendering, or data-loading features.
+template is a suitable baseline for this page. The build renders the page to
+static HTML once, and the browser hydrates that HTML (see section 16). Create
+React App is deprecated, and this site does not currently need a framework's
+routing, per-request server rendering, or data-loading features.
 
 Do not add a router for hash links, a global store for local UI state, a request
 library when there are no requests, or a styling framework over the existing
@@ -195,7 +196,8 @@ browser APIs:
 - focusing the first invalid contact field;
 - calling `showModal()`/`close()` on a native dialog;
 - retaining the dialog opener for focus restoration;
-- holding an interval ID when state is not needed.
+- holding an interval ID when state is not needed;
+- setting data-driven CSS custom properties from a ref callback (section 11).
 
 Do not read or write refs during render except for predictable initialization.
 Do not use a ref as hidden state when changing the value should update the UI.
@@ -284,8 +286,15 @@ Do not:
 - change breakpoints, motion, colors, or component variants during a structural
   migration.
 
-Inline styles remain reasonable for truly data-driven CSS custom properties,
-such as trace span offsets and widths.
+Do not use the `style` prop. The prerendered HTML would carry it as a `style`
+attribute, which the site's CSP blocks, and hydration does not add it back.
+Static styles belong in a class. Truly data-driven CSS custom properties, such
+as trace span offsets and widths, are set from a ref callback through the
+CSSOM, which the CSP allows:
+
+```tsx
+<span className="bar" ref={(bar) => bar?.style.setProperty('--w', `${width}%`)} />
+```
 
 ## 12. Avoid unsafe markup
 
@@ -348,12 +357,48 @@ A section is migrated when:
 - keyboard, focus, assistive text, and reduced-motion behavior are preserved;
 - it contains no imperative DOM updates that React can express declaratively;
 - all listeners, observers, and timers have cleanup;
+- the prerendered page hydrates with no console errors under `npm run preview`;
 - relevant tests and repository checks pass;
 - the equivalent legacy markup/script can be removed without losing behavior.
 
 The whole migration is complete when React is the only page implementation,
 the production build succeeds, there are no console errors or hook-lint errors,
 and all parity checks in `AGENTS.md` have been exercised.
+
+## 16. Keep the prerendered page working
+
+`npm run build` renders `<App />` with `react-dom/server` from
+`src/entry-server.tsx`, and `scripts/prerender.js` writes the result into
+`dist/index.html`. Search engines and the first paint get the full content
+without running JavaScript. `main.tsx` then calls `hydrateRoot`, which attaches
+React to that HTML instead of rendering it again. The dev server has no
+prerendered HTML, so `main.tsx` falls back to `createRoot` there.
+
+Hydration only works when the browser's first render produces exactly the HTML
+the build produced. Every component must follow these rules:
+
+- **No browser APIs during render.** Do not read `window`, `document`,
+  `matchMedia`, `localStorage` or layout during render, including in a
+  `useState(() => ...)` initializer. Start from a fixed default and read the
+  real value in an Effect. The build runs in Node, where these do not exist, so
+  breaking this rule fails the build.
+- **No values that differ between build and visit.** The current time, random
+  values, and the visitor's locale or time zone must not appear in the first
+  render. Show a placeholder and fill it in from an Effect, as the footer clock
+  does. Where a build-time value is acceptable, such as the copyright year, put
+  `suppressHydrationWarning` on that element. Breaking this rule logs a
+  hydration error and makes React discard the prerendered HTML. If only an
+  attribute differs, React keeps the wrong value, and a production build logs
+  nothing.
+- **No `style` attributes.** See section 11.
+- **Import assets.** Use `import preview from './preview.webp'`, not
+  `new URL('./preview.webp', import.meta.url)`. The server build does not
+  rewrite `new URL` to the hashed file name, so the prerendered HTML would point
+  at a file that does not exist.
+
+Tests run in jsdom, which has `window`, so they do not catch these mistakes.
+After changing a component, run `npm run preview` and check the browser console
+for hydration or CSP errors.
 
 ## Sources
 
@@ -368,6 +413,8 @@ These rules were checked against the official React and Vite documentation:
 - [Reusing logic with custom Hooks](https://react.dev/learn/reusing-logic-with-custom-hooks)
 - [Referencing values with refs](https://react.dev/learn/referencing-values-with-refs)
 - [Rendering lists](https://react.dev/learn/rendering-lists)
+- [hydrateRoot](https://react.dev/reference/react-dom/client/hydrateRoot)
+- [Vite server-side rendering](https://vite.dev/guide/ssr)
 - [Using TypeScript](https://react.dev/learn/typescript)
 - [`memo`](https://react.dev/reference/react/memo)
 - [Build a React app from scratch](https://react.dev/learn/build-a-react-app-from-scratch)
