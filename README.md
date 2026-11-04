@@ -38,7 +38,7 @@ npm run dev      # http://localhost:5173
 |---|---|
 | `npm run dev` | Start the dev server |
 | `npm run build` | Typecheck, then build to `dist/` |
-| `npm run preview` | Serve the production build locally |
+| `npm run preview` | Serve `dist/` through the Worker runtime, with the real headers and 404 page |
 | `npm run lint` | Lint `src` and the Vite config |
 | `npm run test` | Run the tests in watch mode |
 | `npm run test:run` | Run the tests once (used by the deploy build) |
@@ -62,19 +62,30 @@ change what the site says, edit `src/data/portfolio.ts`.
 
 The site runs as a static-assets Cloudflare Worker named `portfolio`: there is
 no Worker script, Cloudflare serves `dist/` directly. `wrangler.jsonc` holds
-the Worker config: unknown paths get `public/404.html` with a 404 status, and
-`public/_headers` lets browsers cache the fingerprinted files in `/assets` for
-a year.
+the Worker config: it serves only the `alyibrahim.dev` custom domain (no
+workers.dev or preview URLs), and unknown paths get `public/404.html` with a
+404 status.
+
+`public/_headers` sets the response headers:
+
+- A Content-Security-Policy that allows only the site's own files, Google Fonts
+  and Web3Forms. Adding another outside service (analytics, embeds, a new
+  font host) means adding its origin there first. Inline scripts and styles
+  are blocked, which is why the 404 page's styles live in `public/404.css`.
+- `nosniff` and a `strict-origin-when-cross-origin` referrer policy.
+- Caching: fingerprinted files in `/assets` for a year (immutable); icons, the
+  manifest and `og.jpg` for a day; the page itself is revalidated on every
+  load, so a deploy is visible at once.
 
 Workers Builds deploys from the GitHub repo. Pushing to `main` deploys to
 https://alyibrahim.dev/; other branches upload preview versions. The build is
-configured in the Cloudflare dashboard under the Worker's Settings → Build:
+configured in the Cloudflare dashboard under the Worker's Settings → Build;
+the Node version comes from `.node-version`:
 
 | Setting | Value |
 |---|---|
 | Build command | `npm run lint && npm run test:run && npm run build` |
 | Deploy command | `npx wrangler deploy` |
-| Environment variable | `NODE_VERSION=22` |
 
 ## License
 

@@ -6,6 +6,8 @@
   // public workers.dev and preview URLs turned off in the dashboard.
   "workers_dev": false,
   "preview_urls": false,
+  // Keeps the domain attached in config, so a deploy can't drop it.
+  "routes": [{ "pattern": "alyibrahim.dev", "custom_domain": true }],
   "assets": {
     "directory": "./dist",
     // Unknown paths get public/404.html with a real 404 status.

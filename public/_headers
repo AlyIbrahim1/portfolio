@@ -1,4 +1,29 @@
+# Every response, including the 404 page. The CSP allows the page's own files
+# plus the outside services it uses: Google Fonts (stylesheet and font files)
+# and Web3Forms, which the contact form posts to. data: images are the CSS
+# noise texture. The JSON-LD block in index.html is data, not a script, so it
+# needs no exception.
+/*
+  Referrer-Policy: strict-origin-when-cross-origin
+  X-Content-Type-Options: nosniff
+  Content-Security-Policy: default-src 'none'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src https://api.web3forms.com; manifest-src 'self'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'
+
 # Vite fingerprints everything in /assets, so a changed file always gets a new
 # name and browsers can keep these for a year without revalidating.
 /assets/*
   Cache-Control: public, max-age=31536000, immutable
+
+# Icons, the manifest and the link-preview image keep fixed names, so browsers
+# reuse them for a day before checking for a new version. Everything else,
+# the page included, keeps Cloudflare's default: revalidate on every load
+# with an ETag, so a deploy shows up at once.
+/favicon.*
+  Cache-Control: public, max-age=86400
+/apple-touch-icon.png
+  Cache-Control: public, max-age=86400
+/icon-*
+  Cache-Control: public, max-age=86400
+/site.webmanifest
+  Cache-Control: public, max-age=86400
+/og.jpg
+  Cache-Control: public, max-age=86400
