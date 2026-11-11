@@ -31,3 +31,15 @@ HTMLDialogElement.prototype.close = function close() {
   this.open = false
   this.dispatchEvent(new Event('close'))
 }
+
+// jsdom has no IntersectionObserver, and its canvas has no 2D context (the sky and hero then skip drawing)
+window.IntersectionObserver = class {
+  observe() {}
+  unobserve() {}
+  disconnect() {}
+  takeRecords() { return [] }
+  root = null
+  rootMargin = ''
+  thresholds = []
+}
+HTMLCanvasElement.prototype.getContext = () => null
