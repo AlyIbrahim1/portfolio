@@ -70,7 +70,6 @@ export function PortfolioPage() {
           <ProjectsSection />
           <StarChartSection />
           <SkillsSection />
-          <CoursesSection />
           <ContactPanel />
         </div>
       </main>
@@ -207,7 +206,7 @@ Do not use a ref as hidden state when changing the value should update the UI.
 
 ## 8. Render repeated content from typed data
 
-Projects, milestones, skills, courses, navigation links and contact rows should be typed arrays outside component bodies.
+Projects, milestones, skills, navigation links and contact rows should be typed arrays outside component bodies.
 This keeps content separate from presentation and prevents re-creating static
 objects on every render.
 
@@ -328,7 +327,7 @@ High-value tests are:
 - the copy buttons show their result and recover;
 - timers, observers and frame loops are cleaned up when their component unmounts;
 - reduced-motion mode renders a still hero and no pause button;
-- mapped projects, milestones, skills and courses render from data.
+- mapped projects, milestones and skills render from data.
 
 jsdom has no `IntersectionObserver` and no canvas context, so `src/test/setup.ts`
 stubs them and the drawing code is not covered by unit tests. Check it in a

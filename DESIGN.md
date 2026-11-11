@@ -61,7 +61,7 @@ The stage behind the hero is `#05030c`. Row dividers use `#262626`. Everything e
 **Layout.**
 
 - Content lives in `.wrap`: `min(1120px, 100% - 32px)`, centred. Sections sit `clamp(110px, 16vh, 170px)` apart inside `.after`.
-- Card grids: `.grid3` (three columns, two under 900px, one under 620px) and `.grid2`. Courses use an auto-fit grid.
+- Card grids: `.grid3` (three columns, two under 900px, one under 620px) and `.grid2`.
 - Breakpoints: 900px (grids, and the star chart becomes a vertical list under 899px), 720px (nav links hide), 620px (single column, rows stack).
 - Section heads (`.hd`) are centred: a label, a title, an optional intro of at most 52 characters wide.
 
@@ -95,7 +95,6 @@ The page is mostly motion by scroll, with small interface transitions.
 | `ProjectsSection` | Three featured `ProjectTile` cards (screenshot on a tone gradient, period · context, title, description, stack, "Read the code ↗"), then a collapsed "More work +" disclosure (`<details>`) that opens to a divided list of `ProjectNote` rows. |
 | `StarChartSection` / `StarChart` | Experience as a night sky. x is time, each entry a star with a Greek letter; the line is solid up to the latest star (marked "Now", pulsing) and dashed to the future one (a hollow star). Each entry's projects hang off it as faint companion stars that brighten when it is selected. The selected entry shows in a card below (`ExperienceEntry`). Under 900px the chart becomes a vertical list with the line running down the left. |
 | `SkillsSection` | One divided list (`.sl`): each group's name on the left in the display face, its tools on the right; one column under 620px. |
-| `CoursesSection` | Cards whose top is a gradient tile with the issuer's name; no logos. |
 | `ContactPanel` | One rounded panel with a violet wash at the bottom: an email row that copies, GitHub and LinkedIn rows that open in a new tab, and a footer line with a back-to-top link. This is also the page's end; there is no separate footer. |
 
 New components follow the existing ones: small, typed props, classes from `horizon.css`, no `style` prop (see `docs/react-best-practices.md`).

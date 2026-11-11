@@ -59,7 +59,7 @@ src/
   styles/          horizon.css, the whole stylesheet
 ```
 
-Page content (projects, milestones, skills, courses) is data, not markup. To
+Page content (projects, milestones, skills) is data, not markup. To
 change what the site says, edit `src/data/horizon.ts`; the profile and social
 links are in `src/data/portfolio.ts`.
 

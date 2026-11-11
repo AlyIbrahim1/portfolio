@@ -1,7 +1,7 @@
 import statuslinePreview from '../assets/project-previews/claude-statusline-card.webp'
 import ragPreview from '../assets/project-previews/eand-rag-agent-card.webp'
 import telecomPreview from '../assets/project-previews/telecom-retention-preview.webp'
-import type { Course, ContactRow, Milestone, ShowcaseProject, SkillGroup } from '../types/horizon'
+import type { ContactRow, Milestone, ShowcaseProject, SkillGroup } from '../types/horizon'
 import type { NavLink } from '../types/portfolio'
 import { profile, socialLinks } from './portfolio'
 
@@ -41,13 +41,6 @@ export const skillGroups = [
   { id: 'data', title: 'Data and visualisation', tools: 'p5.js, WebGL, PDF reports' },
   { id: 'devops', title: 'Engineering and DevOps', tools: 'Docker Compose, CI, Jest, npm releases' },
 ] as const satisfies readonly SkillGroup[]
-
-export const courses = [
-  { id: 'claude-code', issuer: 'Anthropic', title: 'Claude Code in Action and Claude Code 101', date: 'Apr 2026' },
-  { id: 'cpp', issuer: 'European Universities in Egypt', title: 'Advanced C++', date: 'Jul 2026' },
-  { id: 'python', issuer: 'Code With Mosh', title: 'Complete Python Mastery', date: 'May 2026' },
-  { id: 'cs50x', issuer: 'Harvard, through edX', title: 'CS50x', date: '2025' },
-] as const satisfies readonly Course[]
 
 export const contactRows = [
   { id: 'github', label: 'GitHub', value: 'AlyIbrahim1', href: github },

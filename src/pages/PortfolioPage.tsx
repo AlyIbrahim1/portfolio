@@ -1,13 +1,12 @@
 import { useReducer, useRef } from 'react'
 import { ContactPanel } from '../components/organisms/ContactPanel'
-import { CoursesSection } from '../components/organisms/CoursesSection'
 import { HeroStage } from '../components/organisms/HeroStage'
 import { HorizonNav } from '../components/organisms/HorizonNav'
 import { ProjectsSection } from '../components/organisms/ProjectsSection'
 import { SkillsSection } from '../components/organisms/SkillsSection'
 import { StarChartSection } from '../components/organisms/StarChartSection'
 import { PortfolioTemplate } from '../components/templates/PortfolioTemplate'
-import { contactRows, courses, heroCopy, horizonNav, milestones, showcase, skillGroups, workIntro } from '../data/horizon'
+import { contactRows, heroCopy, horizonNav, milestones, showcase, skillGroups, workIntro } from '../data/horizon'
 import { profile } from '../data/portfolio'
 import { useReducedMotion } from '../hooks/useReducedMotion'
 
@@ -28,7 +27,6 @@ export function PortfolioPage() {
       <ProjectsSection projects={showcase} intro={workIntro} showHead={reduced} rising={!reduced} />
       <StarChartSection milestones={milestones} projects={showcase} paused={paused} reduced={reduced} />
       <SkillsSection groups={skillGroups} />
-      <CoursesSection courses={courses} />
       <ContactPanel name={profile.name} city={profile.city} email={profile.email} rows={contactRows} />
     </PortfolioTemplate>
   )

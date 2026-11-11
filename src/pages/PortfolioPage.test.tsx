@@ -1,6 +1,6 @@
 import { fireEvent, render, screen } from '@testing-library/react'
 import { describe, expect, it } from 'vitest'
-import { courses, milestones, showcase, skillGroups } from '../data/horizon'
+import { milestones, showcase, skillGroups } from '../data/horizon'
 import { PortfolioPage } from './PortfolioPage'
 
 describe('PortfolioPage', () => {
@@ -11,7 +11,6 @@ describe('PortfolioPage', () => {
     showcase.forEach((project) => expect(screen.getByRole('heading', { level: 3, name: project.title })).toBeInTheDocument())
     milestones.forEach((m) => expect(screen.getByRole('heading', { level: 3, name: m.title, hidden: true })).toBeInTheDocument())
     skillGroups.forEach((group) => expect(screen.getByRole('heading', { level: 3, name: group.title })).toBeInTheDocument())
-    courses.forEach((course) => expect(screen.getByRole('heading', { level: 3, name: course.title })).toBeInTheDocument())
   })
 
   it('starts on the latest star and switches entries when another star is selected', () => {

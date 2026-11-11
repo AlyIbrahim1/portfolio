@@ -26,5 +26,4 @@ export interface Milestone {
 }
 
 export interface SkillGroup { id: string; title: string; tools: string }
-export interface Course { id: string; issuer: string; title: string; date: string }
 export interface ContactRow { id: string; label: string; value: string; href: string }
