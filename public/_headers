@@ -1,12 +1,11 @@
 # Every response, including the 404 page. The CSP allows the page's own files
-# plus the outside services it uses: Google Fonts (stylesheet and font files)
-# and Web3Forms, which the contact form posts to. data: images are the CSS
-# noise texture. The JSON-LD block in index.html is data, not a script, so it
-# needs no exception.
+# plus Google Fonts (stylesheet and font files). The page makes no network
+# requests of its own. The JSON-LD block in index.html is data, not a script,
+# so it needs no exception.
 /*
   Referrer-Policy: strict-origin-when-cross-origin
   X-Content-Type-Options: nosniff
-  Content-Security-Policy: default-src 'none'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src https://api.web3forms.com; manifest-src 'self'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'
+  Content-Security-Policy: default-src 'none'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self'; manifest-src 'self'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'
 
 # Vite fingerprints everything in /assets, so a changed file always gets a new
 # name and browsers can keep these for a year without revalidating.
