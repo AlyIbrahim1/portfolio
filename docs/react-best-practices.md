@@ -1,9 +1,9 @@
 # React best practices for this portfolio
 
-This document turns current React guidance into working rules for migrating the
-static portfolio in `index.html`. It is intentionally scoped to this project: a
+This document turns current React guidance into working rules for this
+portfolio's React code. It is intentionally scoped to this project: a
 content-heavy, single-page site with a few interactive islands and no remote
-application data.
+application data. Visual rules live in `DESIGN.md`.
 
 ## 1. Choose the smallest architecture that fits
 
@@ -14,22 +14,24 @@ React App is deprecated, and this site does not currently need a framework's
 routing, per-request server rendering, or data-loading features.
 
 Do not add a router for hash links, a global store for local UI state, a request
-library when there are no requests, or a styling framework over the existing
-design system. Revisit those choices only when the requirements change.
+library when there are no requests, or a styling framework over the stylesheet
+described in `DESIGN.md`. Revisit those choices only when the requirements change.
 
-Recommended initial shape:
+Current shape:
 
 ```text
 src/
 ├── main.tsx
 ├── App.tsx
 ├── components/
-│   ├── ui/          # reusable design-system components
-│   └── sections/    # page-specific sections
-├── data/
-│   └── portfolio.ts # repeated portfolio content and its types
+│   ├── molecules/   # small repeated patterns: SectionHead, ProjectTile
+│   ├── organisms/   # self-contained behaviour: HorizonNav, StarChart
+│   └── sections/    # page sections: HeroStage, ProjectsSection, ...
+├── data/            # typed portfolio content
+├── hooks/           # browser synchronization: useBlackHole, useReducedMotion
+├── lib/             # pure helpers and canvas/WebGL code with no React
 └── styles/
-    └── app.css      # page composition; imports shared design CSS once
+    └── horizon.css  # the whole design, see DESIGN.md
 ```
 
 This is a starting point, not a mandate to create empty directories or one file
@@ -38,39 +40,40 @@ per tiny element.
 ## 2. Design components around responsibilities
 
 React recommends first breaking a mockup into a component hierarchy, with each
-component responsible for one concern. For this page, the existing design-system
-names already establish useful boundaries.
+component responsible for one concern. For this page, the sections in
+`DESIGN.md` already establish useful boundaries.
 
 Good component boundaries are:
 
-- a page section with a distinct content/layout job, such as `HeroSection` or
-  `WorkSection`;
-- a repeated design pattern, such as `ProjectCard`, `Pill`, or `Button`;
-- a self-contained behavior, such as `ContactForm`, `NavBar`, or
-  `ProjectArchive`.
+- a page section with a distinct content/layout job, such as `HeroStage` or
+  `ProjectsSection`;
+- a repeated design pattern, such as `ProjectTile` or `SectionHead`;
+- a self-contained behavior, such as `HorizonNav` or `StarChart`.
 
 Do not extract every `<div>`, heading, or two-line fragment. A component is not
 better merely because it is shorter. Extract when the unit has a name, a stable
 contract, reuse, meaningful behavior, or enough independent complexity to make
 the parent clearer.
 
-Keep `App` declarative:
+Keep the page component declarative (props omitted here):
 
 ```tsx
-export function App() {
+export function PortfolioPage() {
   return (
     <>
-      <NavBar />
-      <main id="top">
-        <HeroSection />
-        <TechMarquee />
-        <WorkSection />
-        <ExperienceSection />
-        <ContactSection />
+      <HorizonNav />
+      <main>
+        <HeroStage />
+        <div className="after">
+          <ProjectsSection />
+          <StarChartSection />
+          <SkillsSection />
+          <CoursesSection />
+          <ContactPanel />
+        </div>
       </main>
-      <Footer />
     </>
-  );
+  )
 }
 ```
 
@@ -81,11 +84,11 @@ export function App() {
 - Pass the minimum information a component needs. Do not pass a large page data
   object when the child needs only a title and link.
 - Use descriptive event props such as `onClose` and `onSubmit`.
-- Use children for wrapper components like `Surface` and `TerminalWindow`.
+- Use children for wrapper components.
 - Use a small union for real visual variants, such as
-  `variant: 'primary' | 'secondary' | 'ghost' | 'icon'`.
+  `phase: 'idle' | 'armed' | 'on'`.
 - Do not add speculative props or variants. Add one when a real call site needs
-  it and the design-system rules define it.
+  it and `DESIGN.md` defines it.
 - Do not copy a prop into state unless the component intentionally owns an
   editable snapshot. Prefer deriving from the prop.
 - Forward native element props when building a true primitive, so semantics,
@@ -124,20 +127,18 @@ For every candidate value, ask:
 4. Must siblings coordinate? Lift it to their closest common parent.
 
 Avoid redundant and contradictory state. For example, store `activeSectionId`,
-not both an active ID and four `isActive` booleans. Store the contact form's
-submission/error status, not a second copy of values that can be read from the
-form on submit.
+not both an active ID and four `isActive` booleans. Store the copy button's
+status (`idle`, `copied`, `failed`), not a separate flag for each.
 
 The expected owners on this page are:
 
 | State | Owner |
 | --- | --- |
-| Mobile menu open/closed | `NavBar` |
-| Active section | `NavBar` or a focused `useActiveSection` hook used by it |
-| Project archive open/closed | `WorkSection` |
-| Contact errors/status | `ContactForm` |
-| Cairo time | `Footer` |
-| Rotating trace lines | `RequestTrace` |
+| Animation paused | `PortfolioPage`, shared by the hero and the star chart |
+| Selected star | `StarChart` |
+| Chart reveal phase | `StarChart` |
+| Copy button status | `useCopy`, one per button |
+| Reduced motion | `useReducedMotion`, read once in `PortfolioPage` |
 
 No current value requires application-wide Context. State should stay local
 until actual cross-tree sharing makes Context simpler than props.
@@ -146,14 +147,13 @@ until actual cross-tree sharing makes Context simpler than props.
 
 Effects are escape hatches for keeping React synchronized with something
 outside React. This page has legitimate Effect use cases: scroll and resize
-listeners, `matchMedia`, the Cairo clock interval, the trace log interval, and
-possibly the native dialog's imperative methods.
+listeners, `matchMedia`, `IntersectionObserver`, the animation frame loops of
+the hero and the star chart sky, and the copy button's reset timer.
 
 An Effect is not needed to:
 
 - transform project data for rendering;
-- determine validation text after a submit event;
-- respond to a click or form submission;
+- respond to a click;
 - copy props into state;
 - keep one state variable derived from another.
 
@@ -171,18 +171,16 @@ Example:
 
 ```tsx
 useEffect(() => {
-  function updateClock() {
-    setTime(formatTime(new Date(), timeZone));
-  }
-
-  const timer = window.setInterval(updateClock, 30_000);
-  updateClock();
-  return () => window.clearInterval(timer);
-}, [timeZone]);
+  const media = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const update = () => setReduced(media.matches);
+  update();
+  media.addEventListener('change', update);
+  return () => media.removeEventListener('change', update);
+}, []);
 ```
 
 If a browser synchronization becomes complex or is reused, extract a hook named
-for the concrete behavior, such as `useReducedMotion` or `useActiveSection`.
+for the concrete behavior, such as `useReducedMotion` or `useBlackHole`.
 Do not create vague lifecycle wrappers like `useMount`.
 
 ## 7. Prefer declarative UI; use refs narrowly
@@ -193,10 +191,9 @@ toggles, `hidden` assignments, and generated log nodes with JSX driven by state.
 Refs are appropriate for values that do not affect rendering and for imperative
 browser APIs:
 
-- focusing the first invalid contact field;
-- calling `showModal()`/`close()` on a native dialog;
-- retaining the dialog opener for focus restoration;
-- holding an interval ID when state is not needed;
+- canvases that an animation loop draws into;
+- holding a timer or animation frame ID when state is not needed;
+- the latest value of a prop that a long-running loop reads (`useLatest`);
 - setting data-driven CSS custom properties from a ref callback (section 11).
 
 Do not read or write refs during render except for predictable initialization.
@@ -204,8 +201,7 @@ Do not use a ref as hidden state when changing the value should update the UI.
 
 ## 8. Render repeated content from typed data
 
-Projects, technologies, archive entries, trace spans, navigation links, social
-links, and timeline items should be typed arrays outside component bodies.
+Projects, milestones, skills, courses, navigation links and contact rows should be typed arrays outside component bodies.
 This keeps content separate from presentation and prevents re-creating static
 objects on every render.
 
@@ -214,14 +210,14 @@ Give every repeated item a stable semantic ID in the data:
 ```tsx
 const projects = [
   {
-    id: 'rag-customer-service-agent',
-    title: 'RAG customer-service agent',
+    id: 'customer-service-assistant',
+    title: 'Customer-service assistant',
     // ...
   },
 ];
 
 {projects.map((project) => (
-  <ProjectCard key={project.id} project={project} />
+  <ProjectTile key={project.id} project={project} />
 ))}
 ```
 
@@ -232,68 +228,55 @@ render.
 ## 9. Keep interactions native and accessible
 
 React does not replace HTML semantics. Preserve the strong foundation already
-present in `index.html`:
+present in the page:
 
 - Use links for navigation and buttons for actions.
-- Keep one `h1`, logical heading order, `main`, `header`, `footer`, `nav`, and
-  labelled sections.
-- Keep the native `<dialog>` if it can meet the interaction requirements. On
-  close, restore focus to the opener; support Escape and backdrop dismissal.
+- Keep one `h1`, logical heading order, `main`, `header`, `nav`, and labelled
+  sections.
+- Anything that is selected or toggled is a `button` with `aria-pressed` or
+  `aria-expanded`, not a styled `div`.
 - Give icon-only buttons an accessible name. Hide decorative icons with
   `aria-hidden`.
-- Keep form labels associated with controls. Set `aria-invalid` only when
-  validation has run, place correctable errors near their field, focus the first
-  invalid control, and announce status through a polite live region.
 - Preserve `target="_blank"` only where opening a new tab is intentional and
   pair it with safe `rel` values.
 - Preserve visible focus and minimum touch targets.
 - Respect `prefers-reduced-motion` in both CSS and JS. A visitor requesting less
-  motion should receive a static marquee/trace rather than merely shorter loops.
+  motion should receive a still hero, a pre-drawn star chart and no pause
+button, rather than merely shorter loops.
 
-Prefer native field semantics such as `type="email"` and `required` where they
-fit the validation flow, and prefer the dialog element before recreating its
-behavior in JavaScript. Layer custom messaging on top when the design requires
-it.
+## 10. Handle interactions in the event that caused the work
 
-## 10. Handle forms in the event that caused the work
+The page has no form and no server mutation. The copy buttons write to the
+clipboard in their click handler (`useCopy`), keep only the result in state
+(`idle`, `copied`, `failed`), and fall back to showing the address when the
+clipboard is blocked. Do not use an Effect to watch state and then act on it.
 
-The contact form has no server mutation. Validate and build the `mailto:` URL in
-its submit handler. Use `FormData` or the form's named controls if live,
-character-by-character UI does not require controlled inputs.
+If a real API is added later, add explicit pending, success, and error states;
+prevent duplicate submissions and handle failure without losing typed content.
 
-Keep only rendering-relevant results in state, such as field errors and the
-status message. Do not use an Effect to watch fields and then submit or redirect.
-Encode the subject and body, preserve the visitor's reply email, and focus the
-first invalid field.
+## 11. Keep one stylesheet and one set of tokens
 
-If a real API replaces `mailto:` later, add explicit pending, success, and error
-states; prevent duplicate submissions and handle failure without losing typed
-content.
-
-## 11. Preserve the design system instead of restyling
-
-Import `design-system/tokens.css` and
-`design-system/components/bundle.css` once. Move only page-specific legacy CSS
-into the React app's stylesheet. Reuse the existing class contracts while
-porting components so visual parity is easy to assess.
+All styling is in `src/styles/horizon.css`, imported once from `main.tsx`; its
+`:root` variables are the tokens, described in `DESIGN.md`. Reuse its class
+contracts when adding components so the page stays consistent.
 
 Do not:
 
 - duplicate token values in TSX or new CSS;
 - encode layout in large inline style objects when a class fits;
 - introduce a second styling system;
-- replace the local icon set with a package;
-- change breakpoints, motion, colors, or component variants during a structural
-  migration.
+- add an icon package; the few icons are inline SVG;
+- change breakpoints, motion, colors, or component variants as a side effect of
+  a refactor.
 
 Do not use the `style` prop. The prerendered HTML would carry it as a `style`
 attribute, which the site's CSP blocks, and hydration does not add it back.
 Static styles belong in a class. Truly data-driven CSS custom properties, such
-as trace span offsets and widths, are set from a ref callback through the
+as a star's position on the chart, are set from a ref callback through the
 CSSOM, which the CSP allows:
 
 ```tsx
-<span className="bar" ref={(bar) => bar?.style.setProperty('--w', `${width}%`)} />
+<li ref={cssVars({ '--x': x, '--y': y })} />
 ```
 
 ## 12. Avoid unsafe markup
@@ -332,38 +315,34 @@ loading only when a real heavy feature creates a meaningful initial-load cost.
 Prefer tests that interact through roles, names, labels, and visible output.
 Avoid asserting component internals, hook call counts, or private state.
 
-High-value tests for this migration are:
+High-value tests are:
 
-- mobile navigation opens, closes on selection/Escape/outside interaction, and
-  exposes the correct expanded state;
-- the active navigation link updates and has `aria-current`;
-- the project archive opens, closes, and restores focus;
-- invalid contact submissions show the right message and focus the right field;
-- a valid submission builds an encoded mail handoff;
-- timers/listeners are cleaned up when clock and trace components unmount;
-- reduced-motion mode disables the live trace/marquee behavior;
-- mapped projects, technologies, and timeline entries render from data.
+- each star on the chart is a button; selecting one marks it `aria-pressed` and
+  shows its entry, and the page starts on the latest star;
+- the copy buttons show their result and recover;
+- timers, observers and frame loops are cleaned up when their component unmounts;
+- reduced-motion mode renders a still hero and no pause button;
+- mapped projects, milestones, skills and courses render from data.
+
+jsdom has no `IntersectionObserver` and no canvas context, so `src/test/setup.ts`
+stubs them and the drawing code is not covered by unit tests. Check it in a
+browser.
 
 Static copy does not need a unit test per line. Cover important landmarks with a
 small render smoke test, then rely on type checking, linting, interaction tests,
-and visual comparison at the design-system breakpoints.
+and visual comparison at the breakpoints in `DESIGN.md`.
 
-## 15. Migration definition of done
+## 15. Definition of done
 
-A section is migrated when:
+A change is done when:
 
-- its React component uses the design-system contract and typed content;
-- its desktop and mobile layout match the current reference;
-- keyboard, focus, assistive text, and reduced-motion behavior are preserved;
+- its React component uses the tokens and classes in `DESIGN.md` and typed content;
+- its desktop and mobile layout hold, and match `DESIGN.md`;
+- keyboard, focus, assistive text, and reduced-motion behavior work;
 - it contains no imperative DOM updates that React can express declaratively;
 - all listeners, observers, and timers have cleanup;
 - the prerendered page hydrates with no console errors under `npm run preview`;
-- relevant tests and repository checks pass;
-- the equivalent legacy markup/script can be removed without losing behavior.
-
-The whole migration is complete when React is the only page implementation,
-the production build succeeds, there are no console errors or hook-lint errors,
-and all parity checks in `AGENTS.md` have been exercised.
+- relevant tests and repository checks pass.
 
 ## 16. Keep the prerendered page working
 
@@ -384,8 +363,7 @@ the build produced. Every component must follow these rules:
   breaking this rule fails the build.
 - **No values that differ between build and visit.** The current time, random
   values, and the visitor's locale or time zone must not appear in the first
-  render. Show a placeholder and fill it in from an Effect, as the footer clock
-  does. Where a build-time value is acceptable, such as the copyright year, put
+  render. Show a placeholder and fill it in from an Effect. Where a build-time value is acceptable, such as the year in the contact panel, put
   `suppressHydrationWarning` on that element. Breaking this rule logs a
   hydration error and makes React discard the prerendered HTML. If only an
   attribute differs, React keeps the wrong value, and a production build logs

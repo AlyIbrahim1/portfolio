@@ -1,7 +1,8 @@
 # Portfolio
 
-My personal developer portfolio — a single-page site built from a hand-written
-design system, migrated to React and TypeScript, and deployed to Cloudflare Workers.
+My personal developer portfolio: a single-page React and TypeScript site where a
+WebGL black hole swallows the headline and opens onto the projects, deployed to
+Cloudflare Workers.
 
 **Live site:** https://alyibrahim.dev/
 
@@ -9,13 +10,14 @@ design system, migrated to React and TypeScript, and deployed to Cloudflare Work
 
 ## Highlights
 
-- **A design system first.** Tokens, component specs and static previews live in
-  `design-system/`, and the React components are built against them.
-- **A contact form with no backend.** Messages post to Web3Forms from the page,
-  so the static site can send email without a server.
-- **Accessibility built in.** Semantic landmarks, a keyboard-navigable project
-  dialog with focus return, `aria-current` section tracking, and a
-  `prefers-reduced-motion` hook.
+- **Scroll-driven black hole.** A ray-traced WebGL shader, a lensed starfield and
+  a headline that dissolves into grains, all driven by scroll position.
+- **Experience as a star chart.** Each role is a star; select one to read its
+  entry and see the projects it produced.
+- **Accessibility built in.** Semantic landmarks, keyboard-operable stars with
+  `aria-pressed`, and a `prefers-reduced-motion` mode that shows a still hero.
+- **Prerendered.** The build renders the page to static HTML and the browser
+  hydrates it, so search engines and first paint get the full content.
 - **Deployed on every push.** Cloudflare Workers Builds lints, tests and builds before it
   publishes, so a broken commit never reaches the live site.
 
@@ -46,17 +48,20 @@ npm run dev      # http://localhost:5173
 ## Project structure
 
 ```
-design-system/     Tokens, component specs, previews and the prototype bundle
+DESIGN.md          Voice, tokens, motion and components of the page
+docs/              React implementation standards
 src/
-  components/      atoms → molecules → organisms → sections
-  data/portfolio.ts  All page content in one place
-  hooks/           Active-section tracking, reduced-motion
+  components/      molecules → organisms → sections
+  data/            All page content in one place
+  hooks/           Black hole, star sky, copy button, reduced motion
+  lib/             Canvas and WebGL code with no React
   pages/           PortfolioPage
-  styles/app.css   Page-level styles on top of the design system
+  styles/          horizon.css, the whole stylesheet
 ```
 
-Page content — projects, timeline, stack and profile — is data, not markup. To
-change what the site says, edit `src/data/portfolio.ts`.
+Page content (projects, milestones, skills, courses) is data, not markup. To
+change what the site says, edit `src/data/horizon.ts`; the profile and social
+links are in `src/data/portfolio.ts`.
 
 ## Deployment
 
@@ -68,8 +73,8 @@ workers.dev or preview URLs), and unknown paths get `public/404.html` with a
 
 `public/_headers` sets the response headers:
 
-- A Content-Security-Policy that allows only the site's own files, Google Fonts
-  and Web3Forms. Adding another outside service (analytics, embeds, a new
+- A Content-Security-Policy that allows only the site's own files and Google
+  Fonts. Adding another outside service (analytics, embeds, a new
   font host) means adding its origin there first. Inline scripts and styles
   are blocked, which is why the 404 page's styles live in `public/404.css`.
 - `nosniff` and a `strict-origin-when-cross-origin` referrer policy.
