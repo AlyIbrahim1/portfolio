@@ -1,24 +1,16 @@
 /* Standalone styles for public/404.html, served by the Worker for unknown
-   paths. It copies the design-system tokens it needs instead of loading the
-   app bundle, and lives in a file because the CSP blocks inline styles. */
+   paths. It repeats the few colours and fonts it needs from DESIGN.md instead
+   of loading the app bundle, and lives in a file because the CSP blocks
+   inline styles. */
 :root {
-  --bg-canvas: #0b0a09;
-  --ink-primary: #f4efe9;
-  --ink-secondary: #b6aca4;
-  --ink-inverse: #15110f;
-  --space-2: 8px;
-  --space-4: 16px;
-  --space-6: 24px;
-  --space-8: 32px;
-  --radius-sm: 4px;
-  --gutter: clamp(24px, 5vw, 96px);
-  --font-sans: "IBM Plex Sans", -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
-  --font-display: "Space Grotesk", "IBM Plex Sans", system-ui, sans-serif;
-  --font-mono: "IBM Plex Mono", "SFMono-Regular", Menlo, Consolas, monospace;
-  --shadow-sm: 0 1px 2px rgba(0,0,0,0.45);
-  --shadow-glow-chrome: 0 0 0 1px rgba(255,255,255,0.18), 0 6px 20px rgba(255,236,226,0.14);
-  --shadow-focus-ring: 0 0 0 3px rgba(224,57,47,0.55);
-  --gradient-chrome: linear-gradient(180deg, #ffffff 0%, #f1ece7 38%, #d9d2cb 52%, #ece6e0 74%, #faf7f4 100%);
+  --bg: #000;
+  --fg: #f5f5f5;
+  --mut: #a3a3a3;
+  --ac: #a855f7;
+  --ac2: #c084fc;
+  --deep: #140d24;
+  --dsp: "Bricolage Grotesque", Inter, system-ui, sans-serif;
+  --body: Inter, system-ui, sans-serif;
 }
 * { box-sizing: border-box; }
 body {
@@ -26,19 +18,20 @@ body {
   min-height: 100vh;
   display: grid;
   place-items: center;
-  padding: var(--gutter);
-  background: var(--bg-canvas);
-  color: var(--ink-primary);
-  font-family: var(--font-sans);
+  padding: 24px;
+  background: radial-gradient(60% 40% at 50% 100%, rgba(168, 85, 247, .28), transparent 70%), var(--bg);
+  color: var(--fg);
+  font: 16px/1.55 var(--body);
+  -webkit-font-smoothing: antialiased;
 }
-main { max-width: 40rem; }
-.eyebrow { margin: 0 0 var(--space-4); font-family: var(--font-mono); font-size: 11px; font-weight: 500; letter-spacing: 0.22em; text-transform: uppercase; color: var(--ink-secondary); }
-h1 { margin: 0; font-family: var(--font-display); font-weight: 400; font-size: clamp(34px, 5vw, 64px); line-height: 1.05; letter-spacing: -0.03em; text-wrap: balance; }
-h1 strong { font-weight: 600; }
-p.note { margin: var(--space-6) 0 var(--space-8); font-size: 18px; line-height: 1.6; color: var(--ink-secondary); }
-.btn { display: inline-flex; align-items: center; gap: var(--space-2); height: 40px; padding: 0 var(--space-4); font-family: var(--font-sans); font-size: 14px; font-weight: 500; line-height: 1; letter-spacing: -0.005em; text-decoration: none; color: var(--ink-inverse); background: var(--gradient-chrome); border: 1px solid rgba(255,255,255,0.6); border-radius: var(--radius-sm); box-shadow: var(--shadow-sm), inset 0 1px 0 rgba(255,255,255,0.9), inset 0 -1px 0 rgba(0,0,0,0.18); transition: box-shadow 150ms ease-out, transform 150ms ease-out; }
-.btn:hover { box-shadow: var(--shadow-glow-chrome), inset 0 1px 0 rgba(255,255,255,0.9), inset 0 -1px 0 rgba(0,0,0,0.18); }
-.btn:focus-visible { outline: none; box-shadow: var(--shadow-focus-ring), inset 0 1px 0 rgba(255,255,255,0.9); }
-.btn:active { transform: translateY(1px); }
-.btn svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+main { max-width: 40rem; text-align: center; }
+.eyebrow { margin: 0 0 16px; font: 500 12px/1 var(--body); letter-spacing: .22em; text-transform: uppercase; color: var(--ac2); }
+h1 { margin: 0; font: 500 clamp(36px, 5.2vw, 64px)/1.02 var(--dsp); letter-spacing: -.04em; text-wrap: balance; }
+h1 strong { font-weight: 500; color: var(--ac); }
+p.note { margin: 20px 0 32px; color: var(--mut); }
+.btn { display: inline-flex; align-items: center; gap: 10px; height: 52px; padding: 0 28px; font: 500 16px/1 var(--body); text-decoration: none; color: #fff; background: var(--deep); border: 1px solid rgba(168, 85, 247, .35); border-radius: 999px; transition: transform 140ms cubic-bezier(.23, 1, .32, 1), background-color 160ms ease, box-shadow 200ms ease; }
+.btn:focus-visible { outline: 2px solid var(--ac); outline-offset: 3px; }
+.btn:active { transform: scale(.97); }
+@media (hover: hover) and (pointer: fine) { .btn:hover { transform: translateY(-2px); background: #1e1235; box-shadow: 0 10px 40px -12px var(--ac); } }
+.btn svg { width: 18px; height: 18px; stroke: var(--ac2); fill: none; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
 @media (prefers-reduced-motion: reduce) { .btn { transition: none; } }
