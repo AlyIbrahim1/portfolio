@@ -18,7 +18,7 @@ export function ContactPanel({ name, city, email, rows }: ContactPanelProps) {
       <div className="ct">
         <SectionHead accent label="Contact" title={<>Open to <em>internships</em></>} intro={`Software engineering and AI internships, in backend or AI/ML engineering. Based in ${city}.`} />
         <ul className="rows">
-          <li><button type="button" onClick={copy}><span>Email</span><b>{email}</b><em>{status === 'copied' ? 'Copied' : status === 'failed' ? 'Select it' : 'Copy'}</em></button></li>
+          <li><button type="button" onClick={copy}><span>Email</span><b>{email}</b><em key={status}>{status === 'copied' ? 'Copied' : status === 'failed' ? 'Select it' : 'Copy'}</em></button></li>
           {rows.map((row) => <li key={row.id}><ExternalLink href={row.href}><span>{row.label}</span><b>{row.value}</b><em>Open ↗</em></ExternalLink></li>)}
         </ul>
         <div className="ft">

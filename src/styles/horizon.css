@@ -50,7 +50,7 @@ canvas { display: block; }
 .hero h1 { font: 500 clamp(40px, 5.2vw, 76px)/1.02 var(--dsp); letter-spacing: -.04em; max-width: 15ch; text-wrap: balance; }
 .hero .sub { color: var(--mut); font-size: clamp(15px, 1.2vw, 17px); max-width: 40ch; }
 .cue { display: grid; justify-items: center; gap: 8px; margin-top: 10px; font: 500 12.5px/1 var(--body); letter-spacing: .22em; color: #a39bc0; }
-.cue svg { width: 14px; height: 14px; animation: bob 2.4s var(--eo) infinite; }
+.cue svg { width: 14px; height: 14px; animation: bob 2.4s cubic-bezier(.77, 0, .175, 1) infinite; } /* ease-in-out: the curve applies to each half of a back-and-forth loop */
 @keyframes bob { 50% { transform: translateY(4px); } }
 .sw { display: inline-block; }
 .two { position: absolute; z-index: 3; left: 0; right: 0; top: clamp(110px, 17vh, 170px); display: grid; justify-items: center; gap: 16px; text-align: center; padding-inline: 16px; opacity: 0; }
@@ -80,14 +80,14 @@ canvas { display: block; }
 .card h3 { padding-inline: 6px; font: 600 clamp(18px, 1.5vw, 21px)/1.25 var(--body); letter-spacing: -.015em; }
 .card p { padding-inline: 6px; color: var(--mut); font-size: 14.5px; }
 .card .meta { padding-inline: 6px; font-size: 13px; color: var(--dim); }
-.card .go { padding: 8px 6px 0; display: inline-flex; align-items: center; gap: 6px; font: 500 14px/1 var(--body); color: var(--fg); }
+.card .go { justify-self: start; margin-top: 8px; padding: 0 0 4px; margin-inline: 6px; display: inline-flex; align-items: center; gap: 6px; font: 500 14px/1 var(--body); color: var(--fg); background: linear-gradient(currentColor, currentColor) 0 100% / 0 1px no-repeat; transition: background-size 250ms var(--eo); }
 .card .go i { font-style: normal; transition: transform 200ms var(--eo); }
-@media (hover: hover) and (pointer: fine) { a.card:hover .go i { transform: translate(2px, -2px); } }
+@media (hover: hover) and (pointer: fine) { a.card:hover .go { background-size: 100% 1px; } a.card:hover .go i { transform: translate(2px, -2px); } }
 .more { margin-top: 56px; }
 .more summary { display: block; width: max-content; margin-inline: auto; padding: 10px 4px; cursor: pointer; list-style: none; transition: color 160ms ease; }
 .more summary::-webkit-details-marker { display: none; }
-.more summary::after { content: " +"; }
-.more[open] summary::after { content: " −"; }
+.more summary::after { content: "+"; display: inline-block; margin-left: .5em; transition: transform 200ms var(--eo); }
+.more[open] summary::after { transform: rotate(45deg); }
 @media (hover: hover) and (pointer: fine) { .more summary:hover { color: var(--fg); } }
 .more ul { margin: 22px 0 0; padding: 0; list-style: none; border-top: 1px solid #262626; transition: opacity 200ms ease; }
 .more:not([open]) ul { opacity: 0; }
@@ -95,7 +95,7 @@ canvas { display: block; }
 .more { interpolate-size: allow-keywords; }
 .more::details-content { height: 0; overflow: clip; transition: height 250ms var(--eo), content-visibility 250ms allow-discrete; }
 .more[open]::details-content { height: auto; }
-@media (prefers-reduced-motion: reduce) { .more::details-content { transition: none; } }
+@media (prefers-reduced-motion: reduce) { .more::details-content, .more summary::after { transition: none; } }
 .more li { display: grid; gap: 8px; padding: 24px 12px; border-bottom: 1px solid #262626; }
 .more time { font: 500 12.5px/1.4 var(--body); color: var(--dim); }
 .more h3 { font: 600 clamp(18px, 1.5vw, 21px)/1.25 var(--body); letter-spacing: -.015em; }
@@ -178,9 +178,12 @@ canvas { display: block; }
   .sky li:not(:last-child)::after { content: ""; position: absolute; left: 8px; top: 24px; bottom: 6px; width: 1px; margin-left: -.5px; background: rgba(205, 180, 255, .45); }
   .sky li.tf::after { background: repeating-linear-gradient(rgba(205, 180, 255, .4) 0 3px, transparent 3px 9px); }
 }
-.sk .card { padding: 22px; gap: 8px; }
-.sk .card h3, .sk .card p { padding-inline: 0; }
-.sk .card h3 { font-size: 16.5px; }
+/* Skills: one divided list, the group on the left and its tools on the right */
+.sl { border-top: 1px solid #262626; }
+.sl li { display: grid; grid-template-columns: minmax(0, 320px) minmax(0, 1fr); gap: 6px 24px; align-items: baseline; padding: 20px 12px; border-bottom: 1px solid #262626; }
+.sl h3 { font: 500 clamp(19px, 2vw, 24px)/1.2 var(--dsp); letter-spacing: -.02em; }
+.sl p { color: var(--mut); }
+@media (max-width: 620px) { .sl li { grid-template-columns: minmax(0, 1fr); } }
 .crs .card { padding: 12px 12px 20px; }
 .iss { display: grid; place-items: center; height: 120px; margin-bottom: 12px; border-radius: 14px; background: linear-gradient(160deg, #1c1430, #0d0b14); font: 500 21px/1.1 var(--dsp); letter-spacing: -.02em; color: #e9e3f7; text-align: center; padding: 10px; }
 .crs .card time, .crs .card h3 { padding-inline: 8px; }
@@ -191,8 +194,13 @@ canvas { display: block; }
 .ct .hd { margin-bottom: 36px; }
 .ct .hd h2 em { font-style: normal; color: var(--ac); }
 .rows { border-top: 1px solid #262626; }
-.rows li > * { display: grid; grid-template-columns: 140px minmax(0, 1fr) auto; gap: 8px 20px; align-items: center; width: 100%; padding: 20px 12px; border-bottom: 1px solid #262626; text-align: left; border-radius: 0; transition: background-color 200ms ease; }
-@media (hover: hover) and (pointer: fine) { .rows li > *:hover { background: rgba(168, 85, 247, .07); } .rows li > *:hover em { color: var(--ac2); transform: translateX(-3px); } }
+.rows li > * { display: grid; grid-template-columns: 140px minmax(0, 1fr) auto; gap: 8px 20px; align-items: center; width: 100%; padding: 20px 12px; border-bottom: 1px solid #262626; text-align: left; border-radius: 0; transition: background-color 200ms ease, transform 140ms var(--eo); }
+@media (hover: hover) and (pointer: fine) { .rows li > *:hover { background: rgba(168, 85, 247, .07); } .rows li > *:hover em { color: var(--ac2); transform: translate(2px, -2px); } }
+.rows li > :is(a, button):active { transform: scale(.99); }
+/* Copy, Copied and Select it swap in with a short rise, so the confirmation is seen */
+.rows button em { animation: swap 180ms var(--eo); }
+@keyframes swap { from { opacity: 0; transform: translateY(4px); } }
+@media (prefers-reduced-motion: reduce) { .rows button em { animation: none; } }
 .rows span { font-size: 13px; letter-spacing: .14em; text-transform: uppercase; color: var(--dim); }
 .rows b { font: 500 clamp(19px, 2.2vw, 28px)/1.15 var(--dsp); letter-spacing: -.02em; overflow-wrap: anywhere; }
 .rows em { font: normal 500 14px/1 var(--body); color: var(--mut); transition: color 160ms ease, transform 200ms var(--eo); }

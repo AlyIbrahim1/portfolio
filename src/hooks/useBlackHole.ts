@@ -50,7 +50,7 @@ const BANDS = [['255,255,255', 0.8, 1.4], ['232,222,255', 0.6, 1.2], ['200,170,2
 
 /**
  * Drives the hero: scrolling lifts a lensed black hole out of the page, and the headline dissolves into grains that
- * fall into it. Scroll progress also sets --q (projects rise in) on `scope` and --fo (fade to page black) on the stage.
+ * fall into it. Scroll progress also sets --q (projects rise in) on `scope`'s #work and --fo (fade to page black) on the stage.
  * Reduced motion draws one still frame instead of a loop.
  */
 export function useBlackHole(
@@ -64,13 +64,15 @@ export function useBlackHole(
     const stage = stageRef.current
     const wrap = sectionRef.current
     const scope = scopeRef.current
+    const work = scope?.querySelector<HTMLElement>('#work')
     const c1 = stage?.querySelector<HTMLCanvasElement>('.c1')
     const cv = stage?.querySelector<HTMLCanvasElement>('.c2')
     const two = stage?.querySelector<HTMLElement>('.two')
     const g = cv?.getContext('2d')
-    if (!stage || !wrap || !scope || !c1 || !cv || !two || !g) return
+    if (!stage || !wrap || !work || !c1 || !cv || !two || !g) return
 
     const words = Array.from(stage.querySelectorAll<HTMLElement>('.hero .sw'))
+    const risers = words.map((w) => w.closest<HTMLElement>('.rv'))
     const hole = createHole(c1)
     const sprites = getSprites()
     const rand = rng(23)
@@ -82,6 +84,8 @@ export function useBlackHole(
     const rank: number[] = []
     let restKey = ''
     let lastP = -1
+    let ps = -1
+    let lastReal = 0
     let frameId = 0
     const t0 = performance.now()
     const pointer = { x: 0, y: 0 }
@@ -119,11 +123,19 @@ export function useBlackHole(
         cv!.height = Math.round(H * d)
       }
       const T = reduced ? 30 : n / 1000
+      const now = performance.now()
+      const dt = now - lastReal
+      lastReal = now
       const rw = wrap!.getBoundingClientRect()
-      const p = reduced ? 0 : clamp(-rw.top / Math.max(1, rw.height - H), 0, 1)
+      const raw = reduced ? 0 : clamp(-rw.top / Math.max(1, rw.height - H), 0, 1)
+      // Eased toward the scroll position, so a notched wheel glides instead of stepping
+      ps = ps < 0 ? raw : ps + (raw - ps) * (1 - Math.exp(-dt / 80))
+      if (Math.abs(raw - ps) < 0.0004) ps = raw
+      const p = ps
       const intro = reduced ? 1 : easeOut3((n - t0) / 2200)
-      eased.x += (pointer.x - eased.x) * 0.04
-      eased.y += (pointer.y - eased.y) * 0.04
+      const follow = 1 - Math.exp(-dt / 400) // the old 0.04 a frame at 60Hz, now the same at any refresh rate
+      eased.x += (pointer.x - eased.x) * follow
+      eased.y += (pointer.y - eased.y) * follow
       // The hole starts half below the fold, rises and grows until only the bottom of its ring arcs across the screen
       const R0 = Math.min(H * 0.095, W * 0.2) * mix(0.75, 1, intro)
       const Rend = wide ? H * 1.12 : H * 0.62
@@ -152,7 +164,7 @@ export function useBlackHole(
         two!.style.opacity = t2.toFixed(3)
         two!.style.transform = `translateY(${((1 - t2) * 30).toFixed(1)}px) scale(${(0.94 + 0.06 * t2).toFixed(3)})`
         two!.setAttribute('aria-hidden', String(t2 < 0.5))
-        scope!.style.setProperty('--q', easeOut3((p - 0.86) / 0.14).toFixed(3))
+        work!.style.setProperty('--q', easeOut3((p - 0.86) / 0.14).toFixed(3))
         stage!.style.setProperty('--fo', smoothstep(0.6, 1, p).toFixed(3))
         lastP = p
       }
@@ -167,7 +179,7 @@ export function useBlackHole(
       const thE = Rpx * clamp(Math.sqrt(2 * dist) / 2.6, 1.05, 4.5)
       const pull = smoothstep(0.05, 0.75, p)
       const sky = intro * (1 - 0.4 * smoothstep(0.8, 1, p))
-      const count = Math.min(stars.length, Math.round((Math.PI * FR * FR) / 1300))
+      const count = Math.min(stars.length, Math.round(((Math.PI * FR * FR) / 1300) * (hole?.quality() ?? 1)))
       for (let j = 0; j < count; j++) {
         const s = stars[j]
         const beta = s.b * FR + 0.01
@@ -225,12 +237,15 @@ export function useBlackHole(
       // Still grains sit in the letter shapes; moving ones spiral down, cooling from white to violet, and vanish at the horizon.
       // Each is a short stroke from slightly back along its own path, so the stream reads as motion even when the scroll stops
       if (!reduced && wordGrains.length) {
-        const bands: number[][] = [[], [], [], []]
         for (let wi = 0; wi < wordGrains.length; wi++) {
           const kw = wk(wi)
           const G = wordGrains[wi]
           const at = rest[wi]
           if (kw <= 0 || kw >= 1) continue
+          // Scrolled before the copy finished rising in: the grains are only as bright as their text
+          const rv = risers[wi]
+          const rise = rv?.getAnimations().some((a) => a.playState === 'running') ? parseFloat(getComputedStyle(rv).opacity) : 1
+          const bands: number[][] = [[], [], [], []]
           g!.beginPath()
           for (const q of G.g) {
             const x0 = at.x + q.x
@@ -245,23 +260,23 @@ export function useBlackHole(
             if (Math.hypot(qa.x - cx, qa.y - cy) < Rpx) continue
             bands[Math.min(3, (t * 4) | 0)].push(qb.x, qb.y, qa.x, qa.y)
           }
-          g!.globalAlpha = smoothstep(0, 0.12, kw) * G.b
+          g!.globalAlpha = smoothstep(0, 0.12, kw) * G.b * rise
           g!.fillStyle = '#fff'
           g!.fill()
+          g!.globalAlpha = rise
+          BANDS.forEach(([color, alpha, width], bi) => {
+            const L = bands[bi]
+            if (!L.length) return
+            g!.beginPath()
+            for (let li = 0; li < L.length; li += 4) {
+              g!.moveTo(L[li], L[li + 1])
+              g!.lineTo(L[li + 2], L[li + 3])
+            }
+            g!.strokeStyle = `rgba(${color},${alpha})`
+            g!.lineWidth = width
+            g!.stroke()
+          })
         }
-        g!.globalAlpha = 1
-        BANDS.forEach(([color, alpha, width], bi) => {
-          const L = bands[bi]
-          if (!L.length) return
-          g!.beginPath()
-          for (let li = 0; li < L.length; li += 4) {
-            g!.moveTo(L[li], L[li + 1])
-            g!.lineTo(L[li + 2], L[li + 3])
-          }
-          g!.strokeStyle = `rgba(${color},${alpha})`
-          g!.lineWidth = width
-          g!.stroke()
-        })
       }
       g!.globalAlpha = 1
     }
@@ -287,16 +302,30 @@ export function useBlackHole(
       frame(clock)
       frameId = requestAnimationFrame(tick)
     }
+    // Draws only while the hero is on screen. Leaving it settles one last frame at the scroll position, so --q and --fo end where they belong
+    const io = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) {
+        if (frameId) return
+        last = performance.now()
+        frameId = requestAnimationFrame(tick)
+      } else {
+        cancelAnimationFrame(frameId)
+        frameId = 0
+        ps = -1
+        frame(clock)
+      }
+    })
     if (reduced) {
       stillFrame()
       window.addEventListener('resize', stillFrame)
     } else {
       window.addEventListener('pointermove', onPointer, { passive: true })
-      frameId = requestAnimationFrame(tick)
+      io.observe(wrap)
     }
 
     return () => {
       cancelled = true
+      io.disconnect()
       cancelAnimationFrame(frameId)
       window.removeEventListener('pointermove', onPointer)
       window.removeEventListener('resize', stillFrame)
@@ -304,7 +333,7 @@ export function useBlackHole(
       two.style.opacity = ''
       two.style.transform = ''
       two.setAttribute('aria-hidden', 'true')
-      scope.style.removeProperty('--q')
+      work.style.removeProperty('--q')
       stage.style.removeProperty('--fo')
     }
   }, [stageRef, sectionRef, scopeRef, paused, reduced])

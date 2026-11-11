@@ -76,10 +76,11 @@ The stage behind the hero is `#05030c`. Row dividers use `#262626`. Everything e
 The page is mostly motion by scroll, with small interface transitions.
 
 - **Easing.** `--eo: cubic-bezier(.23, 1, .32, 1)` for entrances and hover lifts; `ease` for colour. Hover effects are inside `@media (hover: hover) and (pointer: fine)`. Buttons press to `scale(.97)`.
-- **More work.** The disclosure opens and closes its height over 250ms `--eo` while the list fades (200ms `ease`); reduced motion keeps only the fade.
+- **More work.** The disclosure opens and closes its height over 250ms `--eo` while the list fades (200ms `ease`); reduced motion keeps only the fade. Its `+` turns 45° into `×` over 200ms `--eo`.
+- **Links and rows.** A card's "Read the code" underline draws in on hover (250ms `--eo`). Contact rows press to `scale(.99)`, their action label nudges up and right on hover, and the email's Copy / Copied label rises in over 180ms `--eo` when it changes.
 - **Intro.** Hero copy rises in with `.rv` (900ms, staggered 80ms through `--i`), starting after the black hole has settled (`--d: 1300ms`).
-- **The dive** (`useBlackHole`). Scroll progress through the 300svh hero section (`p`, 0 to 1) drives everything, as in the order below. The hole starts half below the fold, rises and grows, the camera tilts to see the disk from above, the headline words crossfade into grains that spiral into the hole (lowest words first, cooling from white to violet), a closing title ("Selected projects") fades in, a black scrim rises over the ring, and the projects section rises into place (`--q`).
-- **Lensed starfield.** 10,000 stars bent by the hole as a point lens, with motion streaks. The WebGL render drops resolution if frames run long.
+- **The dive** (`useBlackHole`). Scroll progress through the 300svh hero section (`p`, 0 to 1) drives everything, as in the order below. The hole starts half below the fold, rises and grows, the camera tilts to see the disk from above, the headline words crossfade into grains that spiral into the hole (lowest words first, cooling from white to violet), a closing title ("Selected projects") fades in, a black scrim rises over the ring, and the projects section rises into place (`--q`). Progress eases toward the scroll position (an 80ms follow) so a notched wheel glides, and the hero draws only while it is on screen.
+- **Lensed starfield.** 10,000 stars bent by the hole as a point lens, with motion streaks. The WebGL render drops resolution if frames run long, and the starfield thins out with it.
 - **Star chart sky.** A second, quieter sky that twinkles and turns slowly. It draws only while on screen.
 - **Chart reveal.** The line draws left to right and the stars fade in once, when the chart is 35% visible. The selected entry swaps with a short fade and 6px rise; all entries share one grid cell so the panel never changes height.
 - **Pause button.** Freezes the animation clock for the hero and the chart. Scrolling still drives the dive.
@@ -93,7 +94,7 @@ The page is mostly motion by scroll, with small interface transitions.
 | `HeroStage` | 300svh scroll track with a sticky 100svh stage: two canvases (WebGL hole, 2D sky and grains), the centred copy, the closing title, the pause button. |
 | `ProjectsSection` | Three featured `ProjectTile` cards (screenshot on a tone gradient, period · context, title, description, stack, "Read the code ↗"), then a collapsed "More work +" disclosure (`<details>`) that opens to a divided list of `ProjectNote` rows. |
 | `StarChartSection` / `StarChart` | Experience as a night sky. x is time, each entry a star with a Greek letter; the line is solid up to the latest star (marked "Now", pulsing) and dashed to the future one (a hollow star). Each entry's projects hang off it as faint companion stars that brighten when it is selected. The selected entry shows in a card below (`ExperienceEntry`). Under 900px the chart becomes a vertical list with the line running down the left. |
-| `SkillsSection` | Nine small `.card` tiles, grouped by the work each does. |
+| `SkillsSection` | One divided list (`.sl`): each group's name on the left in the display face, its tools on the right; one column under 620px. |
 | `CoursesSection` | Cards whose top is a gradient tile with the issuer's name; no logos. |
 | `ContactPanel` | One rounded panel with a violet wash at the bottom: an email row that copies, GitHub and LinkedIn rows that open in a new tab, and a footer line with a back-to-top link. This is also the page's end; there is no separate footer. |
 

@@ -21,6 +21,7 @@ const SHADER = [
 
 export interface Hole {
   draw(n: number, W: number, H: number, cx: number, cy: number, T: number, dist: number, inc: number, disk: number, rs: number, wr: number): void
+  quality(): number // share of full detail: 1 until frames run long, then lower each time the resolution steps down
 }
 
 // Returns null without WebGL; the canvas then shows a static gradient.
@@ -64,6 +65,7 @@ export function createHole(cv: HTMLCanvasElement): Hole | null {
   let slow = 0
   let last = 0
   return {
+    quality: () => q / 0.7,
     draw(n, W, H, cx, cy, T, dist, inc, disk, rs, wr) {
       if (last) {
         slow = n - last > 34 ? slow + 1 : Math.max(0, slow - 1)
