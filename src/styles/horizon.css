@@ -70,7 +70,6 @@ canvas { display: block; }
 .after.ov { margin-top: -34svh; }
 #work.em > * { opacity: var(--q, 1); transform: translateY(calc((1 - var(--q, 1)) * 50px)); }
 .grid3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
-.grid2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
 .card { position: relative; display: grid; align-content: start; gap: 6px; padding: 14px 14px 22px; border-radius: 24px; background: var(--card); border: 1px solid var(--line); transition: transform 220ms var(--eo), border-color 200ms ease; }
 @media (hover: hover) and (pointer: fine) { a.card:hover, .card.lk:hover { transform: translateY(-2px); border-color: #2e2e2e; } a.card:hover img { transform: scale(1.03); } }
 .shot { overflow: hidden; border-radius: 16px; padding: 14px 14px 0; margin-bottom: 14px; background: radial-gradient(120% 90% at 50% 0%, var(--g1), var(--g2) 60%, #0b0b0b); }
@@ -84,9 +83,23 @@ canvas { display: block; }
 .card .go i { font-style: normal; transition: transform 200ms var(--eo); }
 @media (hover: hover) and (pointer: fine) { a.card:hover .go i { transform: translate(2px, -2px); } }
 .more { margin-top: 56px; }
-.more .lab { display: block; text-align: center; margin-bottom: 22px; }
-.card.tx { padding: 24px; gap: 8px; }
-.card.tx time, .card.tx h3, .card.tx p, .card.tx .meta { padding-inline: 0; }
+.more summary { display: block; width: max-content; margin-inline: auto; padding: 10px 4px; cursor: pointer; list-style: none; transition: color 160ms ease; }
+.more summary::-webkit-details-marker { display: none; }
+.more summary::after { content: " +"; }
+.more[open] summary::after { content: " −"; }
+@media (hover: hover) and (pointer: fine) { .more summary:hover { color: var(--fg); } }
+.more ul { margin: 22px 0 0; padding: 0; list-style: none; border-top: 1px solid #262626; transition: opacity 200ms ease; }
+.more:not([open]) ul { opacity: 0; }
+/* the list slides open and shut; browsers without ::details-content or interpolate-size open it instantly */
+.more { interpolate-size: allow-keywords; }
+.more::details-content { height: 0; overflow: clip; transition: height 250ms var(--eo), content-visibility 250ms allow-discrete; }
+.more[open]::details-content { height: auto; }
+@media (prefers-reduced-motion: reduce) { .more::details-content { transition: none; } }
+.more li { display: grid; gap: 8px; padding: 24px 12px; border-bottom: 1px solid #262626; }
+.more time { font: 500 12.5px/1.4 var(--body); color: var(--dim); }
+.more h3 { font: 600 clamp(18px, 1.5vw, 21px)/1.25 var(--body); letter-spacing: -.015em; }
+.more p { color: var(--mut); font-size: 14.5px; }
+.more .meta { font-size: 13px; color: var(--dim); }
 /* Experience as a star chart: the sky, and under it the selected star's entry */
 .sky { position: relative; height: 460px; }
 .cst canvas, .cst svg { position: absolute; inset: 0; width: 100%; height: 100%; }
@@ -186,5 +199,5 @@ canvas { display: block; }
 .ft button { color: var(--mut); transition: color 160ms ease; }
 @media (hover: hover) and (pointer: fine) { .ft button:hover { color: var(--fg); } }
 @media (max-width: 900px) { .grid3 { grid-template-columns: 1fr 1fr; } }
-@media (max-width: 620px) { .grid3, .grid2 { grid-template-columns: 1fr; } .rows li > * { grid-template-columns: 1fr auto; } .rows b { grid-column: 1 / -1; grid-row: 2; } .rows em { grid-row: 1; grid-column: 2; } .rows b { font-size: 18px; } }
+@media (max-width: 620px) { .grid3 { grid-template-columns: 1fr; } .rows li > * { grid-template-columns: 1fr auto; } .rows b { grid-column: 1 / -1; grid-row: 2; } .rows em { grid-row: 1; grid-column: 2; } .rows b { font-size: 18px; } }
 .grid-auto { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }

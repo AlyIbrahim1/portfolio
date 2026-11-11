@@ -17,10 +17,10 @@ export function ProjectsSection({ projects, intro, showHead, rising }: ProjectsS
     <section id="work" className={rising ? 'wrap em' : 'wrap'} aria-label="Selected projects">
       {showHead && <SectionHead label="Portfolio" title={<>Selected <span>projects</span></>} intro={intro} />}
       <div className="grid3">{projects.filter(isFeatured).map((project) => <ProjectTile key={project.id} project={project} />)}</div>
-      <div className="more">
-        <span className="lab">More work</span>
-        <div className="grid2">{projects.filter((project) => !isFeatured(project)).map((project) => <ProjectNote key={project.id} project={project} />)}</div>
-      </div>
+      <details className="more">
+        <summary className="lab">More work</summary>
+        <ul>{projects.filter((project) => !isFeatured(project)).map((project) => <ProjectNote key={project.id} project={project} />)}</ul>
+      </details>
     </section>
   )
 }
