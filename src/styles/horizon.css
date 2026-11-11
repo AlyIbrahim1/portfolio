@@ -18,7 +18,7 @@ canvas { display: block; }
 /* Floating nav, as in the reference */
 .nav { position: fixed; z-index: 50; top: calc(16px + env(safe-area-inset-top, 0px)); left: 50%; transform: translateX(-50%); width: min(900px, 100% - 32px); display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 8px 8px 8px 18px; border: 1px solid rgba(255, 255, 255, .08); border-radius: 22px; background: rgba(8, 8, 10, .62); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); }
 .brand { display: flex; align-items: center; gap: 10px; font: 600 16px/1 var(--body); letter-spacing: -.01em; }
-.brand i { display: grid; place-items: center; width: 24px; height: 24px; border-radius: 50%; background: var(--fg); color: #000; font: 700 12px/1 var(--body); font-style: normal; }
+.brand svg { width: 24px; height: 24px; border: 1px solid rgba(255, 255, 255, .16); border-radius: 9px; } /* The tile is near the nav's colour, so a hairline marks its edge; 9px is the nav's 22px radius scaled from its 58px height to 24px */
 .nav nav { display: flex; gap: 28px; font-size: 14.5px; color: #d4d4d4; }
 .nav nav a { transition: color 160ms ease; }
 @media (hover: hover) and (pointer: fine) { .nav nav a:hover { color: #fff; } }

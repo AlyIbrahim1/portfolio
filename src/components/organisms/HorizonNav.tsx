@@ -22,7 +22,11 @@ export function HorizonNav({ name, email, links, reduced }: HorizonNavProps) {
 
   return (
     <header className="nav">
-      <a className="brand" href="#top"><i aria-hidden="true">A</i>{name}</a>
+      <a className="brand" href="#top">
+        {/* Same monogram as public/favicon.svg */}
+        <svg viewBox="0 0 1254 1254" aria-hidden="true"><rect width="1254" height="1254" rx="188" fill="#131312" /><path fill="#f4f1ec" fillRule="evenodd" d="M679 292h339v671H790V847H496l-89 116H169zm111 175v242H603z" /></svg>
+        {name}
+      </a>
       <nav aria-label="Sections">
         {links.map((link) => <a key={link.id} href={link.href} onClick={link.id === 'work' ? toProjects : undefined}>{link.label}</a>)}
       </nav>

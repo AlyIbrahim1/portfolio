@@ -88,7 +88,7 @@ The page is mostly motion by scroll, with small interface transitions.
 
 | Component | Notes |
 | --- | --- |
-| `HorizonNav` | Fixed floating pill: a round "A" monogram with the name, section links (hidden under 720px), and a "Copy email" button that reads "Copied" for 1.6s. The Projects link jumps to the end of the dive, not the section top. |
+| `HorizonNav` | Fixed floating pill: the favicon's "A" monogram with the name, section links (hidden under 720px), and a "Copy email" button that reads "Copied" for 1.6s. The Projects link jumps to the end of the dive, not the section top. |
 | `HeroStage` | 300svh scroll track with a sticky 100svh stage: two canvases (WebGL hole, 2D sky and grains), the centred copy, the closing title, the pause button. |
 | `ProjectsSection` | Three featured `ProjectTile` cards (screenshot on a tone gradient, period · context, title, description, stack, "Read the code ↗"), then "More work" with two `ProjectNote` cards. |
 | `StarChartSection` / `StarChart` | Experience as a night sky. x is time, each entry a star with a Greek letter; the line is solid up to the latest star (marked "Now", pulsing) and dashed to the future one (a hollow star). Each entry's projects hang off it as faint companion stars that brighten when it is selected. The selected entry shows in a card below (`ExperienceEntry`). Under 900px the chart becomes a vertical list with the line running down the left. |
@@ -101,7 +101,7 @@ New components follow the existing ones: small, typed props, classes from `horiz
 ## Icons and assets
 
 - There is no icon set. The few icons (the scroll chevron, pause and play, the 404 arrow) are inline SVG that inherit `currentColor` and use a 1.6 stroke where stroked. Do not add an icon package.
-- 'A' monogram logo only present in navbar, no textures.
+- The 'A' monogram from `public/favicon.svg` is the only logo, inlined in the navbar. No textures.
 - Project screenshots are WebP files in `src/assets/project-previews/` and are imported, not referenced by URL (so the prerender gets the hashed names). Give each real dimensions (1920×1080) and descriptive alt text.
 - Favicons, the web manifest and `og.jpg` are in `public/`.
 
