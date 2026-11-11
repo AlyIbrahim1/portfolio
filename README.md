@@ -51,7 +51,7 @@ npm run dev      # http://localhost:5173
 DESIGN.md          Voice, tokens, motion and components of the page
 docs/              React implementation standards
 src/
-  components/      molecules → organisms → sections
+  components/      atoms → molecules → organisms → templates
   data/            All page content in one place
   hooks/           Black hole, star sky, copy button, reduced motion
   lib/             Canvas and WebGL code with no React

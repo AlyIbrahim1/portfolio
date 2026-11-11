@@ -1,4 +1,5 @@
 import type { Milestone, ShowcaseProject } from '../../types/horizon'
+import { ExternalLink } from '../atoms/ExternalLink'
 
 interface ExperienceEntryProps {
   milestone: Milestone
@@ -35,7 +36,7 @@ export function ExperienceEntry({ milestone, index, selected, projects }: Experi
                     <em>{project.href ? 'Code ↗' : 'Private'}</em>
                   </>
                 )
-                return <li key={projectId}>{project.href ? <a href={project.href} target="_blank" rel="noopener noreferrer">{row}</a> : <div>{row}</div>}</li>
+                return <li key={projectId}>{project.href ? <ExternalLink href={project.href}>{row}</ExternalLink> : <div>{row}</div>}</li>
               })}
             </ul>
           </>

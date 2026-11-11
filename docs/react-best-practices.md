@@ -24,9 +24,11 @@ src/
 ├── main.tsx
 ├── App.tsx
 ├── components/
+│   ├── atoms/       # smallest repeated elements: ExternalLink
 │   ├── molecules/   # small repeated patterns: SectionHead, ProjectTile
-│   ├── organisms/   # self-contained behaviour: HorizonNav, StarChart
-│   └── sections/    # page sections: HeroStage, ProjectsSection, ...
+│   ├── organisms/   # self-contained regions: HorizonNav, StarChart, HeroStage, ProjectsSection, ...
+│   └── templates/   # page layout with slots: PortfolioTemplate
+├── pages/           # state and data wired into a template: PortfolioPage
 ├── data/            # typed portfolio content
 ├── hooks/           # browser synchronization: useBlackHole, useReducedMotion
 ├── lib/             # pure helpers and canvas/WebGL code with no React

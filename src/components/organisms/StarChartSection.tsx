@@ -1,6 +1,6 @@
 import type { Milestone, ShowcaseProject } from '../../types/horizon'
 import { SectionHead } from '../molecules/SectionHead'
-import { StarChart } from '../organisms/StarChart'
+import { StarChart } from './StarChart'
 
 interface StarChartSectionProps {
   milestones: readonly Milestone[]
