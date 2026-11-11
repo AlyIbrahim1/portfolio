@@ -1,9 +1,18 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useReducer, useRef } from 'react'
 
 export type CopyStatus = 'idle' | 'copied' | 'failed'
+type CopyAction = { type: 'copied' } | { type: 'failed' } | { type: 'reset' }
+
+function copyReducer(_status: CopyStatus, action: CopyAction): CopyStatus {
+  switch (action.type) {
+    case 'copied': return 'copied'
+    case 'failed': return 'failed'
+    case 'reset': return 'idle'
+  }
+}
 
 export function useCopy(text: string) {
-  const [status, setStatus] = useState<CopyStatus>('idle')
+  const [status, dispatch] = useReducer(copyReducer, 'idle')
   const timer = useRef(0)
 
   useEffect(() => () => window.clearTimeout(timer.current), [])
@@ -12,11 +21,11 @@ export function useCopy(text: string) {
     if (status !== 'idle') return
     try {
       await navigator.clipboard.writeText(text)
-      setStatus('copied')
+      dispatch({ type: 'copied' })
     } catch {
-      setStatus('failed')
+      dispatch({ type: 'failed' })
     }
-    timer.current = window.setTimeout(() => setStatus('idle'), 1600)
+    timer.current = window.setTimeout(() => dispatch({ type: 'reset' }), 1600)
   }
 
   return { status, copy }

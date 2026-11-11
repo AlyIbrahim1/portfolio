@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react'
+import { useReducer, useRef } from 'react'
 import { ContactPanel } from '../components/organisms/ContactPanel'
 import { CoursesSection } from '../components/organisms/CoursesSection'
 import { HeroStage } from '../components/organisms/HeroStage'
@@ -11,9 +11,11 @@ import { contactRows, courses, heroCopy, horizonNav, milestones, showcase, skill
 import { profile } from '../data/portfolio'
 import { useReducedMotion } from '../hooks/useReducedMotion'
 
+const togglePaused = (paused: boolean) => !paused
+
 export function PortfolioPage() {
   const reduced = useReducedMotion()
-  const [paused, setPaused] = useState(false)
+  const [paused, togglePause] = useReducer(togglePaused, false)
   const mainRef = useRef<HTMLElement>(null)
 
   return (
@@ -21,7 +23,7 @@ export function PortfolioPage() {
       mainRef={mainRef}
       overlap={!reduced}
       nav={<HorizonNav name={profile.name} email={profile.email} links={horizonNav} reduced={reduced} />}
-      hero={<HeroStage {...heroCopy} workIntro={workIntro} scopeRef={mainRef} paused={paused} reduced={reduced} onTogglePause={() => setPaused((value) => !value)} />}
+      hero={<HeroStage {...heroCopy} workIntro={workIntro} scopeRef={mainRef} paused={paused} reduced={reduced} onTogglePause={togglePause} />}
     >
       <ProjectsSection projects={showcase} intro={workIntro} showHead={reduced} rising={!reduced} />
       <StarChartSection milestones={milestones} projects={showcase} paused={paused} reduced={reduced} />

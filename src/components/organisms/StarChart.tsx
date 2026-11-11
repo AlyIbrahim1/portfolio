@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useReducer, useRef } from 'react'
 import { useLatest } from '../../hooks/useLatest'
 import { useStarSky } from '../../hooks/useStarSky'
 import { cssVars } from '../../lib/cssVars'
@@ -12,12 +12,25 @@ interface StarChartProps {
   reduced: boolean
 }
 
+// The chart is drawn in once when it scrolls into view; the prerendered page shows it already drawn
+interface ChartState {
+  selected: number
+  phase: 'idle' | 'armed' | 'on'
+}
+type ChartAction = { type: 'select'; index: number } | { type: 'arm' } | { type: 'reveal' }
+
+function chartReducer(state: ChartState, action: ChartAction): ChartState {
+  switch (action.type) {
+    case 'select': return { ...state, selected: action.index }
+    case 'arm': return { ...state, phase: 'armed' }
+    case 'reveal': return { ...state, phase: 'on' }
+  }
+}
+
 // Experience as a star chart: the sky, and under it the selected star's entry. Each star's projects hang off it as companion stars.
 export function StarChart({ milestones, projects, paused, reduced }: StarChartProps) {
   const latest = Math.max(0, milestones.findIndex((m) => m.status === 'latest'))
-  const [selected, setSelected] = useState(latest)
-  // The chart is drawn in once when it scrolls into view; the prerendered page shows it already drawn
-  const [phase, setPhase] = useState<'idle' | 'armed' | 'on'>('idle')
+  const [{ selected, phase }, dispatch] = useReducer(chartReducer, { selected: latest, phase: 'idle' })
   const chartRef = useRef<HTMLDivElement>(null)
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const pausedRef = useLatest(paused)
@@ -26,10 +39,10 @@ export function StarChart({ milestones, projects, paused, reduced }: StarChartPr
   useEffect(() => {
     const chart = chartRef.current
     if (reduced || !chart) return
-    setPhase('armed')
+    dispatch({ type: 'arm' })
     const observer = new IntersectionObserver(([entry], o) => {
       if (entry.isIntersecting) {
-        setPhase('on')
+        dispatch({ type: 'reveal' })
         o.disconnect()
       }
     }, { threshold: 0.35 })
@@ -67,7 +80,7 @@ export function StarChart({ milestones, projects, paused, reduced }: StarChartPr
             const className = [m.status === 'latest' ? 'a' : '', m.status === 'future' ? 'f' : '', milestones[i + 1]?.status === 'future' ? 'tf' : ''].filter(Boolean).join(' ')
             return (
               <li key={m.id} className={className || undefined} ref={cssVars({ '--x': x.toFixed(2), '--y': m.y, '--i': i })}>
-                <button type="button" className="pt" aria-pressed={selected === i} aria-controls={`entry-${m.id}`} onClick={() => setSelected(i)}>
+                <button type="button" className="pt" aria-pressed={selected === i} aria-controls={`entry-${m.id}`} onClick={() => dispatch({ type: 'select', index: i })}>
                   <span className="sd" aria-hidden="true" />
                   <span className={x > 70 ? 'lb r' : 'lb'}>
                     <span className="cat"><span aria-hidden="true">{GREEK[i]}</span>{m.when}</span>

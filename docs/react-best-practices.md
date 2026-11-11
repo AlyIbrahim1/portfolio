@@ -142,6 +142,10 @@ The expected owners on this page are:
 | Copy button status | `useCopy`, one per button |
 | Reduced motion | `useReducedMotion`, read once in `PortfolioPage` |
 
+Manage component state with `useReducer` and typed actions, with the reducer
+as a pure function next to its component or hook. `useReducedMotion` is the
+exception: it only mirrors a media query, so it keeps `useState`.
+
 No current value requires application-wide Context. State should stay local
 until actual cross-tree sharing makes Context simpler than props.
 
